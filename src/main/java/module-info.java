@@ -1,7 +1,7 @@
 module org.example.fichanewteam {
     requires javafx.controls;
     requires javafx.fxml;
-    requires kotlin.stdlib;
+    requires kotlinx.serialization.core;
 
 
     opens org.example.fichanewteam to javafx.fxml;
