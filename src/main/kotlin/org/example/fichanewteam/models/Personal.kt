@@ -45,6 +45,7 @@ abstract class Personal(
      * @param rol Rol de la persona en el equipo (jugador o entrenador).
      * @return Una nueva instancia de [Personal] con los valores proporcionados.
      */
+
     abstract fun copy(
         id: Long = this.id,
         nombre: String = this.nombre,
