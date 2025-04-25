@@ -3,7 +3,7 @@ package org.example.fichanewteam.validator
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import error.PlantillaError
+import org.example.fichanewteam.error.PlantillaError
 import org.example.models.Personal
 
 class EntrenadorValidator : Validator<Personal, PlantillaError> {
