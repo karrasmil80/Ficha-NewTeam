@@ -14,7 +14,7 @@ import org.example.models.Jugador.Posicion
  * @param rol Rol de la persona en el equipo (jugador o entrenador).
  */
 
-data class PersonalEntity(
+open class PersonalEntity(
     val id: Long,
     var nombre: String,
     var apellidos: String,
@@ -23,13 +23,4 @@ data class PersonalEntity(
     var salario: Double?,
     var pais: String,
     val rol: String,
-    var especialidad: Especializacion?,
-    var posicion: Posicion?,
-    var dorsal: Int?,
-    var altura: Double?,
-    var peso: Double?,
-    var goles: Int,
-    var partidosJugados: Int
-) {
-
-}
+)

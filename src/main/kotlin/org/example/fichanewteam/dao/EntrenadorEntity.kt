@@ -17,13 +17,13 @@ import org.example.models.Entrenador.Especializacion
  */
 
 class EntrenadorEntity(
-    var id: Long,
-    var nombre: String,
-    var apellidos: String,
-    var fechaNacimiento: String,
-    var fechaIncorporacion: String,
-    var salario: Double?,
-    var pais: String,
-    var rol: String,
+    id: Long,
+    nombre: String,
+    apellidos: String,
+    fechaNacimiento: String,
+    fechaIncorporacion: String,
+    salario: Double?,
+    pais: String,
+    rol: String,
     var especialidad: Especializacion?
-)
+) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol)
