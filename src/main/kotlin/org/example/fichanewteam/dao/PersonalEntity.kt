@@ -1,5 +1,8 @@
 package org.example.fichanewteam.dao
 
+import org.example.models.Entrenador.Especializacion
+import org.example.models.Jugador.Posicion
+
 /**
  * @param id Identificador único de la persona.
  * @param nombre Nombre de la persona.
@@ -11,7 +14,7 @@ package org.example.fichanewteam.dao
  * @param rol Rol de la persona en el equipo (jugador o entrenador).
  */
 
-data class PersonalEntity(
+open class PersonalEntity(
     val id: Long,
     var nombre: String,
     var apellidos: String,
@@ -19,7 +22,5 @@ data class PersonalEntity(
     var fechaIncorporacion: String,
     var salario: Double?,
     var pais: String,
-    val rol: String
-) {
-
-}
+    val rol: String,
+)
