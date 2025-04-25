@@ -5,6 +5,7 @@ module org.example.fichanewteam {
     requires org.jdbi.v3.sqlobject.kotlin;
     requires org.jdbi.v3.sqlobject;
     requires logging.jvm;
+    requires kotlin.result.jvm;
 
 
     opens org.example.fichanewteam to javafx.fxml;
