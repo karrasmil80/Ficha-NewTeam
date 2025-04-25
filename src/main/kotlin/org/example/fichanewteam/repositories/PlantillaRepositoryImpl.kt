@@ -13,6 +13,10 @@ class PlantillaRepositoryImpl (
 
     private val personal = mutableMapOf<Long, Personal>()
     private val logger = logging()
+
+    init {
+        logger.debug { "Iniciando repositorio" }
+    }
     override fun findAll(): List<Personal> {
         logger.debug { "Obteniendo toda la plantilla" }
         return dao.findAll().map { it.toModel() }
