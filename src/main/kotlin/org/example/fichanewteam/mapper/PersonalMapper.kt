@@ -1,6 +1,8 @@
 package org.example.fichanewteam.mapper
 
 import PersonalDto
+import org.example.fichanewteam.dao.EntrenadorEntity
+import org.example.fichanewteam.dao.JugadorEntity
 import org.example.fichanewteam.dao.PersonalEntity
 import org.example.models.Entrenador
 import org.example.models.Jugador
@@ -74,44 +76,46 @@ fun PersonalDto.toModel(): Personal {
     }
 }
 
-/*
-fun PersonalEntity.toModel(): Personal {
-    return if (this.rol == "jugador") {
-        Jugador(
-            id = id,
-            nombre = nombre,
-            apellidos = apellidos,
-            fechaNacimiento = fechaNacimiento,
-            fechaIncorporacion = fechaIncorporacion,
-            salario = salario,
-            pais = pais,
-            rol = rol,
-            posicion = Jugador.Posicion.valueOf() ,
-            dorsal = TODO(),
-            altura = TODO(),
-            peso = TODO(),
-            goles = TODO(),
-            partidosJugados = TODO()
+fun Personal.toEntity(): PersonalEntity {
+    if (rol == "jugador") {
+        val jugador = this as Jugador
+
+        return JugadorEntity(
+            id = jugador.id,
+            nombre = jugador.nombre,
+            apellidos = jugador.apellidos,
+            fechaNacimiento = jugador.fechaNacimiento,
+            fechaIncorporacion = jugador.fechaIncorporacion,
+            salario = jugador.salario,
+            pais = jugador.pais,
+            rol = jugador.rol,
+            posicion = Jugador.Posicion.valueOf(jugador.posicion!!.toString()),
+            dorsal = jugador.dorsal!!,
+            altura = jugador.altura!!,
+            peso = jugador.peso!!,
+            goles = jugador.goles!!,
+            partidosJugados = jugador.partidosJugados!!
         )
     } else {
-        Entrenador(
-            id = id,
-            nombre = nombre,
-            apellidos = apellidos,
-            fechaNacimiento = fechaNacimiento,
-            fechaIncorporacion = fechaIncorporacion,
-            salario = salario,
-            pais = pais,
-            rol = this.rol,
 
+        val entrenador = this as Entrenador
+        return EntrenadorEntity(
+            id = entrenador.id,
+            nombre = entrenador.nombre,
+            apellidos = entrenador.apellidos,
+            fechaNacimiento = entrenador.fechaNacimiento,
+            fechaIncorporacion = entrenador.fechaIncorporacion,
+            salario = entrenador.salario,
+            pais = entrenador.pais,
+            rol = entrenador.rol,
+            especialidad = entrenador.especialidad!!,
         )
+
 
     }
 }
-
- */
-
 fun PersonalEntity.toJugador(): Jugador {
+    val jugador = this as Jugador
     return Jugador(
         id = this.id,
         nombre = this.nombre,
@@ -131,6 +135,7 @@ fun PersonalEntity.toJugador(): Jugador {
 }
 
 fun PersonalEntity.toEntrenador(): Entrenador {
+    val entrenador = this as Entrenador
     return Entrenador(
         id = this.id,
         nombre = this.nombre,
@@ -146,6 +151,7 @@ fun PersonalEntity.toEntrenador(): Entrenador {
 
 fun PersonalEntity.toModel() : Personal {
     return if (rol == "jugador"){
+        val jugador = this as Jugador
         Jugador(
             id = this.id,
             nombre = this.nombre,
@@ -163,6 +169,7 @@ fun PersonalEntity.toModel() : Personal {
             partidosJugados = this.partidosJugados!!
         )
     } else {
+        val entrenador = this as Entrenador
         Entrenador(
             id = this.id,
             nombre = this.nombre,
