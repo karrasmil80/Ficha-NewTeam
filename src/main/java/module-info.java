@@ -8,6 +8,7 @@ module org.example.fichanewteam {
     requires kotlin.result.jvm;
 
 
+
     opens org.example.fichanewteam to javafx.fxml;
     exports org.example.fichanewteam;
 }
