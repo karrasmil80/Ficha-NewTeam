@@ -1,4 +1,7 @@
 package org.example.fichanewteam.repositories
 
-interface PlantillaRepository {
+import org.example.models.Personal
+
+interface PlantillaRepository<T>: CrudRepository<Personal, Long> {
+
 }

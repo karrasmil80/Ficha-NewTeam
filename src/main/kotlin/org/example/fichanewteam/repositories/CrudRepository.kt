@@ -46,7 +46,7 @@ interface CrudRepository<T, ID> {
      * @param id el identificador único de la entidad a eliminar.
      * @return la entidad eliminada, o null si no se encuentra la entidad.
      */
-    fun delete(id: ID): T?
+    fun delete(item : T): T?
 
     // --> save all
 
