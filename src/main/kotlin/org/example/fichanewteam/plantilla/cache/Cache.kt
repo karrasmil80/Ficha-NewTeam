@@ -1,5 +1,5 @@
 package org.example.fichanewteam.plantilla.cache
-
+/*
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.Cache
 import org.example.fichanewteam.config.Config
@@ -13,3 +13,4 @@ fun providePersonalCache(config: Config): Cache<Long, Personal>{
         .expireAfterWrite(10, TimeUnit.MINUTES)
         .build()
 }
+ */

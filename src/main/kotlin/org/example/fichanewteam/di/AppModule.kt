@@ -1,5 +1,5 @@
 package org.example.fichanewteam.di
-
+/*
 import com.github.benmanes.caffeine.cache.Cache
 import org.example.fichanewteam.plantilla.cache.providePersonalCache
 import org.example.fichanewteam.config.Config
@@ -21,3 +21,4 @@ val appModule = module {
         bind(Cache<Int>)
     }
 }
+ */

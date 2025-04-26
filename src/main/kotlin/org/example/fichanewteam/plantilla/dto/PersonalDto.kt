@@ -1,3 +1,5 @@
+package org.example.fichanewteam
+
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
