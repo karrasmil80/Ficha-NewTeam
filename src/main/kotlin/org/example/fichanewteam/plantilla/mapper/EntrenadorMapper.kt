@@ -1,8 +1,8 @@
-package org.example.fichanewteam.mapper
+package org.example.fichanewteam.plantilla.mapper
 
-import PersonalDto
 import org.example.Dto.EntrenadorDto
-import org.example.fichanewteam.dao.EntrenadorEntity
+import org.example.fichanewteam.PersonalDto
+import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.models.Entrenador
 
 fun Entrenador.toDto(): PersonalDto {

@@ -1,4 +1,4 @@
-package org.example.fichanewteam.validator
+package org.example.fichanewteam.plantilla.validator
 
 import com.github.michaelbull.result.Result
 

@@ -1,13 +1,14 @@
-package org.example.fichanewteam.validator
+package org.example.fichanewteam.plantilla.validator
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import org.example.fichanewteam.error.PlantillaError
+import org.example.fichanewteam.plantilla.error.PlantillaError
+import org.example.models.Entrenador
 import org.example.models.Personal
 
-class PlantillaValidator : Validator<Personal, PlantillaError> {
-    override fun validate(t: Personal): Result<Personal, PlantillaError> {
+class EntrenadorValidator : Validator<Entrenador, PlantillaError> {
+    override fun validate(t: Entrenador): Result<Entrenador, PlantillaError> {
         if (t.nombre.isBlank()) {
             Err(PlantillaError.PlantillaValidatorError("El nombre no puede estar en blanco"))
         }
@@ -35,6 +36,14 @@ class PlantillaValidator : Validator<Personal, PlantillaError> {
         if (t.rol.isBlank()) {
             Err(PlantillaError.PlantillaValidatorError("El rol no puede estar en blanco"))
         }
+
+        // Validación de la especialidad
+        if (t.especialidad == null) {
+            Err(PlantillaError.PlantillaValidatorError("El rol no puede estar en blanco"))
+        }
+
         return Ok(t)
     }
+
+
 }
