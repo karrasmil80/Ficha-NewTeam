@@ -1,5 +1,5 @@
 package org.example.fichanewteam.database
-
+/*
 import org.example.fichanewteam.config.Config
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.core.kotlin.KotlinPlugin
@@ -48,3 +48,4 @@ class JdbiManager (
         ).jdbi
     }
 }
+ */
