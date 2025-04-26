@@ -1,15 +1,13 @@
-package org.example.fichanewteam.validator
+package org.example.fichanewteam.plantilla.validator
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import org.example.fichanewteam.dao.EntrenadorEntity
-import org.example.fichanewteam.error.PlantillaError
-import org.example.models.Entrenador
-import org.example.models.Personal
+import org.example.fichanewteam.plantilla.error.PlantillaError
+import org.example.models.Jugador
 
-class EntrenadorValidator : Validator<Entrenador, PlantillaError> {
-    override fun validate(t: Entrenador): Result<Entrenador, PlantillaError> {
+class JugadorValidator : Validator<Jugador, PlantillaError> {
+    override fun validate(t: Jugador): Result<Jugador, PlantillaError> {
         if (t.nombre.isBlank()) {
             Err(PlantillaError.PlantillaValidatorError("El nombre no puede estar en blanco"))
         }
@@ -37,14 +35,40 @@ class EntrenadorValidator : Validator<Entrenador, PlantillaError> {
         if (t.rol.isBlank()) {
             Err(PlantillaError.PlantillaValidatorError("El rol no puede estar en blanco"))
         }
-
-        // Validación de la especialidad
-        if (t.especialidad == null) {
+        if (t.posicion == null) {
             Err(PlantillaError.PlantillaValidatorError("El rol no puede estar en blanco"))
         }
 
+        // Validación de dorsal
+        if (t.dorsal == null) {
+            Err(PlantillaError.PlantillaValidatorError("El dorsal no puede ser nulo"))
+        }
+
+        // Validación de altura
+        if (t.altura!!.isNaN()) {
+            Err(PlantillaError.PlantillaValidatorError("La altura np puede ser nula"))
+        }
+
+        // validación de altura entre 0.0 y 2.5 m
+        if (t.altura!! !in 0.0..2.5) {
+            Err(PlantillaError.PlantillaValidatorError("La altura no puede superar los 2.5m"))
+        }
+
+        // Validación de peso
+        if (t.peso!!.isNaN()) {
+            Err(PlantillaError.PlantillaValidatorError("El peso no puede ser nulo"))
+        }
+
+        // Validación de goles
+        if (t.goles < 0) {
+            Err(PlantillaError.PlantillaValidatorError("Los goles no pueden ser menores que 0"))
+        }
+
+        // Validación de partidos jugados
+        if (t.partidosJugados < 0) {
+            Err(PlantillaError.PlantillaValidatorError("Los partidos jugados no pueden ser menores que 0"))
+        }
         return Ok(t)
     }
-
 
 }
