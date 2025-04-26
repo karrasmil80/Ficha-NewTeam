@@ -1,9 +1,10 @@
 
-package org.example.models
+package org.example.fichanewteam.models
 
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.example.models.Personal
 
 /**
  * Clase que representa a un jugador del equipo.
@@ -24,15 +25,15 @@ import kotlinx.serialization.Serializable
  * @param partidosJugados Número de partidos jugados por el jugador.
  */
 class Jugador(
-    id: Long,
+    id: Long = 0,
     nombre: String,
     apellidos: String,
     fechaNacimiento: String,
     fechaIncorporacion: String,
     salario: Double?,
     pais: String,
-    rol: String,
-    var posicion: Posicion?,
+    rol: String = "Jugador",
+    var posicion: String?,
     var dorsal: Int?,
     var altura: Double?,
     var peso: Double?,
