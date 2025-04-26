@@ -1,8 +1,5 @@
 package org.example.fichanewteam.dao
 
-import org.example.models.Entrenador.Especializacion
-import org.example.models.Jugador.Posicion
-
 /**
  * @param id Identificador único de la persona.
  * @param nombre Nombre de la persona.

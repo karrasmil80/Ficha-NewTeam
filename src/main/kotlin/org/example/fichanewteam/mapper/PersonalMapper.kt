@@ -5,7 +5,7 @@ import org.example.fichanewteam.dao.EntrenadorEntity
 import org.example.fichanewteam.dao.JugadorEntity
 import org.example.fichanewteam.dao.PersonalEntity
 import org.example.models.Entrenador
-import org.example.models.Jugador
+import org.example.fichanewteam.models.Jugador
 import org.example.models.Personal
 
 fun PersonalDto.toJugador(): Jugador {

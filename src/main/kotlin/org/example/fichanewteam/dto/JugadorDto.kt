@@ -2,7 +2,7 @@
 package org.example.Dto
 
 import kotlinx.serialization.Serializable
-import org.example.models.Jugador
+import org.example.fichanewteam.models.Jugador
 
 /**
  * Clase que representa la transferencia de datos (DTO) de un jugador.

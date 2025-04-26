@@ -1,6 +1,6 @@
 package org.example.fichanewteam.dao
 
-import org.example.models.Jugador.Posicion
+import org.example.fichanewteam.models.Jugador.Posicion
 
 /**
  * Clase que representa a un jugador del equipo.

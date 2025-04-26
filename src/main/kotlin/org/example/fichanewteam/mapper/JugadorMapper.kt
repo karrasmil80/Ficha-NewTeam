@@ -3,7 +3,7 @@ package org.example.fichanewteam.mapper
 import PersonalDto
 import org.example.Dto.JugadorDto
 import org.example.fichanewteam.dao.JugadorEntity
-import org.example.models.Jugador
+import org.example.fichanewteam.models.Jugador
 import org.example.models.Personal
 
 fun Jugador.toDto(): PersonalDto {
