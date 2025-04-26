@@ -1,6 +1,5 @@
-package org.example.fichanewteam.dao
+package org.example.fichanewteam.plantilla.dao
 
-import org.example.models.Personal
 import org.jdbi.v3.sqlobject.customizer.Bind
 import org.jdbi.v3.sqlobject.customizer.BindBean
 import org.jdbi.v3.sqlobject.kotlin.RegisterKotlinMapper

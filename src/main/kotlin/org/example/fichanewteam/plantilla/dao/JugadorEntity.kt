@@ -1,4 +1,4 @@
-package org.example.fichanewteam.dao
+package org.example.fichanewteam.plantilla.dao
 
 import org.example.models.Jugador.Posicion
 

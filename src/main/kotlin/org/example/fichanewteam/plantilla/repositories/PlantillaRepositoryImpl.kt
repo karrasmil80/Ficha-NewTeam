@@ -1,11 +1,10 @@
-package org.example.fichanewteam.repositories
+package org.example.fichanewteam.plantilla.repositories
 
-import org.example.fichanewteam.dao.PlantillaDao
-import org.example.fichanewteam.mapper.toEntity
-import org.example.fichanewteam.mapper.toModel
+import org.example.fichanewteam.plantilla.dao.PlantillaDao
+import org.example.fichanewteam.plantilla.mapper.toEntity
+import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.models.Personal
 import org.lighthousegames.logging.logging
-import java.time.LocalDateTime
 
 class PlantillaRepositoryImpl (
     val dao : PlantillaDao
@@ -13,6 +12,10 @@ class PlantillaRepositoryImpl (
 
     private val personal = mutableMapOf<Long, Personal>()
     private val logger = logging()
+
+    init {
+        logger.debug { "Iniciando repositorio" }
+    }
     override fun findAll(): List<Personal> {
         logger.debug { "Obteniendo toda la plantilla" }
         return dao.findAll().map { it.toModel() }
