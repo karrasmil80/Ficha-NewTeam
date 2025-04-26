@@ -1,8 +1,8 @@
-package org.example.fichanewteam.mapper
+package org.example.fichanewteam.plantilla.mapper
 
 import PersonalDto
 import org.example.Dto.JugadorDto
-import org.example.fichanewteam.dao.JugadorEntity
+import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.models.Jugador
 import org.example.models.Personal
 

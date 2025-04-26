@@ -1,4 +1,4 @@
-package org.example.fichanewteam.error
+package org.example.fichanewteam.plantilla.error
 
 sealed class PlantillaError(msg:String) {
     class PlantillaValidatorError(msg:String) : PlantillaError(msg)

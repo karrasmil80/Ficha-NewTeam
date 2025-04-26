@@ -1,9 +1,9 @@
-package org.example.fichanewteam.validator
+package org.example.fichanewteam.plantilla.validator
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import org.example.fichanewteam.error.PlantillaError
+import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.models.Personal
 
 class PlantillaValidator : Validator<Personal, PlantillaError> {

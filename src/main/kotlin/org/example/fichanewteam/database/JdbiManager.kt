@@ -8,11 +8,11 @@ import org.jdbi.v3.sqlobject.SqlObjectPlugin
 import org.lighthousegames.logging.logging
 
 
-class JdbiManager(
+class JdbiManager (
     private val dbUrl: String,
     private val dbInitData: Boolean,
     private val dbInitTables: Boolean
-) {
+){
     val logger = logging()
     val jdbi by lazy { Jdbi.create(dbUrl) }
 

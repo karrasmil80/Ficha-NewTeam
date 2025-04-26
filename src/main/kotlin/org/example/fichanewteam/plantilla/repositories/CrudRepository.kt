@@ -1,4 +1,4 @@
-package org.example.fichanewteam.repositories
+package org.example.fichanewteam.plantilla.repositories
 
 /**
  * Interfaz genérica para operaciones CRUD (Crear, Leer, Actualizar, Eliminar).
