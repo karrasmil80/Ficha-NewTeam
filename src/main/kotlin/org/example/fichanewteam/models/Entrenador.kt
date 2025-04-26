@@ -3,6 +3,7 @@ package org.example.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.LocalDate
 
 /**
  * Clase que representa a un entrenador del equipo.
@@ -18,15 +19,15 @@ import kotlinx.serialization.Serializable
  * @param especialidad Especialización del entrenador (principal, asistente, o entrenador de porteros).
  */
 class Entrenador(
-    id: Long,
+    id: Long = 0,
     nombre: String,
     apellidos: String,
     fechaNacimiento: String,
     fechaIncorporacion: String,
     salario: Double?,
     pais: String,
-    rol: String,
-    var especialidad: Especializacion?
+    rol: String = "Entrenador",
+    var especialidad: String
 
 ) : Personal(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol){ //tipo){
 
