@@ -39,7 +39,6 @@ class JdbiManager (
         }
     }
 
-
     fun provideDbManager(config: Config): Jdbi{
         return JdbiManager(
             config.dbUrl,
