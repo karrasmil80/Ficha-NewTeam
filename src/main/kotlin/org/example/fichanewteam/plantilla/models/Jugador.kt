@@ -4,7 +4,7 @@ package org.example.fichanewteam.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.example.models.Personal
+import org.example.models.Plantilla
 
 /**
  * Clase que representa a un jugador del equipo.
@@ -39,7 +39,7 @@ class Jugador(
     var peso: Double?,
     var goles: Int,
     var partidosJugados: Int
-): Personal(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol) {
+): Plantilla(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol) {
 
     /**
      * Sobreescribe la cadena que se muestra al imprimir el modelo.
@@ -72,7 +72,7 @@ class Jugador(
         salario: Double,
         pais: String,
         rol: String,
-    ): Personal {
+    ): Plantilla {
         return Jugador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, posicion, dorsal, altura, peso, goles, partidosJugados)
     }
 

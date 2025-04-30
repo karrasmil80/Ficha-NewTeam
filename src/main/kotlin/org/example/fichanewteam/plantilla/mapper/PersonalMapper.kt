@@ -6,7 +6,7 @@ import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.dao.PersonalEntity
 import org.example.models.Entrenador
 import org.example.fichanewteam.models.Jugador
-import org.example.models.Personal
+import org.example.models.Plantilla
 
 fun PersonalDto.toJugador(): Jugador {
     return Jugador(
@@ -43,7 +43,7 @@ fun PersonalDto.toEntrenador(): Entrenador {
 }
 
 //Funcion de extension que convierte un PersonalDto a Personla, eligiendo despues entre Jugaodr y Entrenador
-fun PersonalDto.toModel(): Personal {
+fun PersonalDto.toModel(): Plantilla {
     return if (this.rol == "Jugador") {
         Jugador(
             id = id,
@@ -76,7 +76,7 @@ fun PersonalDto.toModel(): Personal {
     }
 }
 
-fun Personal.toEntity(): PersonalEntity {
+fun Plantilla.toEntity(): PersonalEntity {
     if (rol == "jugador") {
         val jugador = this as Jugador
 
@@ -149,7 +149,7 @@ fun PersonalEntity.toEntrenador(): Entrenador {
     )
 }
 
-fun PersonalEntity.toModel() : Personal {
+fun PersonalEntity.toModel() : Plantilla {
     return if (rol == "jugador"){
         val jugador = this as Jugador
         Jugador(
