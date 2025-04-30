@@ -17,7 +17,7 @@ import kotlinx.serialization.Serializable
  * @param rol Rol de la persona en el equipo (jugador o entrenador).
  */
 @Serializable
-abstract class Personal(
+abstract class Plantilla(
     val id: Long,
     var nombre: String,
     var apellidos: String,
@@ -33,7 +33,7 @@ abstract class Personal(
     }
 
     /**
-     * Crea una copia del objeto [Personal] con los valores proporcionados.
+     * Crea una copia del objeto [Plantilla] con los valores proporcionados.
      *
      * @param id Identificador único de la persona.
      * @param nombre Nombre de la persona.
@@ -43,7 +43,7 @@ abstract class Personal(
      * @param salario Salario de la persona.
      * @param pais País de origen de la persona.
      * @param rol Rol de la persona en el equipo (jugador o entrenador).
-     * @return Una nueva instancia de [Personal] con los valores proporcionados.
+     * @return Una nueva instancia de [Plantilla] con los valores proporcionados.
      */
 
     abstract fun copy(
@@ -55,7 +55,7 @@ abstract class Personal(
         salario: Double = this.salario!!,
         pais: String = this.pais,
         rol: String = this.rol
-    ): Personal
+    ): Plantilla
 
     /**
      * Enum que representa los posibles tipos de roles en el equipo.
