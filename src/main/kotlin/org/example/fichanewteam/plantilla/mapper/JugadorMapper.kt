@@ -4,7 +4,7 @@ import org.example.fichanewteam.models.Jugador
 import org.example.fichanewteam.plantilla.dto.JugadorDto
 import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
-import org.example.models.Personal
+import org.example.models.Plantilla
 
 fun Jugador.toDto(): PersonalDto {
     return PersonalDto(
@@ -26,7 +26,7 @@ fun Jugador.toDto(): PersonalDto {
     )
 }
 
-fun JugadorDto.toModel(): Personal {
+fun JugadorDto.toModel(): Plantilla {
     return Jugador(
         id = this.id,
         nombre = this.nombre,
