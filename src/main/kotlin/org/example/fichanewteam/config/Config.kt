@@ -22,6 +22,7 @@ object Config {
 
     init {
         try {
+            logger.debug { "Iniciando configuración" }
             val properties = Properties()
             properties.load(ClassLoader.getSystemResourceAsStream("config.properties"))
             dbUrl = properties.getProperty("dbUrl", this.dbUrl)
