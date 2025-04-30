@@ -1,4 +1,4 @@
-package org.example.fichanewteam.storage
+package org.example.fichanewteam.plantilla.storage
 
 import org.example.fichanewteam.models.Jugador
 import org.example.fichanewteam.plantilla.dto.PersonalDto

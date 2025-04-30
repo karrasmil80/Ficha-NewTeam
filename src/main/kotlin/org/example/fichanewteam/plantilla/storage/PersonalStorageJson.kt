@@ -1,4 +1,4 @@
-package org.example.fichanewteam.storage
+package org.example.fichanewteam.plantilla.storage
 
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString

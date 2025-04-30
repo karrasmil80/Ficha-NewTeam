@@ -1,4 +1,4 @@
-package org.example.fichanewteam.storage
+package org.example.fichanewteam.plantilla.storage
 
 // Para distinguir los distintos tipos de ficheros
 
