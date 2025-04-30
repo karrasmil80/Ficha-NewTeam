@@ -4,10 +4,10 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.error.PlantillaError
-import org.example.models.Personal
+import org.example.models.Plantilla
 
-class PlantillaValidator : Validator<Personal, PlantillaError> {
-    override fun validate(t: Personal): Result<Personal, PlantillaError> {
+class PlantillaValidator : Validator<Plantilla, PlantillaError> {
+    override fun validate(t: Plantilla): Result<Plantilla, PlantillaError> {
         if (t.nombre.isBlank()) {
             Err(PlantillaError.PlantillaValidatorError("El nombre no puede estar en blanco"))
         }

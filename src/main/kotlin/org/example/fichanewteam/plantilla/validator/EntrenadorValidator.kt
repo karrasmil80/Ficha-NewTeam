@@ -5,7 +5,6 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.models.Entrenador
-import org.example.models.Personal
 
 class EntrenadorValidator : Validator<Entrenador, PlantillaError> {
     override fun validate(t: Entrenador): Result<Entrenador, PlantillaError> {

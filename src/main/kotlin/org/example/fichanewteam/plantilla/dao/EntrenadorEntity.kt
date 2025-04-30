@@ -1,5 +1,6 @@
 package org.example.fichanewteam.plantilla.dao
 
+import org.example.models.Entrenador
 import org.example.models.Entrenador.Especializacion
 
 /**
@@ -25,5 +26,5 @@ class EntrenadorEntity(
     salario: Double?,
     pais: String,
     rol: String,
-    var especialidad: Especializacion?
+    var especialidad: Entrenador.Especializacion
 ) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol)

@@ -23,9 +23,9 @@ import javafx.stage.Modality
 import javafx.stage.Stage
 import org.example.models.Entrenador
 import org.example.fichanewteam.models.Jugador
-import java.sql.Date
 import java.sql.DriverManager
 import java.sql.Statement
+
 
 class HelloController {
     // Elementos de la interfaz para vincular con fx:id en el FXML

@@ -3,7 +3,6 @@ package org.example.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
 
 /**
  * Clase que representa a un entrenador del equipo.
@@ -29,7 +28,7 @@ class Entrenador(
     rol: String = "Entrenador",
     var especialidad: String
 
-) : Personal(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol){ //tipo){
+) : Plantilla(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol){ //tipo){
 
     /**
      * Sobreescribe la cadena que se muestra al imprimir el modelo.
@@ -62,7 +61,7 @@ class Entrenador(
         salario: Double,
         pais: String,
         rol: String,
-    ): Personal {
+    ): Plantilla {
         return Entrenador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, especialidad)
     }
 

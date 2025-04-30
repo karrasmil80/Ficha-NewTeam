@@ -3,30 +3,30 @@ package org.example.fichanewteam.plantilla.repositories
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.mapper.toEntity
 import org.example.fichanewteam.plantilla.mapper.toModel
-import org.example.models.Personal
+import org.example.models.Plantilla
 import org.lighthousegames.logging.logging
 
 class PlantillaRepositoryImpl (
     val dao : PlantillaDao
-) : PlantillaRepository<Personal> {
+) : PlantillaRepository<Plantilla> {
 
-    private val personal = mutableMapOf<Long, Personal>()
+    private val plantilla = mutableMapOf<Long, Plantilla>()
     private val logger = logging()
 
     init {
         logger.debug { "Iniciando repositorio" }
     }
-    override fun findAll(): List<Personal> {
+    override fun findAll(): List<Plantilla> {
         logger.debug { "Obteniendo toda la plantilla" }
         return dao.findAll().map { it.toModel() }
     }
 
-    override fun findById(id: Long): Personal? {
+    override fun findById(id: Long): Plantilla? {
         logger.debug { "Buscando un miembro de la plantilla por id : $id" }
         return dao.findById(id).toModel()
     }
 
-    override fun save(item: Personal): Personal {
+    override fun save(item: Plantilla): Plantilla {
         logger.debug { "Salvando miembro de la plantilla : $item" }
         val save = item.copy(
             id = item.id,
@@ -36,7 +36,7 @@ class PlantillaRepositoryImpl (
         return item
     }
 
-    override fun update(id: Long, item: Personal): Personal? {
+    override fun update(id: Long, item: Plantilla): Plantilla? {
         val plantilla = findById(id)
         if (item != null) {
             val updated = item.copy(
@@ -47,7 +47,7 @@ class PlantillaRepositoryImpl (
         return plantilla
     }
 
-    override fun delete(item: Personal): Personal? {
+    override fun delete(item: Plantilla): Plantilla? {
         logger.debug { "Eliminando miembro de la plantilla : $item" }
         val plantilla = dao.findById(1L)
         if (plantilla != null) {
