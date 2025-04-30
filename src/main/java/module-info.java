@@ -1,13 +1,15 @@
 module org.example.fichanewteam {
-    requires javafx.fxml;
     requires javafx.controls;
-    requires javafx.graphics;
-    requires java.sql;
+    requires javafx.fxml;
     requires kotlinx.serialization.core;
+    requires org.jdbi.v3.sqlobject.kotlin;
+    requires org.jdbi.v3.sqlobject;
+    requires logging.jvm;
+    requires kotlin.result.jvm;
+    requires org.jdbi.v3.kotlin;
+    requires org.jdbi.v3.core;
 
 
     opens org.example.fichanewteam to javafx.fxml;
     exports org.example.fichanewteam;
-    // Controlador
-    exports org.example.fichanewteam.controllers;
 }

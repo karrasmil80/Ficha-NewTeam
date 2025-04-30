@@ -1,4 +1,4 @@
-package org.example.fichanewteam.dao
+package org.example.fichanewteam.plantilla.dao
 
 /**
  * @param id Identificador único de la persona.
