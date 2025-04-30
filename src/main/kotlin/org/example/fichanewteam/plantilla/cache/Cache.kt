@@ -3,13 +3,13 @@ package org.example.fichanewteam.plantilla.cache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.Cache
 import org.example.fichanewteam.config.Config
-import org.example.models.Personal
+import org.example.models.Plantilla
 import java.util.concurrent.TimeUnit
 
 
-fun providePersonalCache(capacity : Long, duration : Int): Cache<Long, Personal>{
+fun providePersonalCache(config: Config, capacity: Long): Cache<Long, Plantilla>{
     return Caffeine.newBuilder()
-        .maximumSize(capacity)
+        .maximumSize(config.capacity)
         .expireAfterWrite(10, TimeUnit.MINUTES)
-        .build<Long, Personal>()
+        .build<Int, Plantilla>()
 }
