@@ -18,7 +18,7 @@ fun PersonalDto.toJugador(): Jugador {
         salario = this.salario,
         pais = this.pais,
         rol = this.rol,
-        posicion = Jugador.Posicion.valueOf(posicion!!), // Convierte la posición de texto a enum
+        posicion = Jugador.Posicion.valueOf(posicion!!).toString(), // Convierte la posición de texto a enum
         dorsal = this.dorsal ?: 0, // Si es nulo, asigna 0
         altura = this.altura ?: 0.0, // Si es nulo, asigna 0.0
         peso = this.peso ?: 0.0, // Si es nulo, asigna 0.0
@@ -38,7 +38,7 @@ fun PersonalDto.toEntrenador(): Entrenador {
         salario = this.salario,
         pais = this.pais,
         rol = this.rol,
-        especialidad = Entrenador.Especializacion.valueOf(especialidad!!) // Convierte la especialidad a enum
+        especialidad = Entrenador.Especializacion.valueOf(especialidad!!).toString() // Convierte la especialidad a enum
     )
 }
 
@@ -53,7 +53,7 @@ fun PersonalDto.toModel(): Plantilla {
             fechaIncorporacion = fecha_incorporacion,
             salario = salario,
             pais = pais,
-            posicion = Jugador.Posicion.valueOf(posicion!!), // Convierte la posición a enum
+            posicion = Jugador.Posicion.valueOf(posicion!!).toString(), // Convierte la posición a enum
             dorsal = dorsal!!, // Asume que no es nulo para jugadores
             altura = altura!!, // Asume que no es nulo para jugadores
             peso = peso!!, // Asume que no es nulo para jugadores
@@ -70,7 +70,7 @@ fun PersonalDto.toModel(): Plantilla {
             fechaIncorporacion = this.fecha_incorporacion,
             salario = salario,
             pais = pais,
-            especialidad = Entrenador.Especializacion.valueOf(especialidad!!), // Convierte la especialidad a enum
+            especialidad = Entrenador.Especializacion.valueOf(especialidad!!).toString(), // Convierte la especialidad a enum
             rol = this.rol
         )
     }
@@ -108,7 +108,7 @@ fun Plantilla.toEntity(): PersonalEntity {
             salario = entrenador.salario,
             pais = entrenador.pais,
             rol = entrenador.rol,
-            especialidad = entrenador.especialidad!!,
+            especialidad = Entrenador.Especializacion.valueOf(this.especialidad),
         )
 
 
@@ -125,7 +125,7 @@ fun PersonalEntity.toJugador(): Jugador {
         salario = this.salario,
         pais = this.pais,
         rol = this.rol,
-        posicion = Jugador.Posicion.valueOf(posicion!!.toString()),
+        posicion = Jugador.Posicion.valueOf(posicion!!.toString()).toString(),
         dorsal = dorsal!!,
         altura = altura!!,
         peso = peso!!,
@@ -145,7 +145,7 @@ fun PersonalEntity.toEntrenador(): Entrenador {
         salario = this.salario,
         pais = pais,
         rol = this.rol,
-        especialidad = Entrenador.Especializacion.valueOf(especialidad!!.toString()),
+        especialidad = Entrenador.Especializacion.valueOf(especialidad!!.toString()).toString(),
     )
 }
 
@@ -161,7 +161,7 @@ fun PersonalEntity.toModel() : Plantilla {
             salario = this.salario,
             pais = this.pais,
             rol = this.rol,
-            posicion = Jugador.Posicion.valueOf(posicion!!.toString()),
+            posicion = Jugador.Posicion.valueOf(posicion!!.toString()).toString(),
             dorsal = this.dorsal!!,
             altura = this.altura!!,
             peso = this.peso!!,
@@ -179,7 +179,7 @@ fun PersonalEntity.toModel() : Plantilla {
             salario = this.salario,
             pais = this.pais,
             rol = this.rol,
-            especialidad = Entrenador.Especializacion.valueOf(especialidad!!.toString())
+            especialidad = Entrenador.Especializacion.valueOf(especialidad!!.toString()).toString()
         )
 
     }
