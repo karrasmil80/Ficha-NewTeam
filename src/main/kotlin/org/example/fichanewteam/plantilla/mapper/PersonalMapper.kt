@@ -1,11 +1,11 @@
 package org.example.fichanewteam.plantilla.mapper
 
-import org.example.fichanewteam.PersonalDto
+import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.dao.PersonalEntity
 import org.example.models.Entrenador
-import org.example.models.Jugador
+import org.example.fichanewteam.models.Jugador
 import org.example.models.Personal
 
 fun PersonalDto.toJugador(): Jugador {

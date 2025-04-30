@@ -1,5 +1,5 @@
 
-package org.example.Dto
+package org.example.fichanewteam.plantilla.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
