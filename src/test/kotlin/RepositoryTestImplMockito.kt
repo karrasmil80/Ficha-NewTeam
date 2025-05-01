@@ -1,8 +1,8 @@
-import com.sun.org.apache.bcel.internal.util.Repository
+
+
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.example.models.Entrenador
-import org.example.models.Plantilla
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -52,9 +52,9 @@ class RepositoryTestImplMockito {
                 { assertEquals(1, miembroLista.size, "Miembro correcto") },
                 { assertEquals("Pedro", miembroLista[0].nombre, "Pedro") },
                 { assertEquals("Gonzalez", miembroLista[0].apellidos, "Gonzalez") },
-                { assertEquals("1982-04-04", miembroLista[0].pais, "1990-04-04") },
-                { assertEquals("1990-04-04", miembroLista[0].pais, "1990-04") },
-                { assertEquals(1000.0, miembroLista[0].rol, "Jugador") },
+                { assertEquals("1982-04-04", miembroLista[0].fechaNacimiento, "1990-04-04") },
+                { assertEquals("1990-04-04", miembroLista[0].fechaNacimiento, "1990-04") },
+                { assertEquals(1000.0, miembroLista[0].salario, "Jugador") },
                 { assertEquals("España", miembroLista[0].pais) }
             )
         }
