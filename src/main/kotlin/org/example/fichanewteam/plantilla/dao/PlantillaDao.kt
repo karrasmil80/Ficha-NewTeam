@@ -10,16 +10,16 @@ interface PlantillaDao {
     @SqlQuery("SELECT * FROM Plantilla")
     fun findAll(): List<PersonalEntity>
 
-    @SqlQuery("SELECT * FROM Plantila WHERE id = :id")
+    @SqlQuery("SELECT * FROM PLANTILLA WHERE id = :id")
     fun findById(@Bind("id") id: Long): PersonalEntity
 
-    @SqlQuery("INSERT INTO Plantila(id, nombre, apellidos, fecha_nacimiento, fecha_incorporacion, salario, pais, rol)")
+    @SqlQuery("INSERT INTO PLANTILLA(id, nombre, apellidos, fecha_nacimiento, fecha_incorporacion, salario, pais, rol)")
     fun save(@BindBean personalentity: PersonalEntity) : Long
 
-    @SqlQuery("UPDATE Plantilla SET id=:id, nombre=:nombre, apellidos=:apellidos, fecha_nacimiento=:fecha_nacimiento, salario=:salario, pais=:pais, rol=:rol")
+    @SqlQuery("UPDATE PLANTILLA SET id=:id, nombre=:nombre, apellidos=:apellidos, fecha_nacimiento=:fecha_nacimiento, salario=:salario, pais=:pais, rol=:rol")
     fun update(@BindBean personalentity: PersonalEntity) : Long
 
-    @SqlQuery("DELETE FROM Plantila")
+    @SqlQuery("DELETE FROM PLANTILLA")
     fun delete(@Bind("id") id: Long) : Long
 
     /* --> save all

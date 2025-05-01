@@ -1,7 +1,7 @@
 package org.example.fichanewteam.plantilla.mapper
 
-import org.example.Dto.EntrenadorDto
-import org.example.fichanewteam.PersonalDto
+import org.example.fichanewteam.plantilla.dto.EntrenadorDto
+import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.models.Entrenador
 
@@ -34,7 +34,7 @@ fun EntrenadorDto.toModel(): Entrenador {
         fechaIncorporacion = this.fechaIncorporacion,
         salario = this.salario,
         pais = this.pais,
-        especialidad = this.especialidad,
+        especialidad = especialidad.toString(),
         rol = this.rol
     )
 }
@@ -48,7 +48,7 @@ fun Entrenador.toEntity(): EntrenadorEntity {
         fechaIncorporacion = this.fechaIncorporacion,
         salario = this.salario,
         pais = this.pais,
-        especialidad = this.especialidad,
+        especialidad = Entrenador.Especializacion.valueOf(this.especialidad),
         rol = this.rol
     )
 }
@@ -62,7 +62,7 @@ fun EntrenadorEntity.toModel(): Entrenador {
         fechaIncorporacion = this.fechaIncorporacion,
         salario = this.salario,
         pais = this.pais,
-        especialidad = this.especialidad,
+        especialidad = this.especialidad.toString(),
         rol = this.rol
     )
 }
