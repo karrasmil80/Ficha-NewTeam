@@ -8,6 +8,7 @@ module org.example.fichanewteam {
     requires kotlin.result.jvm;
     requires org.jdbi.v3.kotlin;
     requires org.jdbi.v3.core;
+    requires java.sql;
 
 
     opens org.example.fichanewteam to javafx.fxml;
