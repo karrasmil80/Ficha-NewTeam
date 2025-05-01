@@ -25,6 +25,7 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+
 application {
     mainModule = 'org.example.fichanewteam'
     mainClass = 'org.example.fichanewteam.HelloApplication'
@@ -100,4 +101,6 @@ jlink {
 jlinkZip {
     group = 'distribution'
 }
+
+
 
