@@ -1,5 +1,7 @@
 package org.example.fichanewteam.plantilla.repositories
 
+
+//PARTE BUENA
 /**
  * Interfaz genérica para operaciones CRUD (Crear, Leer, Actualizar, Eliminar).
  * Esta interfaz define los métodos básicos para interactuar con el almacenamiento de datos.
@@ -46,9 +48,10 @@ interface CrudRepository<T, ID> {
      * @param id el identificador único de la entidad a eliminar.
      * @return la entidad eliminada, o null si no se encuentra la entidad.
      */
-    fun delete(item : T): T?
+    fun delete(id: ID): T?
 
     // --> save all
 
     // --> delete all
 }
+//PARTE BUENA

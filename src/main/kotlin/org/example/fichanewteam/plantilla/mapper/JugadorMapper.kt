@@ -6,6 +6,7 @@ import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.models.Plantilla
 
+//PARTE BUENA
 fun Jugador.toDto(): PersonalDto {
     return PersonalDto(
         id = id,
@@ -35,7 +36,7 @@ fun JugadorDto.toModel(): Plantilla {
         fechaIncorporacion = this.fechaIncorporacion,
         salario = this.salario,
         pais = this.pais,
-        posicion = this.posicion,
+        posicion = this.posicion.toString(),
         dorsal = this.dorsal,
         altura = this.altura,
         peso = this.peso,
@@ -54,7 +55,7 @@ fun Jugador.toEntity(): JugadorEntity {
         fechaIncorporacion = this.fechaNacimiento,
         salario = this.salario,
         pais = this.pais,
-        posicion = this.posicion,
+        posicion = Jugador.Posicion.valueOf(this.posicion.toString()),
         dorsal = this.dorsal,
         altura = this.altura,
         peso = this.peso,
@@ -73,7 +74,7 @@ fun JugadorEntity.toModel(): Jugador {
         fechaIncorporacion = this.fechaNacimiento,
         salario = this.salario,
         pais = this.pais,
-        posicion = this.posicion,
+        posicion = Jugador.Posicion.valueOf(this.posicion.toString()).toString(),
         dorsal = this.dorsal,
         altura = this.altura,
         peso = this.peso,
@@ -101,3 +102,4 @@ fun JugadorDto.toEntity(): JugadorEntity {
         rol = this.rol
     )
 }
+//PARTE BUENA

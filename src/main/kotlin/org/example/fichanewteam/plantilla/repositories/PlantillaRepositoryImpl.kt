@@ -1,11 +1,16 @@
 package org.example.fichanewteam.plantilla.repositories
 
+import org.example.fichanewteam.models.Jugador
+import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
+import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.mapper.toEntity
 import org.example.fichanewteam.plantilla.mapper.toModel
+import org.example.models.Entrenador
 import org.example.models.Plantilla
 import org.lighthousegames.logging.logging
 
+//PARTE BUENA
 class PlantillaRepositoryImpl (
     val dao : PlantillaDao
 ) : PlantillaRepository<Plantilla> {
@@ -18,7 +23,13 @@ class PlantillaRepositoryImpl (
     }
     override fun findAll(): List<Plantilla> {
         logger.debug { "Obteniendo toda la plantilla" }
-        return dao.findAll().map { it.toModel() }
+        return dao.findAll().mapNotNull {
+            when (it) {
+                is EntrenadorEntity -> it.toModel() as? Entrenador
+                is JugadorEntity -> it.toModel() as? Jugador
+                else -> null // Maneja otros tipos o entidades inesperadas
+            }
+        }
     }
 
     override fun findById(id: Long): Plantilla? {
@@ -47,19 +58,20 @@ class PlantillaRepositoryImpl (
         return plantilla
     }
 
-    override fun delete(item: Plantilla): Plantilla? {
-        logger.debug { "Eliminando miembro de la plantilla : $item" }
-        val plantilla = dao.findById(1L)
+    override fun delete(id : Long): Plantilla? {
+        logger.debug { "Eliminando miembro de la plantilla : $id" }
+        val plantilla : Plantilla? = dao.findById(1L).toModel()
         if (plantilla != null) {
             val res = dao.delete(1L)
             if (res == 0L) {
                 logger.error { "Fallo al remover el miembro de la plantilla" }
             }
         }
-        return item
+        return plantilla
     }
 
     // --> save all
 
     // --> delete all / logical
 }
+//PARTE BUENA

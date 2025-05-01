@@ -5,7 +5,7 @@ import org.lighthousegames.logging.logging
 import java.util.Locale
 import java.util.Properties
 
-
+//PARTE BUENA
 object Config {
     private val logger = logging()
 
@@ -22,6 +22,7 @@ object Config {
 
     init {
         try {
+            logger.debug { "Iniciando configuración" }
             val properties = Properties()
             properties.load(ClassLoader.getSystemResourceAsStream("config.properties"))
             dbUrl = properties.getProperty("dbUrl", this.dbUrl)
@@ -34,3 +35,4 @@ object Config {
         }
     }
 }
+//PARTE BUENA

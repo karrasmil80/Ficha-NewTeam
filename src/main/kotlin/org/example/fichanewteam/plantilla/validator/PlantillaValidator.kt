@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.models.Plantilla
-
+//PARTE BUENA
 class PlantillaValidator : Validator<Plantilla, PlantillaError> {
     override fun validate(t: Plantilla): Result<Plantilla, PlantillaError> {
         if (t.nombre.isBlank()) {
@@ -38,3 +38,4 @@ class PlantillaValidator : Validator<Plantilla, PlantillaError> {
         return Ok(t)
     }
 }
+//PARTE BUENA
