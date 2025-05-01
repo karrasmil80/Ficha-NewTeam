@@ -6,6 +6,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.25.0'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.23'
+    id 'jacoco'
 
 }
 
@@ -80,20 +81,19 @@ dependencies {
 
     // Jacoco (test) --> AUN POR CONFIGURAR
     implementation("org.jacoco:org.jacoco.core:0.8.12")
-    testImplementation "org.jetbrains.kotlin:kotlin-test:1.9.23"
 
     //Test
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.23")
+
+
+
 }
 
 test {
     useJUnitPlatform()
-    /* jvmArgs(
-             "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-             "--add-opens", "java.base/java.util=ALL-UNNAMED",
-             "--add-reads", "org.junit.jupiter.api=kotlin.stdlib"
-     )*/
 }
 
 jlink {

@@ -3,18 +3,19 @@ package repository
 import org.example.fichanewteam.plantilla.dao.PersonalEntity
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
+import kotlin.test.Test
+import kotlin.test.*
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.atLeastOnce
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
+import org.mockito.kotlin.verify
 
 @ExtendWith(MockitoExtension::class)
 class RepositoryTestImplMockito {
@@ -36,16 +37,15 @@ class RepositoryTestImplMockito {
             fechaIncorporacion = "1990-04-04",
             salario = 1000.00,
             pais = "España",
-            rol = "Entrenador",  // Asegúrate de que sea un "Entrenador"
+            rol = "Entrenador"
         )
 
         whenever(dao.findAll()).thenReturn(listOf(miembro))
-
         val miembroLista = repository.findAll()
 
         assertAll(
-            { assertNotNull(miembroLista.size == 1, ("Miembro no nulo")) },
-            { assertEquals(1, miembroLista.size, "Debe haber 1 miembro") },
+            { assertNotNull(miembroLista) },
+            { assertEquals(1, miembroLista.size) },
             { assertEquals("Pedro", miembroLista[0].nombre) },
             { assertEquals("Gonzalez", miembroLista[0].apellidos) },
             { assertEquals("1982-04-04", miembroLista[0].fechaNacimiento) },
@@ -53,7 +53,7 @@ class RepositoryTestImplMockito {
             { assertEquals(1000.0, miembroLista[0].salario) },
             { assertEquals("España", miembroLista[0].pais) }
         )
+
         verify(dao, atLeastOnce()).findAll()
     }
 }
-
