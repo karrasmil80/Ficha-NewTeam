@@ -21,3 +21,4 @@ val appModule = module {
         bind(Cache<Int>)
     }
 }
+ */

@@ -12,5 +12,5 @@ module org.example.fichanewteam {
 
 
     opens org.example.fichanewteam to javafx.fxml;
-    exports org.example.fichanewteam;
+    exports org.example.fichanewteam to javafx.graphics;
 }

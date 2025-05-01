@@ -47,16 +47,16 @@ class PlantillaRepositoryImpl (
         return plantilla
     }
 
-    override fun delete(item: Plantilla): Plantilla? {
-        logger.debug { "Eliminando miembro de la plantilla : $item" }
-        val plantilla = dao.findById(1L)
+    override fun delete(id : Long): Plantilla? {
+        logger.debug { "Eliminando miembro de la plantilla : $id" }
+        val plantilla : Plantilla? = dao.findById(1L).toModel()
         if (plantilla != null) {
             val res = dao.delete(1L)
             if (res == 0L) {
                 logger.error { "Fallo al remover el miembro de la plantilla" }
             }
         }
-        return item
+        return plantilla
     }
 
     // --> save all
