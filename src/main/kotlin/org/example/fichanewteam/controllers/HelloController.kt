@@ -1,5 +1,5 @@
 package org.example.fichanewteam.controllers
-
+/*
 import javafx.application.Platform
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
@@ -374,3 +374,4 @@ class HelloController {
         // Código para eliminar una persona seleccionada
     }
 }
+ */
