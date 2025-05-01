@@ -8,6 +8,7 @@ import org.example.models.Entrenador
 import org.example.fichanewteam.models.Jugador
 import org.example.models.Plantilla
 
+//PARTE BUENA
 fun PersonalDto.toJugador(): Jugador {
     return Jugador(
         id = this.id,
@@ -184,3 +185,4 @@ fun PersonalEntity.toModel() : Plantilla {
 
     }
 }
+//PARTE BUENA

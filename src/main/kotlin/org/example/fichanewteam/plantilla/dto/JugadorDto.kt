@@ -23,6 +23,8 @@ import org.example.fichanewteam.models.Jugador
  * @param goles Número de goles anotados por el jugador.
  * @param partidosJugados Número de partidos jugados por el jugador.
  */
+
+//PARTE BUENA
 @Serializable
 class JugadorDto(
     val id: Long,
@@ -40,3 +42,4 @@ class JugadorDto(
     val goles: Int,
     val partidosJugados: Int
 ) : java.io.Serializable
+//PARTE BUENA

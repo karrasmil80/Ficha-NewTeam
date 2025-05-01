@@ -7,7 +7,7 @@ import org.jdbi.v3.sqlobject.SqlObjectPlugin
 
 import org.lighthousegames.logging.logging
 
-
+//PARTE BUENA
 class JdbiManager (
     private val dbUrl: String,
     private val dbInitData: Boolean,
@@ -47,3 +47,4 @@ class JdbiManager (
         ).jdbi
     }
 }
+//PARTE BUENA

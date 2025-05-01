@@ -12,7 +12,7 @@ import org.example.models.Entrenador
 import org.example.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
-
+//PARTE BUENA
 class PersonalStorageJson : PersonalStorage {
     private val logger = logging()
 
@@ -60,3 +60,4 @@ class PersonalStorageJson : PersonalStorage {
         }
     }
 }
+//PARTE BUENA

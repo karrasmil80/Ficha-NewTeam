@@ -7,7 +7,7 @@ import org.example.models.Entrenador
 import org.example.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
-
+//PARTE BUENA
 class PersonalStorageCsv : PersonalStorage {
     //Implementación del logger
     private val logger = logging()
@@ -74,3 +74,4 @@ class PersonalStorageCsv : PersonalStorage {
         }
     }
 }
+//PARTE BUENA

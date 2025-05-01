@@ -6,6 +6,7 @@ import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.models.Plantilla
 import org.lighthousegames.logging.logging
 
+//PARTE BUENA
 class PlantillaRepositoryImpl (
     val dao : PlantillaDao
 ) : PlantillaRepository<Plantilla> {
@@ -63,3 +64,4 @@ class PlantillaRepositoryImpl (
 
     // --> delete all / logical
 }
+//PARTE BUENA

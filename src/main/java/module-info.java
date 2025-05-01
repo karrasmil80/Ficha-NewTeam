@@ -1,4 +1,5 @@
 module org.example.fichanewteam {
+
     requires javafx.controls;
     requires javafx.fxml;
     requires org.jdbi.v3.sqlobject.kotlin;
@@ -9,7 +10,6 @@ module org.example.fichanewteam {
     requires org.jdbi.v3.core;
     requires com.github.benmanes.caffeine;
     requires kotlinx.serialization.json;
-
 
     opens org.example.fichanewteam to javafx.fxml;
     exports org.example.fichanewteam to javafx.graphics;

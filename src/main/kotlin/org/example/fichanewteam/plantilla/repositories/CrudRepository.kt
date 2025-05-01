@@ -1,5 +1,7 @@
 package org.example.fichanewteam.plantilla.repositories
 
+
+//PARTE BUENA
 /**
  * Interfaz genérica para operaciones CRUD (Crear, Leer, Actualizar, Eliminar).
  * Esta interfaz define los métodos básicos para interactuar con el almacenamiento de datos.
@@ -52,3 +54,4 @@ interface CrudRepository<T, ID> {
 
     // --> delete all
 }
+//PARTE BUENA

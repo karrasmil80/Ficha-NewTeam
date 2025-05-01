@@ -5,7 +5,7 @@ import org.lighthousegames.logging.logging
 import java.util.Locale
 import java.util.Properties
 
-
+//PARTE BUENA
 object Config {
     private val logger = logging()
 
@@ -35,3 +35,4 @@ object Config {
         }
     }
 }
+//PARTE BUENA

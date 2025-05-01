@@ -6,6 +6,7 @@ import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.models.Plantilla
 
+//PARTE BUENA
 fun Jugador.toDto(): PersonalDto {
     return PersonalDto(
         id = id,
@@ -101,3 +102,4 @@ fun JugadorDto.toEntity(): JugadorEntity {
         rol = this.rol
     )
 }
+//PARTE BUENA
