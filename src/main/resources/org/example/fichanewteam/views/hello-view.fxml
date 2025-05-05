@@ -28,7 +28,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="732.0" prefWidth="1171.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.pablodlf.newteam_app.controllers.HelloController">
+<BorderPane prefHeight="732.0" prefWidth="1171.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fichanewteam.controllers.HelloController">
 
     <!-- Parte superior: Menú y barra de herramientas -->
     <top>
@@ -118,7 +118,7 @@
                         <TextField promptText="Buscar..." styleClass="search-box" HBox.hgrow="ALWAYS" />
                     </HBox>
 
-                    <TableView fx:id="personalTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="395.0" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="plantillaTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="395.0" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="idColumn" prefWidth="39.0" text="  ID" />
                             <TableColumn fx:id="nombreColumn" prefWidth="104.0" text="Nombre" />
@@ -175,7 +175,7 @@
                     </padding>
 
                     <!-- Foto del miembro -->
-                    <StackPane prefHeight="120" prefWidth="120" styleClass="photo-container">
+                    <StackPane prefHeight="120" prefWidth="120">
                         <ImageView fx:id="photoImageView" fitHeight="120" fitWidth="120" preserveRatio="true">
                             <Image url="@../images/default_profile.png" />
                         </ImageView>
@@ -187,7 +187,7 @@
                         <Label fx:id="rolPosicionLabel" styleClass="sub-title" text="Rol / Posición" />
                         <HBox spacing="20">
                             <VBox spacing="5">
-                                <Label styleClass="field-label" text="País:" />
+                                <Label text="País:" />
                                 <Label fx:id="paisLabel" text="" />
                             </VBox>
                             <VBox spacing="5">

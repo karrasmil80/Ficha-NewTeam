@@ -5,6 +5,7 @@ import org.jdbi.v3.sqlobject.customizer.BindBean
 import org.jdbi.v3.sqlobject.kotlin.RegisterKotlinMapper
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 
+//PARTE BUENA
 @RegisterKotlinMapper(PersonalEntity::class)
 interface PlantillaDao {
     @SqlQuery("SELECT * FROM Plantilla")
@@ -32,3 +33,4 @@ interface PlantillaDao {
 
 
 }
+//PARTE BUENA

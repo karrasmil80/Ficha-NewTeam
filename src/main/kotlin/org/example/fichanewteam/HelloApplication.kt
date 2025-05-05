@@ -6,6 +6,8 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 
 class HelloApplication : Application() {
+    private lateinit var mainStage: Stage
+
     override fun start(stage: Stage) {
         try {
             val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("/hello-view.fxml"))

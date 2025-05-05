@@ -1,11 +1,12 @@
 package org.example.fichanewteam.plantilla.mapper
 
-import org.example.fichanewteam.models.Jugador
+import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.dto.JugadorDto
 import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
-import org.example.models.Personal
+import org.example.fichanewteam.plantilla.models.Plantilla
 
+//PARTE BUENA
 fun Jugador.toDto(): PersonalDto {
     return PersonalDto(
         id = id,
@@ -26,7 +27,7 @@ fun Jugador.toDto(): PersonalDto {
     )
 }
 
-fun JugadorDto.toModel(): Personal {
+fun JugadorDto.toModel(): Plantilla {
     return Jugador(
         id = this.id,
         nombre = this.nombre,
@@ -35,7 +36,7 @@ fun JugadorDto.toModel(): Personal {
         fechaIncorporacion = this.fechaIncorporacion,
         salario = this.salario,
         pais = this.pais,
-        posicion = this.posicion,
+        posicion = this.posicion.toString(),
         dorsal = this.dorsal,
         altura = this.altura,
         peso = this.peso,
@@ -54,7 +55,7 @@ fun Jugador.toEntity(): JugadorEntity {
         fechaIncorporacion = this.fechaNacimiento,
         salario = this.salario,
         pais = this.pais,
-        posicion = this.posicion,
+        posicion = Jugador.Posicion.valueOf(this.posicion.toString()),
         dorsal = this.dorsal,
         altura = this.altura,
         peso = this.peso,
@@ -73,7 +74,7 @@ fun JugadorEntity.toModel(): Jugador {
         fechaIncorporacion = this.fechaNacimiento,
         salario = this.salario,
         pais = this.pais,
-        posicion = this.posicion,
+        posicion = Jugador.Posicion.valueOf(this.posicion.toString()).toString(),
         dorsal = this.dorsal,
         altura = this.altura,
         peso = this.peso,
@@ -101,3 +102,4 @@ fun JugadorDto.toEntity(): JugadorEntity {
         rol = this.rol
     )
 }
+//PARTE BUENA

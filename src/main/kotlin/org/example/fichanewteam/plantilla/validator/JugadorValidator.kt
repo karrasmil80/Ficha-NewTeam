@@ -3,10 +3,10 @@ package org.example.fichanewteam.plantilla.validator
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import org.example.fichanewteam.models.Jugador
+import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.error.PlantillaError
-import org.example.models.Jugador
 
+//PARTE BUENA
 class JugadorValidator : Validator<Jugador, PlantillaError> {
     override fun validate(t: Jugador): Result<Jugador, PlantillaError> {
         if (t.nombre.isBlank()) {
@@ -71,5 +71,5 @@ class JugadorValidator : Validator<Jugador, PlantillaError> {
         }
         return Ok(t)
     }
-
 }
+//PARTE BUENA

@@ -1,6 +1,6 @@
 package org.example.fichanewteam.plantilla.dao
 
-import org.example.models.Entrenador.Especializacion
+import org.example.fichanewteam.plantilla.models.Entrenador
 
 /**
  * Clase que representa a un entrenador del equipo.
@@ -15,7 +15,7 @@ import org.example.models.Entrenador.Especializacion
  * @param rol Rol del entrenador en el equipo (en este caso, siempre será "entrenador").
  * @param especialidad Especialización del entrenador (principal, asistente, o entrenador de porteros).
  */
-
+//PARTE BUENA
 class EntrenadorEntity(
     id: Long,
     nombre: String,
@@ -25,5 +25,6 @@ class EntrenadorEntity(
     salario: Double?,
     pais: String,
     rol: String,
-    var especialidad: Especializacion?
+    var especialidad: Entrenador.Especializacion
 ) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol)
+//PARTE BUENA

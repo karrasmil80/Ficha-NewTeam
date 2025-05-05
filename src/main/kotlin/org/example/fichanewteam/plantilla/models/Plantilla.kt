@@ -1,8 +1,10 @@
-package org.example.models
+package org.example.fichanewteam.plantilla.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
+//PARTE BUENA
 /**
  * Clase abstracta que representa a una persona del equipo.
  * Esta clase se utiliza como base para definir jugadores y entrenadores.
@@ -17,7 +19,7 @@ import kotlinx.serialization.Serializable
  * @param rol Rol de la persona en el equipo (jugador o entrenador).
  */
 @Serializable
-abstract class Personal(
+abstract class Plantilla(
     val id: Long,
     var nombre: String,
     var apellidos: String,
@@ -25,7 +27,8 @@ abstract class Personal(
     var fechaIncorporacion: String,
     var salario: Double?,
     var pais: String,
-    val rol: String
+    val rol: String,
+    var rutaImagen: String = ""
 ) {
 
     companion object{
@@ -33,7 +36,7 @@ abstract class Personal(
     }
 
     /**
-     * Crea una copia del objeto [Personal] con los valores proporcionados.
+     * Crea una copia del objeto [Plantilla] con los valores proporcionados.
      *
      * @param id Identificador único de la persona.
      * @param nombre Nombre de la persona.
@@ -43,7 +46,7 @@ abstract class Personal(
      * @param salario Salario de la persona.
      * @param pais País de origen de la persona.
      * @param rol Rol de la persona en el equipo (jugador o entrenador).
-     * @return Una nueva instancia de [Personal] con los valores proporcionados.
+     * @return Una nueva instancia de [Plantilla] con los valores proporcionados.
      */
 
     abstract fun copy(
@@ -54,8 +57,9 @@ abstract class Personal(
         fechaIncorporacion: String = this.fechaNacimiento,
         salario: Double = this.salario!!,
         pais: String = this.pais,
-        rol: String = this.rol
-    ): Personal
+        rol: String = this.rol,
+        rutaImagen: String = this.rutaImagen
+    ): Plantilla
 
     /**
      * Enum que representa los posibles tipos de roles en el equipo.
@@ -68,3 +72,4 @@ abstract class Personal(
         NINGUNO
     }
 }
+//PARTE BUENA
