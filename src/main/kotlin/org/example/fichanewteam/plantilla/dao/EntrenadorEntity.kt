@@ -25,6 +25,7 @@ class EntrenadorEntity(
     salario: Double?,
     pais: String,
     rol: String,
-    var especialidad: Entrenador.Especializacion
-) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol)
+    var especialidad: Entrenador.Especializacion,
+    rutaImagen: String
+) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)
 //PARTE BUENA

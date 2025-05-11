@@ -10,16 +10,35 @@ import javafx.scene.image.ImageView
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
+
 import java.sql.DriverManager
 import java.sql.PreparedStatement
 
 class HelloController {
+
     // Elementos de la interfaz para vincular con fx:id en el FXML
     @FXML
-    private lateinit var welcomeText: Label
+    private lateinit var modoEdicionToggle: ToggleButton
+
+    private var modoEdicion = true
 
     @FXML
-    private lateinit var handleExit: Button
+    private lateinit var nuevoButton: Button
+
+    @FXML
+    private lateinit var editarButton: Button
+
+    @FXML
+    private lateinit var eliminarButton: Button
+
+    @FXML
+    private lateinit var exportarButton: Button
+
+    @FXML
+    private lateinit var importarButton: Button
+
+    @FXML
+    private lateinit var welcomeText: Label
 
     @FXML
     private lateinit var plantillaTable: TableView<Plantilla>
@@ -99,29 +118,41 @@ class HelloController {
     @FXML
     private lateinit var edadLabel: Label
 
-
-
     @FXML
     private fun initialize() {
         // Código de inicialización
         welcomeText.text = "Bienvenido a New Team App"
 
+        // Configurar el estado inicial del toggle y los botones
+        modoEdicionToggle.isSelected = modoEdicion
+        modoEdicionToggle.text = "Cambiar a Modo Lectura"
+        actualizarEstadoBotones(modoEdicion)
+
+        // Configurar las columnas de la tabla
         idColumn.cellValueFactory = PropertyValueFactory("id")
         nombreColumn.cellValueFactory = PropertyValueFactory("nombre")
         apellidosColumn.cellValueFactory = PropertyValueFactory("apellidos")
         rolColumn.cellValueFactory = PropertyValueFactory("rol")
+
+        // Configurar ComboBoxes
         rolComboBox.items = FXCollections.observableArrayList("Jugador", "Entrenador")
         rolComboBox.selectionModel.selectFirst() // Primera por defecto
+
         val posiciones = listOf("DEFENSA", "CENTROCAMPISTA", "DELANTERO", "PORTERO", "NINGUNO")
         posicionComboBox.items = FXCollections.observableArrayList(posiciones)
         posicionComboBox.selectionModel.selectFirst() // Primera por defecto
+
         val especialidades = listOf("ENTRENADOR_PRINCIPAL", "ENTRENADOR_ASISTENTE", "ENTRENADOR_PORTEROS")
         especialidadComboBox.items = FXCollections.observableArrayList(especialidades)
         especialidadComboBox.selectionModel.selectFirst() // Primera por defecto
+
+        // Cargar imagen por defecto
         val imageUrl = javaClass.getResource("/images/default_profile.png")?.toExternalForm()
         if (imageUrl != null) {
             photoImageView.image = Image(imageUrl)
         }
+
+        // Listener para la selección de la tabla
         plantillaTable.selectionModel.selectedItemProperty().addListener { _, _, newSelection ->
             if (newSelection != null) {
                 mostrarDetallesPersona(newSelection)
@@ -131,6 +162,69 @@ class HelloController {
         cargarDatos()
     }
 
+    @FXML
+    fun cambiarModo() {
+        modoEdicion = modoEdicionToggle.isSelected
+
+        // Actualizar texto del botón según el modo
+        if (modoEdicion) {
+            modoEdicionToggle.text = "Cambiar a Modo Lectura"
+            statusLabel.text = "Modo edición activado"
+        } else {
+            modoEdicionToggle.text = "Cambiar a Modo Edición"
+            statusLabel.text = "Modo solo lectura activado"
+        }
+
+        // Actualizar estado de los campos y botones
+        actualizarEstadoCampos(modoEdicion)
+        actualizarEstadoBotones(modoEdicion)
+    }
+
+    private fun actualizarEstadoBotones(editable: Boolean) {
+        // Habilitar/deshabilitar botones de edición
+        nuevoButton.isDisable = !editable
+        editarButton.isDisable = !editable
+        eliminarButton.isDisable = !editable
+
+        // Los botones de importar/exportar siempre están disponibles
+        importarButton.isDisable = false
+        exportarButton.isDisable = false
+    }
+
+    private fun actualizarEstadoCampos(editable: Boolean) {
+        // Campos de texto
+        nombreField.isEditable = editable
+        apellidosField.isEditable = editable
+        salarioField.isEditable = editable
+        paisField.isEditable = editable
+        dorsalField.isEditable = editable
+        alturaField.isEditable = editable
+        pesoField.isEditable = editable
+        golesField.isEditable = editable
+        partidosField.isEditable = editable
+
+        // Para que los campos no editables se vean normales (no grisados)
+        val estilo = if (!editable) "-fx-opacity: 1.0" else ""
+        nombreField.style = estilo
+        apellidosField.style = estilo
+        salarioField.style = estilo
+        paisField.style = estilo
+        dorsalField.style = estilo
+        alturaField.style = estilo
+        pesoField.style = estilo
+        golesField.style = estilo
+        partidosField.style = estilo
+
+        // DatePickers
+        fechaNacimientoField.isEditable = editable
+        fechaIncorporacionField.isEditable = editable
+
+        // ComboBoxes
+        rolComboBox.isDisable = !editable
+        posicionComboBox.isDisable = !editable
+        especialidadComboBox.isDisable = !editable
+    }
+
     companion object {
         private const val H2_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
         private const val H2_USER = "sa"
@@ -138,7 +232,7 @@ class HelloController {
     }
 
     @FXML
-    private fun handleExit() {
+    fun handleExit() {
         Platform.exit()
     }
 
@@ -336,83 +430,84 @@ class HelloController {
         }
     }
 
-
     @FXML
     fun onGuardarClicked() {
         val nombre = nombreField.text
-        println("El nombre introducido es: $nombre")
         val apellidos = apellidosField.text
-        println("Los apellidos introducidos son: $apellidos")
         val fechaNacimiento = fechaNacimientoField.value
-        println("La fecha de nacimiento seleccionada es: $fechaNacimiento")
         val fechaIncorporacion = fechaIncorporacionField.value
-        println("La fecha de incorporacion seleccionada es: $fechaIncorporacion")
-        val salarioTexto = salarioField.text
-        val salario: Double? = salarioTexto.toDoubleOrNull()
-        println("El salario introducido es: $salario")
+        val salario = salarioField.text.toDoubleOrNull()
         val pais = paisField.text
-        println("El pais introducido es: $pais")
         val rolSeleccionado = rolComboBox.value
-        println("Rol seleccionado: $rolSeleccionado")
         val posicionSeleccionada = posicionComboBox.value
-        println("Posicion seleccionada: $posicionSeleccionada")
-        val dorsalTexto = dorsalField.text
-        val dorsal: Int? = dorsalTexto.toIntOrNull()
-        println("El dorsal introducido es: $dorsal")
-        val alturaTexto = alturaField.text
-        val altura: Double? = alturaTexto.toDoubleOrNull()
-        println("La altura introducida es: $altura")
-        val pesoTexto = pesoField.text
-        val peso: Double? = pesoTexto.toDoubleOrNull()
-        println("El peso introducido es: $peso")
-        val golesTexto = golesField.text
-        val goles: Int? = golesTexto.toIntOrNull()
-        println("Los goles introducidos son: $goles")
-        val partidosTexto = partidosField.text
-        val partidos: Int? = partidosTexto.toIntOrNull()
-        println("Los partidos jugados introducidos son: $partidos")
+        val dorsal = dorsalField.text.toIntOrNull()
+        val altura = alturaField.text.toDoubleOrNull()
+        val peso = pesoField.text.toDoubleOrNull()
+        val goles = golesField.text.toIntOrNull() ?: 0
+        val partidos = partidosField.text.toIntOrNull() ?: 0
         val especialidadSeleccionada = especialidadComboBox.value
-        println("Especialidad seleccionada: $especialidadSeleccionada")
 
         val rutaImagen = "/images/${apellidos.lowercase()}.png"
 
-        if (rolSeleccionado == "Jugador") {
-            val nuevoJugador = Jugador(
-                nombre = nombre,
-                apellidos = apellidos,
-                fechaNacimiento = fechaNacimiento?.toString() ?: "",
-                fechaIncorporacion = fechaIncorporacion?.toString() ?: "",
-                salario = salario,
-                pais = pais,
-                posicion = posicionSeleccionada,
-                dorsal = dorsal,
-                altura = altura,
-                peso = peso,
-                goles = goles ?: 0,
-                partidosJugados = partidos ?: 0,
-                rutaImagen = rutaImagen // Añadir la ruta de imagen
-            )
-            guardarPlantillaEnH2(nuevoJugador)
-            statusLabel.text = "Jugador guardado correctamente."
-        } else if (rolSeleccionado == "Entrenador") {
-            val nuevoEntrenador = Entrenador(
-                nombre = nombre,
-                apellidos = apellidos,
-                fechaNacimiento = fechaNacimiento?.toString() ?: "",
-                fechaIncorporacion = fechaIncorporacion?.toString() ?: "",
-                salario = salario,
-                pais = pais,
-                especialidad = especialidadSeleccionada,
-                rutaImagen = rutaImagen // Añadir la ruta de imagen
-            )
-            guardarPlantillaEnH2(nuevoEntrenador)
-            statusLabel.text = "Entrenador guardado correctamente."
-        } else {
-            statusLabel.text = "Selecciona un rol válido."
-            return
+        when (rolSeleccionado) {
+            "Jugador" -> {
+                val nuevoJugador = Jugador(
+                    nombre = nombre,
+                    apellidos = apellidos,
+                    fechaNacimiento = fechaNacimiento?.toString() ?: "",
+                    fechaIncorporacion = fechaIncorporacion?.toString() ?: "",
+                    salario = salario,
+                    pais = pais,
+                    posicion = posicionSeleccionada,
+                    dorsal = dorsal,
+                    altura = altura,
+                    peso = peso,
+                    goles = goles,
+                    partidosJugados = partidos,
+                    rutaImagen = rutaImagen
+                )
+                guardarPlantillaEnH2(nuevoJugador)
+                statusLabel.text = "Jugador guardado correctamente."
+            }
+            "Entrenador" -> {
+                val nuevoEntrenador = Entrenador(
+                    nombre = nombre,
+                    apellidos = apellidos,
+                    fechaNacimiento = fechaNacimiento?.toString() ?: "",
+                    fechaIncorporacion = fechaIncorporacion?.toString() ?: "",
+                    salario = salario,
+                    pais = pais,
+                    especialidad = especialidadSeleccionada,
+                    rutaImagen = rutaImagen
+                )
+                guardarPlantillaEnH2(nuevoEntrenador)
+                statusLabel.text = "Entrenador guardado correctamente."
+            }
+            else -> {
+                statusLabel.text = "Selecciona un rol válido."
+                return
+            }
         }
 
         cargarDatos()
+        limpiarCampos()
+    }
+
+    private fun limpiarCampos() {
+        nombreField.clear()
+        apellidosField.clear()
+        fechaNacimientoField.value = null
+        fechaIncorporacionField.value = null
+        salarioField.clear()
+        paisField.clear()
+        dorsalField.clear()
+        alturaField.clear()
+        pesoField.clear()
+        golesField.clear()
+        partidosField.clear()
+        rolComboBox.selectionModel.selectFirst()
+        posicionComboBox.selectionModel.selectFirst()
+        especialidadComboBox.selectionModel.selectFirst()
     }
 
     fun actualizarEstado(mensaje: String) {

@@ -56,6 +56,8 @@ data class  PersonalDto (
     @SerialName("goles")
     var goles: Int?,
     @SerialName("partidos_jugados")
-    var partidos_jugados: Int?
+    var partidos_jugados: Int?,
+    @SerialName("ruta_imagen")
+    var ruta_imagen: String?
 ) : java.io.Serializable
 //PARTE BUENA

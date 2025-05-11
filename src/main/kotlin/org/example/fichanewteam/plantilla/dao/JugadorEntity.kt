@@ -35,6 +35,7 @@ class JugadorEntity(
     var altura: Double?,
     var peso: Double?,
     var goles: Int,
-    var partidosJugados: Int
-) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol,)
+    var partidosJugados: Int,
+    rutaImagen: String
+) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)
 //PARTE BUENA

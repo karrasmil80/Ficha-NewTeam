@@ -48,6 +48,7 @@ class PersonalStorageCsv : PersonalStorage {
                     peso = it[12].toDoubleOrNull(),
                     goles = it[13].toIntOrNull(),
                     partidos_jugados = it[14].toIntOrNull(),
+                    ruta_imagen = it[15]
                 ).toModel()
             }
         return lista

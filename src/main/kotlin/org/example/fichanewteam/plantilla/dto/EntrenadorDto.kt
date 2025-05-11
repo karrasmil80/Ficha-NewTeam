@@ -33,5 +33,6 @@ class EntrenadorDto(
     val rol: String,
     @SerialName("especialidad")
     val especialidad: Entrenador.Especializacion,
+    var rutaImagen: String
 ) : java.io.Serializable
 //PARTE BUENA

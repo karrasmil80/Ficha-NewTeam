@@ -40,6 +40,7 @@ class JugadorDto(
     val altura: Double,
     val peso: Double,
     val goles: Int,
-    val partidosJugados: Int
+    val partidosJugados: Int,
+    var rutaImagen: String
 ) : java.io.Serializable
 //PARTE BUENA

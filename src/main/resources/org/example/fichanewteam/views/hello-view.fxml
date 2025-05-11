@@ -28,6 +28,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ToggleButton?>
 <BorderPane prefHeight="732.0" prefWidth="1171.0" stylesheets="@../styles/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fichanewteam.controllers.HelloController">
 
     <!-- Parte superior: Menú y barra de herramientas -->
@@ -61,22 +62,23 @@
                 </Menu>
             </MenuBar>
 
+            <!-- En la barra de herramientas -->
             <ToolBar>
-                <Button styleClass="tool-button" text="Nuevo">
+                <Button fx:id="nuevoButton" styleClass="tool-button" text="Nuevo">
                     <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0">
                             <Image url="@../icons/add_icon.png" />
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button styleClass="tool-button" text="Editar">
+                <Button fx:id="editarButton" styleClass="tool-button" text="Editar">
                     <graphic>
                         <ImageView fitHeight="27.0" fitWidth="27.0">
                             <Image url="@../icons/edit_icon.png" />
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button styleClass="tool-button" text="Eliminar">
+                <Button fx:id="eliminarButton" styleClass="tool-button" text="Eliminar">
                     <graphic>
                         <ImageView fitHeight="21.0" fitWidth="21.0">
                             <Image url="@../icons/delete_icon.png" />
@@ -84,14 +86,17 @@
                     </graphic>
                 </Button>
                 <Separator orientation="VERTICAL" />
-                <Button styleClass="tool-button" text="Importar">
+                <!-- Botón para cambiar entre modos -->
+                <ToggleButton fx:id="modoEdicionToggle" text="Cambiar a Modo Lectura" onAction="#cambiarModo" styleClass="tool-button" selected="true" />
+                <Separator orientation="VERTICAL" />
+                <Button fx:id="importarButton" styleClass="tool-button" text="Importar">
                     <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0">
                             <Image url="@../icons/import_icon.png" />
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button styleClass="tool-button" text="Exportar">
+                <Button fx:id="exportarButton" styleClass="tool-button" text="Exportar">
                     <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0">
                             <Image url="@../icons/export_icon.png" />
@@ -99,6 +104,7 @@
                     </graphic>
                 </Button>
             </ToolBar>
+
         </VBox>
     </top>
 
