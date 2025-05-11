@@ -28,6 +28,7 @@ module org.example.fichanewteam {
     //Dependencias para serializar un JSON
     requires kotlinx.serialization.json;
     requires kotlinx.serialization.core;
+    requires java.sql;
 
     opens org.example.fichanewteam to javafx.fxml;
     exports org.example.fichanewteam to javafx.fxml;
