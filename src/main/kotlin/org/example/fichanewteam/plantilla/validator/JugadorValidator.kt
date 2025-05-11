@@ -3,7 +3,7 @@ package org.example.fichanewteam.plantilla.validator
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
-import org.example.fichanewteam.models.Jugador
+import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.error.PlantillaError
 
 //PARTE BUENA

@@ -1,10 +1,10 @@
 package org.example.fichanewteam.plantilla.mapper
 
-import org.example.fichanewteam.models.Jugador
+import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.dto.JugadorDto
 import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
-import org.example.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Plantilla
 
 //PARTE BUENA
 fun Jugador.toDto(): PersonalDto {
@@ -24,6 +24,7 @@ fun Jugador.toDto(): PersonalDto {
         partidos_jugados = partidosJugados,
         rol = rol,
         especialidad = "", // No se aplica a jugadores
+        ruta_imagen = rutaImagen
     )
 }
 
@@ -61,7 +62,8 @@ fun Jugador.toEntity(): JugadorEntity {
         peso = this.peso,
         goles = this.goles,
         partidosJugados = this.partidosJugados,
-        rol = this.rol
+        rol = this.rol,
+        rutaImagen = this.rutaImagen
     )
 }
 
@@ -80,7 +82,8 @@ fun JugadorEntity.toModel(): Jugador {
         peso = this.peso,
         goles = this.goles,
         partidosJugados = this.partidosJugados,
-        rol = this.rol
+        rol = this.rol,
+        rutaImagen = this.rutaImagen
     )
 }
 
@@ -99,7 +102,8 @@ fun JugadorDto.toEntity(): JugadorEntity {
         peso = this.peso,
         goles = this.goles,
         partidosJugados = this.partidosJugados,
-        rol = this.rol
+        rol = this.rol,
+        rutaImagen = this.rutaImagen
     )
 }
 //PARTE BUENA

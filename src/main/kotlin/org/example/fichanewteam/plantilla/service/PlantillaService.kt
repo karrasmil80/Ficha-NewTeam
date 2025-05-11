@@ -1,7 +1,7 @@
 package org.example.fichanewteam.plantilla.service
 
 import org.example.fichanewteam.plantilla.error.PlantillaError
-import org.example.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Plantilla
 import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.storage.FileFormat
 import java.io.File

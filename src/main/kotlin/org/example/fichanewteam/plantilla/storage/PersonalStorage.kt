@@ -1,6 +1,6 @@
 package org.example.fichanewteam.plantilla.storage
 
-import org.example.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Plantilla
 import java.io.File
 //PARTE BUENA
 interface PersonalStorage {

@@ -4,7 +4,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.error.PlantillaError
-import org.example.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Entrenador
 
 //PARTE BUENA
 class EntrenadorValidator : Validator<Entrenador, PlantillaError> {

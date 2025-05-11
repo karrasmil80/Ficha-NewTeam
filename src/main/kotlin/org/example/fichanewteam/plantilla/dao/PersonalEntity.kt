@@ -21,5 +21,6 @@ open class PersonalEntity(
     var salario: Double?,
     var pais: String,
     val rol: String,
+    var rutaImagen: String
 )
 //PARTE BUENA
