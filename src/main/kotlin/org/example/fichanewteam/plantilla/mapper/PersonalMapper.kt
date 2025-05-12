@@ -4,10 +4,11 @@ import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.dao.PersonalEntity
-import org.example.models.Entrenador
-import org.example.fichanewteam.models.Jugador
-import org.example.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Jugador
+import org.example.fichanewteam.plantilla.models.Plantilla
 
+//PARTE BUENA
 fun PersonalDto.toJugador(): Jugador {
     return Jugador(
         id = this.id,
@@ -38,7 +39,8 @@ fun PersonalDto.toEntrenador(): Entrenador {
         salario = this.salario,
         pais = this.pais,
         rol = this.rol,
-        especialidad = Entrenador.Especializacion.valueOf(especialidad!!).toString() // Convierte la especialidad a enum
+        especialidad = Entrenador.Especializacion.valueOf(especialidad!!).toString(), // Convierte la especialidad a enum
+        rutaImagen = this.ruta_imagen ?: ""
     )
 }
 
@@ -60,6 +62,7 @@ fun PersonalDto.toModel(): Plantilla {
             goles = goles!!, // Asume que no es nulo para jugadores
             partidosJugados = this.partidos_jugados!!, // Asume que no es nulo para jugadores
             rol = this.rol,
+            rutaImagen = this.ruta_imagen ?: ""
         )
     } else {
         Entrenador(
@@ -71,7 +74,8 @@ fun PersonalDto.toModel(): Plantilla {
             salario = salario,
             pais = pais,
             especialidad = Entrenador.Especializacion.valueOf(especialidad!!).toString(), // Convierte la especialidad a enum
-            rol = this.rol
+            rol = this.rol,
+            rutaImagen = this.ruta_imagen ?: ""
         )
     }
 }
@@ -94,7 +98,8 @@ fun Plantilla.toEntity(): PersonalEntity {
             altura = jugador.altura!!,
             peso = jugador.peso!!,
             goles = jugador.goles!!,
-            partidosJugados = jugador.partidosJugados!!
+            partidosJugados = jugador.partidosJugados!!,
+            rutaImagen = jugador.rutaImagen
         )
     } else {
 
@@ -109,6 +114,7 @@ fun Plantilla.toEntity(): PersonalEntity {
             pais = entrenador.pais,
             rol = entrenador.rol,
             especialidad = Entrenador.Especializacion.valueOf(this.especialidad),
+            rutaImagen = entrenador.rutaImagen
         )
 
 
@@ -146,6 +152,7 @@ fun PersonalEntity.toEntrenador(): Entrenador {
         pais = pais,
         rol = this.rol,
         especialidad = Entrenador.Especializacion.valueOf(especialidad!!.toString()).toString(),
+        rutaImagen = entrenador.rutaImagen
     )
 }
 
@@ -179,8 +186,10 @@ fun PersonalEntity.toModel() : Plantilla {
             salario = this.salario,
             pais = this.pais,
             rol = this.rol,
-            especialidad = Entrenador.Especializacion.valueOf(especialidad!!.toString()).toString()
+            especialidad = Entrenador.Especializacion.valueOf(especialidad!!.toString()).toString(),
+            rutaImagen = entrenador.rutaImagen
         )
 
     }
 }
+//PARTE BUENA

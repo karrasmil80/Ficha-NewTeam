@@ -3,16 +3,16 @@ package org.example.fichanewteam.plantilla.storage
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.example.fichanewteam.models.Jugador
+import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.mapper.toDto
 import org.example.fichanewteam.plantilla.mapper.toEntrenador
 import org.example.fichanewteam.plantilla.mapper.toJugador
-import org.example.models.Entrenador
-import org.example.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
-
+//PARTE BUENA
 class PersonalStorageJson : PersonalStorage {
     private val logger = logging()
 
@@ -60,3 +60,4 @@ class PersonalStorageJson : PersonalStorage {
         }
     }
 }
+//PARTE BUENA

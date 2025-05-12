@@ -2,7 +2,7 @@
 package org.example.fichanewteam.plantilla.dto
 
 import kotlinx.serialization.Serializable
-import org.example.fichanewteam.models.Jugador
+import org.example.fichanewteam.plantilla.models.Jugador
 
 /**
  * Clase que representa la transferencia de datos (DTO) de un jugador.
@@ -23,6 +23,8 @@ import org.example.fichanewteam.models.Jugador
  * @param goles Número de goles anotados por el jugador.
  * @param partidosJugados Número de partidos jugados por el jugador.
  */
+
+//PARTE BUENA
 @Serializable
 class JugadorDto(
     val id: Long,
@@ -38,5 +40,7 @@ class JugadorDto(
     val altura: Double,
     val peso: Double,
     val goles: Int,
-    val partidosJugados: Int
+    val partidosJugados: Int,
+    var rutaImagen: String
 ) : java.io.Serializable
+//PARTE BUENA

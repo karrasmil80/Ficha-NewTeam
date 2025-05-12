@@ -24,6 +24,7 @@ import kotlinx.serialization.Serializable
  * @param partidos_jugados Número de partidos jugados por el jugador (si se da, puede ser null).
  */
 
+//PARTE BUENA
 @Serializable
 data class  PersonalDto (
     @SerialName("id")
@@ -55,5 +56,8 @@ data class  PersonalDto (
     @SerialName("goles")
     var goles: Int?,
     @SerialName("partidos_jugados")
-    var partidos_jugados: Int?
+    var partidos_jugados: Int?,
+    @SerialName("ruta_imagen")
+    var ruta_imagen: String?
 ) : java.io.Serializable
+//PARTE BUENA

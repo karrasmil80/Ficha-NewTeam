@@ -49,5 +49,5 @@
         </VBox>
     </HBox>
 
-    <Button onAction="#handleClose" prefHeight="39.0" prefWidth="78.0" styleClass="primary-button" text="Cerrar" />
+    <!-- <Button onAction="#handleClose" prefHeight="39.0" prefWidth="78.0" styleClass="primary-button" text="Cerrar" /> -->
 </VBox>

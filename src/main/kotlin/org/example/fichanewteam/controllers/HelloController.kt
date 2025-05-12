@@ -1,51 +1,59 @@
 package org.example.fichanewteam.controllers
-/*
-import javafx.application.Platform
-import javafx.event.ActionEvent
-import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
-import javafx.geometry.Insets
-import javafx.scene.Node
-import javafx.scene.Parent
-import javafx.scene.Scene
-import javafx.scene.control.Alert
-import javafx.scene.control.ButtonType
-import javafx.scene.control.ComboBox
-import javafx.scene.control.DatePicker
-import javafx.scene.control.Dialog
-import javafx.scene.control.Label
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.TextField
-import javafx.scene.image.ImageView
-import javafx.scene.layout.GridPane
-import javafx.stage.Modality
-import javafx.stage.Stage
-import org.example.models.Entrenador
-import org.example.fichanewteam.models.Jugador
-import java.sql.DriverManager
-import java.sql.Statement
 
+import javafx.application.Platform
+import javafx.collections.FXCollections
+import javafx.fxml.FXML
+import javafx.scene.control.*
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Jugador
+import org.example.fichanewteam.plantilla.models.Plantilla
+
+import java.sql.DriverManager
+import java.sql.PreparedStatement
 
 class HelloController {
+
     // Elementos de la interfaz para vincular con fx:id en el FXML
+    @FXML
+    private lateinit var modoEdicionToggle: ToggleButton
+
+    private var modoEdicion = true
+
+    @FXML
+    private lateinit var nuevoButton: Button
+
+    @FXML
+    private lateinit var editarButton: Button
+
+    @FXML
+    private lateinit var eliminarButton: Button
+
+    @FXML
+    private lateinit var exportarButton: Button
+
+    @FXML
+    private lateinit var importarButton: Button
+
     @FXML
     private lateinit var welcomeText: Label
 
     @FXML
-    private lateinit var plantillaTable: TableView<Any>
+    private lateinit var plantillaTable: TableView<Plantilla>
 
     @FXML
-    private lateinit var idColumn: TableColumn<Any, Any>
+    private lateinit var idColumn: TableColumn<Plantilla, Long>
 
     @FXML
-    private lateinit var nombreColumn: TableColumn<Any, String>
+    private lateinit var nombreColumn: TableColumn<Plantilla, String>
 
     @FXML
-    private lateinit var apellidosColumn: TableColumn<Any, String>
+    private lateinit var apellidosColumn: TableColumn<Plantilla, String>
 
     @FXML
-    private lateinit var rolColumn: TableColumn<Any, String>
+    private lateinit var rolColumn: TableColumn<Plantilla, String>
 
     @FXML
     private lateinit var nombreField: TextField
@@ -95,283 +103,414 @@ class HelloController {
     @FXML
     private lateinit var photoImageView: ImageView
 
+    @FXML
+    private lateinit var nombreCompletoLabel: Label
+
+    @FXML
+    private lateinit var rolPosicionLabel: Label
+
+    @FXML
+    private lateinit var paisLabel: Label
+
+    @FXML
+    private lateinit var incorporacionLabel: Label
+
+    @FXML
+    private lateinit var edadLabel: Label
 
     @FXML
     private fun initialize() {
         // Código de inicialización
         welcomeText.text = "Bienvenido a New Team App"
-    }
 
-    // AcercaDe
-    @FXML
-    private fun handleAbout(event: ActionEvent) {
-        try {
-            // Cargar el archivo FXML de Acerca De
-            val loader = FXMLLoader(javaClass.getResource("/views/acerca-de-view.fxml"))
-            val root = loader.load<Parent>()
+        // Configurar el estado inicial del toggle y los botones
+        modoEdicionToggle.isSelected = modoEdicion
+        modoEdicionToggle.text = "Cambiar a Modo Lectura"
+        actualizarEstadoBotones(modoEdicion)
 
-            // Crear una nueva escena
-            val scene = Scene(root)
+        // Configurar las columnas de la tabla
+        idColumn.cellValueFactory = PropertyValueFactory("id")
+        nombreColumn.cellValueFactory = PropertyValueFactory("nombre")
+        apellidosColumn.cellValueFactory = PropertyValueFactory("apellidos")
+        rolColumn.cellValueFactory = PropertyValueFactory("rol")
 
-            // Crear un nuevo stage (ventana)
-            val aboutStage = Stage()
-            aboutStage.title = "Acerca De"
-            aboutStage.scene = scene
+        // Configurar ComboBoxes
+        rolComboBox.items = FXCollections.observableArrayList("Jugador", "Entrenador")
+        rolComboBox.selectionModel.selectFirst() // Primera por defecto
 
-            // Obtener la ventana principal (stage actual)
-            val mainStage = (event.source as Node).scene.window as Stage
+        val posiciones = listOf("DEFENSA", "CENTROCAMPISTA", "DELANTERO", "PORTERO", "NINGUNO")
+        posicionComboBox.items = FXCollections.observableArrayList(posiciones)
+        posicionComboBox.selectionModel.selectFirst() // Primera por defecto
 
-            // Configurar la modalidad para bloquear la ventana principal
-            aboutStage.initOwner(mainStage)
-            aboutStage.initModality(Modality.WINDOW_MODAL)
+        val especialidades = listOf("ENTRENADOR_PRINCIPAL", "ENTRENADOR_ASISTENTE", "ENTRENADOR_PORTEROS")
+        especialidadComboBox.items = FXCollections.observableArrayList(especialidades)
+        especialidadComboBox.selectionModel.selectFirst() // Primera por defecto
 
-            // Mostrar la ventana y esperar hasta que se cierre
-            aboutStage.showAndWait()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
+        // Cargar imagen por defecto
+        val imageUrl = javaClass.getResource("/images/default_profile.png")?.toExternalForm()
+        if (imageUrl != null) {
+            photoImageView.image = Image(imageUrl)
         }
+
+        // Listener para la selección de la tabla
+        plantillaTable.selectionModel.selectedItemProperty().addListener { _, _, newSelection ->
+            if (newSelection != null) {
+                mostrarDetallesPersona(newSelection)
+            }
+        }
+
+        cargarDatos()
     }
 
-    // Manejador para el botón "Salir" del menú
     @FXML
-    private fun handleSalir() {
-        // Cerrar la aplicación
+    fun cambiarModo() {
+        modoEdicion = modoEdicionToggle.isSelected
+
+        // Actualizar texto del botón según el modo
+        if (modoEdicion) {
+            modoEdicionToggle.text = "Cambiar a Modo Lectura"
+            statusLabel.text = "Modo edición activado"
+        } else {
+            modoEdicionToggle.text = "Cambiar a Modo Edición"
+            statusLabel.text = "Modo solo lectura activado"
+        }
+
+        // Actualizar estado de los campos y botones
+        actualizarEstadoCampos(modoEdicion)
+        actualizarEstadoBotones(modoEdicion)
+    }
+
+    private fun actualizarEstadoBotones(editable: Boolean) {
+        // Habilitar/deshabilitar botones de edición
+        nuevoButton.isDisable = !editable
+        editarButton.isDisable = !editable
+        eliminarButton.isDisable = !editable
+
+        // Los botones de importar/exportar siempre están disponibles
+        importarButton.isDisable = false
+        exportarButton.isDisable = false
+    }
+
+    private fun actualizarEstadoCampos(editable: Boolean) {
+        // Campos de texto
+        nombreField.isEditable = editable
+        apellidosField.isEditable = editable
+        salarioField.isEditable = editable
+        paisField.isEditable = editable
+        dorsalField.isEditable = editable
+        alturaField.isEditable = editable
+        pesoField.isEditable = editable
+        golesField.isEditable = editable
+        partidosField.isEditable = editable
+
+        // Para que los campos no editables se vean normales (no grisados)
+        val estilo = if (!editable) "-fx-opacity: 1.0" else ""
+        nombreField.style = estilo
+        apellidosField.style = estilo
+        salarioField.style = estilo
+        paisField.style = estilo
+        dorsalField.style = estilo
+        alturaField.style = estilo
+        pesoField.style = estilo
+        golesField.style = estilo
+        partidosField.style = estilo
+
+        // DatePickers
+        fechaNacimientoField.isEditable = editable
+        fechaIncorporacionField.isEditable = editable
+
+        // ComboBoxes
+        rolComboBox.isDisable = !editable
+        posicionComboBox.isDisable = !editable
+        especialidadComboBox.isDisable = !editable
+    }
+
+    companion object {
+        private const val H2_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
+        private const val H2_USER = "sa"
+        private const val H2_PASS = ""
+    }
+
+    @FXML
+    fun handleExit() {
         Platform.exit()
     }
 
-    // Otros métodos para manejar eventos de la interfaz
     @FXML
-    private fun handleAnyadirPersona() {
-        try {
-            //Crear una ventana de diálogo para meter los datos
-            val dialog = Dialog<Boolean>()
-            dialog.title = "Añadir Persona"
-            dialog.headerText = "Ingresa los datos de la nueva persona"
+    fun handleAbout() {
+        val alert = Alert(Alert.AlertType.INFORMATION)
+        alert.title = "Acerca de"
+        alert.headerText = "New Team App"
+        alert.contentText = "Aplicación de gestión de plantilla de equipo.\nDesarrollada en Kotlin y JavaFX.\nCurso DAW 2024/2025."
+        alert.showAndWait()
+    }
 
-            // Configurar botones
-            dialog.dialogPane.buttonTypes.addAll(ButtonType.OK, ButtonType.CANCEL)
+    private fun cargarDatos() {
+        val lista = obtenerPlantillaDesdeH2()
+        plantillaTable.items = FXCollections.observableArrayList(lista)
+    }
 
-            // Crear formulario
-            val grid = GridPane()
-            grid.hgap = 10.0
-            grid.vgap = 10.0
-            grid.padding = Insets(20.0, 150.0, 10.0, 10.0)
+    private fun obtenerPlantillaDesdeH2(): List<Plantilla> {
+        val lista = mutableListOf<Plantilla>()
+        val connection = DriverManager.getConnection(H2_URL, H2_USER, H2_PASS)
 
-            nombreField.promptText = "Nombre"
-            apellidosField.promptText = "Apellidos"
-            rolComboBox.items.addAll("Jugador", "Entrenador")
-            rolComboBox.selectionModel.selectFirst()
+        // Consulta para jugadores
+        val rsJugadores = connection.createStatement().executeQuery("SELECT * FROM jugadores JOIN plantilla ON jugadores.id = plantilla.id")
+        while (rsJugadores.next()) {
+            lista.add(
+                Jugador(
+                    id = rsJugadores.getLong("id"),
+                    nombre = rsJugadores.getString("nombre"),
+                    apellidos = rsJugadores.getString("apellidos"),
+                    fechaNacimiento = rsJugadores.getString("fecha_nacimiento"),
+                    fechaIncorporacion = rsJugadores.getString("fecha_incorporacion"),
+                    salario = rsJugadores.getDouble("salario"),
+                    pais = rsJugadores.getString("pais"),
+                    rol = rsJugadores.getString("rol"),
+                    posicion = rsJugadores.getString("posicion"),
+                    dorsal = rsJugadores.getInt("dorsal"),
+                    altura = rsJugadores.getDouble("altura"),
+                    peso = rsJugadores.getDouble("peso"),
+                    goles = rsJugadores.getInt("goles"),
+                    partidosJugados = rsJugadores.getInt("partidos_jugados"),
+                    rutaImagen = rsJugadores.getString("ruta_imagen")
+                )
+            )
+        }
+        rsJugadores.close()
 
-            grid.add(Label("Nombre:"), 0, 0)
-            grid.add(nombreField, 1, 0)
-            grid.add(Label("Apellidos:"), 0, 1)
-            grid.add(apellidosField, 1, 1)
-            grid.add(Label("Rol:"), 0, 2)
-            grid.add(rolComboBox, 1, 2)
+        // Consulta para entrenadores
+        val rsEntrenadores = connection.createStatement().executeQuery("SELECT * FROM entrenadores JOIN plantilla ON entrenadores.id = plantilla.id")
+        while (rsEntrenadores.next()) {
+            lista.add(
+                Entrenador(
+                    id = rsEntrenadores.getLong("id"),
+                    nombre = rsEntrenadores.getString("nombre"),
+                    apellidos = rsEntrenadores.getString("apellidos"),
+                    fechaNacimiento = rsEntrenadores.getString("fecha_nacimiento"),
+                    fechaIncorporacion = rsEntrenadores.getString("fecha_incorporacion"),
+                    salario = rsEntrenadores.getDouble("salario"),
+                    pais = rsEntrenadores.getString("pais"),
+                    rol = rsEntrenadores.getString("rol"),
+                    especialidad = rsEntrenadores.getString("especialidad"),
+                    rutaImagen = rsEntrenadores.getString("ruta_imagen")
+                )
+            )
+        }
+        rsEntrenadores.close()
+        connection.close()
+        return lista
+    }
 
-            dialog.dialogPane.content = grid
+    private fun guardarPlantillaEnH2(plantilla: Plantilla) {
+        val connection = DriverManager.getConnection(H2_URL, H2_USER, H2_PASS)
 
-            // Dar foco al campo nombre
-            Platform.runLater { nombreField.requestFocus() }
+        // 1. Insertar en la tabla personal (común)
+        val stmtPersonal: PreparedStatement = connection.prepareStatement(
+            "INSERT INTO plantilla (nombre, apellidos, fecha_nacimiento, fecha_incorporacion, salario, pais, rol, ruta_imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            PreparedStatement.RETURN_GENERATED_KEYS
+        )
+        stmtPersonal.setString(1, plantilla.nombre)
+        stmtPersonal.setString(2, plantilla.apellidos)
+        stmtPersonal.setString(3, plantilla.fechaNacimiento)
+        stmtPersonal.setString(4, plantilla.fechaIncorporacion)
+        stmtPersonal.setDouble(5, plantilla.salario ?: 0.0)
+        stmtPersonal.setString(6, plantilla.pais)
+        stmtPersonal.setString(7, plantilla.rol)
+        stmtPersonal.setString(8, plantilla.rutaImagen)
 
-            // Convertir el resultado
-            dialog.setResultConverter { buttonType ->
-                if (buttonType == ButtonType.OK) {
-                    // Validar que los campos no estén vacíos
-                    if (nombreField.text.isNotEmpty() && apellidosField.text.isNotEmpty()) {
-                        // Crear la nueva persona según el rol seleccionado
-                        val nuevaPersona = when (rolComboBox.value) {
-                            "Jugador" -> {
-                                // Valores por defecto para campos numéricos
-                                val dorsal = try {
-                                    dorsalField.text.toInt()
-                                } catch (e: Exception) {
-                                    0
-                                }
-                                val altura = try {
-                                    alturaField.text.toDouble()
-                                } catch (e: Exception) {
-                                    0.0
-                                }
-                                val peso = try {
-                                    pesoField.text.toDouble()
-                                } catch (e: Exception) {
-                                    0.0
-                                }
-                                val goles = try {
-                                    golesField.text.toInt()
-                                } catch (e: Exception) {
-                                    0
-                                }
-                                val partidos = try {
-                                    partidosField.text.toInt()
-                                } catch (e: Exception) {
-                                    0
-                                }
+        stmtPersonal.executeUpdate()
 
-                                Jugador(
-                                    id = 0,
-                                    rol = "Jugador",
-                                    nombre = nombreField.text,
-                                    apellidos = apellidosField.text,
-                                    fechaNacimiento = fechaNacimientoField.value.toString(),
-                                    fechaIncorporacion = fechaIncorporacionField.value.toString(),
-                                    salario = try {
-                                        salarioField.text.toDouble()
-                                    } catch (e: Exception) {
-                                        0.0
-                                    },
-                                    pais = paisField.text,
-                                    posicion = posicionComboBox.value,
-                                    dorsal = dorsal,
-                                    altura = altura,
-                                    peso = peso,
-                                    goles = goles,
-                                    partidosJugados = partidos
-                                )
-                            }
+        // Obtener el ID generado
+        val rs = stmtPersonal.generatedKeys
+        var personaId: Long = 0
+        if (rs.next()) {
+            personaId = rs.getLong(1)
+        }
+        rs.close()
+        stmtPersonal.close()
 
-                            "Entrenador" -> {
-                                Entrenador(
-                                    id = 0,
-                                    rol = "Entrenador",
-                                    nombre = nombreField.text,
-                                    apellidos = apellidosField.text,
-                                    fechaNacimiento = fechaNacimientoField.value.toString(),
-                                    fechaIncorporacion = fechaIncorporacionField.value.toString(),
-                                    salario = try {
-                                        salarioField.text.toDouble()
-                                    } catch (e: Exception) {
-                                        0.0
-                                    },
-                                    pais = paisField.text,
-                                    especialidad = especialidadComboBox.value
-                                )
-                            }
-
-                            else -> null
-                        }
-
-                        // Guardar la persona en la base de datos
-                        if (nuevaPersona != null) {
-                            try {
-                                // Establecer conexión con la base de datos
-                                val connection = DriverManager.getConnection("jdbc:h2:mem:newteamh2", "root", "")
-
-                                // Primero insertamos en la tabla plantilla
-                                val stmtPlantilla = connection.prepareStatement(
-                                    "INSERT INTO plantilla (nombre, apellidos, fecha_nacimiento, fecha_incorporacion, salario, pais, rol) " +
-                                            "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
-                                )
-
-                                stmtPlantilla.setString(1, nuevaPersona.nombre)
-                                stmtPlantilla.setString(2, nuevaPersona.apellidos)
-                                stmtPlantilla.setDate(3, Date.valueOf(nuevaPersona.fechaNacimiento))
-                                stmtPlantilla.setDate(4, Date.valueOf(nuevaPersona.fechaIncorporacion))
-                                stmtPlantilla.setDouble(5, nuevaPersona.salario!!.toDouble())
-                                stmtPlantilla.setString(6, nuevaPersona.pais)
-
-                                // Determinar el rol según el tipo de objeto
-                                when (nuevaPersona) {
-                                    is Jugador -> stmtPlantilla.setString(7, "Jugador")
-                                    is Entrenador -> stmtPlantilla.setString(7, "Entrenador")
-                                    else -> throw Exception("Tipo de plantilla no reconocido")
-                                }
-
-                                // Ejecutar la inserción en la tabla plantilla
-                                stmtPlantilla.executeUpdate()
-
-                                // Obtener el ID generado
-                                val rs = stmtPlantilla.generatedKeys
-                                if (rs.next()) {
-                                    val personaId = rs.getLong(1)
-
-                                    // Ahora insertamos en la tabla específica según el tipo
-                                    when (nuevaPersona) {
-                                        is Jugador -> {
-                                            val stmtJugador = connection.prepareStatement(
-                                                "INSERT INTO jugadores (id, posicion, dorsal, altura, peso, goles, partidos_jugados) " +
-                                                        "VALUES (?, ?, ?, ?, ?, ?, ?)"
-                                            )
-                                            stmtJugador.setLong(1, personaId)
-                                            stmtJugador.setString(2, nuevaPersona.posicion ?: "")
-                                            stmtJugador.setInt(3, nuevaPersona.dorsal ?: 0)  // Usa 0 como valor por defecto
-                                            stmtJugador.setDouble(4, nuevaPersona.altura ?: 0.0)  // Usa 0.0 como valor por defecto
-                                            stmtJugador.setDouble(5, nuevaPersona.peso ?: 0.0)  // Usa 0.0 como valor por defecto
-                                            stmtJugador.setInt(6, nuevaPersona.goles ?: 0)
-                                            stmtJugador.setInt(7, nuevaPersona.partidosJugados ?: 0)
-                                            stmtJugador.executeUpdate()
-                                            stmtJugador.close()
-                                        }
-
-                                        is Entrenador -> {
-                                            val stmtEntrenador = connection.prepareStatement(
-                                                "INSERT INTO entrenadores (id, especialidad) VALUES (?, ?)"
-                                            )
-                                            stmtEntrenador.setLong(1, personaId)
-                                            stmtEntrenador.setString(2, nuevaPersona.especialidad)
-                                            stmtEntrenador.executeUpdate()
-                                            stmtEntrenador.close()
-                                        }
-                                    }
-                                }
-
-                                // Cerrar recursos
-                                rs.close()
-                                stmtPlantilla.close()
-                                connection.close()
-
-                                // Añadir la persona a la TableView
-                                plantillaTable.items.add(nuevaPersona)
-
-                                // Mostrar mensaje de éxito
-                                val alert = Alert(Alert.AlertType.INFORMATION)
-                                alert.title = "Persona añadida"
-                                alert.headerText = null
-                                alert.contentText = "La persona ha sido añadida correctamente a la base de datos."
-                                alert.showAndWait()
-
-                                return@setResultConverter true
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-
-                                // Mostrar mensaje de error
-                                val alert = Alert(Alert.AlertType.ERROR)
-                                alert.title = "Error"
-                                alert.headerText = null
-                                alert.contentText = "Error al guardar la persona en la base de datos: ${e.message}"
-                                alert.showAndWait()
-
-                                return@setResultConverter false
-                            }
-                        }
-                    }
-                }
-                null
+        // 2. Insertar en la tabla específica según el tipo
+        when (plantilla) {
+            is Jugador -> {
+                val stmtJugador = connection.prepareStatement(
+                    "INSERT INTO jugadores (id, posicion, dorsal, altura, peso, goles, partidos_jugados) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                )
+                stmtJugador.setLong(1, personaId)
+                stmtJugador.setString(2, plantilla.posicion ?: "")
+                stmtJugador.setInt(3, plantilla.dorsal ?: 0)
+                stmtJugador.setDouble(4, plantilla.altura ?: 0.0)
+                stmtJugador.setDouble(5, plantilla.peso ?: 0.0)
+                stmtJugador.setInt(6, plantilla.goles)
+                stmtJugador.setInt(7, plantilla.partidosJugados)
+                stmtJugador.executeUpdate()
+                stmtJugador.close()
             }
-            // Mostrar diálogo y esperar al resultado
-            dialog.showAndWait()
-        } catch (e: Exception) {
-            e.printStackTrace()
+            is Entrenador -> {
+                val stmtEntrenador = connection.prepareStatement(
+                    "INSERT INTO entrenadores (id, especialidad) VALUES (?, ?)"
+                )
+                stmtEntrenador.setLong(1, personaId)
+                stmtEntrenador.setString(2, plantilla.especialidad)
+                stmtEntrenador.executeUpdate()
+                stmtEntrenador.close()
+            }
+        }
 
-            // Mostrar mensaje de error
-            val alert = Alert(Alert.AlertType.ERROR)
-            alert.title = "Error"
-            alert.headerText = null
-            alert.contentText = "Ha ocurrido un error al añadir la persona: ${e.message}"
-            alert.showAndWait()
+        connection.close()
+    }
+
+    private fun mostrarDetallesPersona(persona: Plantilla) {
+        // Actualizar nombre completo
+        nombreCompletoLabel.text = "${persona.nombre} ${persona.apellidos}"
+
+        // Actualizar rol/posición
+        when (persona) {
+            is Jugador -> {
+                rolPosicionLabel.text = "${persona.rol} / ${persona.posicion ?: "N/A"}"
+            }
+            is Entrenador -> {
+                rolPosicionLabel.text = "${persona.rol} / ${persona.especialidad}"
+            }
+            else -> {
+                rolPosicionLabel.text = persona.rol
+            }
+        }
+
+        // Actualizar país, edad, etc.
+        paisLabel.text = persona.pais
+        try {
+            // Asumimos que la fecha viene en formato 'YYYY-MM-DD'
+            val partesFecha = persona.fechaNacimiento.split("-")
+            if (partesFecha.size == 3) {
+                val anioNacimiento = partesFecha[0].toInt()
+                val mesNacimiento = partesFecha[1].toInt()
+                val diaNacimiento = partesFecha[2].toInt()
+
+                val hoy = java.time.LocalDate.now()
+                var edad = hoy.year - anioNacimiento
+
+                // Ajustar si todavía no ha cumplido años este año
+                if (hoy.monthValue < mesNacimiento ||
+                    (hoy.monthValue == mesNacimiento && hoy.dayOfMonth < diaNacimiento)) {
+                    edad--
+                }
+
+                edadLabel.text = "$edad años"
+            } else {
+                edadLabel.text = "Edad desconocida"
+            }
+        } catch (e: Exception) {
+            edadLabel.text = "Edad desconocida"
+            println("Error al calcular la edad: ${e.message}")
+        }
+        incorporacionLabel.text = persona.fechaIncorporacion
+
+        // Cargar imagen específica para el jugador o entrenador
+        val imageUrl = if (persona.rutaImagen.isNotEmpty()) {
+            // Si tiene una ruta de imagen personalizada
+            javaClass.getResource(persona.rutaImagen)?.toExternalForm()
+        } else {
+            // Si no tiene imagen personalizada, usar una predeterminada según el tipo
+            when (persona) {
+                is Jugador -> "/images/jugadores/default_jugador.png"
+                is Entrenador -> "/images/entrenadores/default_entrenador.png"
+                else -> "/images/default_profile.png"
+            }
+        }
+
+        if (imageUrl != null) {
+            photoImageView.image = Image(imageUrl)
+        } else {
+            // Si no se encuentra la imagen, usar la predeterminada
+            val defaultImageUrl = javaClass.getResource("/images/default_profile.png")?.toExternalForm()
+            if (defaultImageUrl != null) {
+                photoImageView.image = Image(defaultImageUrl)
+            }
         }
     }
 
     @FXML
-    fun handleEditarPersona() {
-        // Código para editar una persona seleccionada
+    fun onGuardarClicked() {
+        val nombre = nombreField.text
+        val apellidos = apellidosField.text
+        val fechaNacimiento = fechaNacimientoField.value
+        val fechaIncorporacion = fechaIncorporacionField.value
+        val salario = salarioField.text.toDoubleOrNull()
+        val pais = paisField.text
+        val rolSeleccionado = rolComboBox.value
+        val posicionSeleccionada = posicionComboBox.value
+        val dorsal = dorsalField.text.toIntOrNull()
+        val altura = alturaField.text.toDoubleOrNull()
+        val peso = pesoField.text.toDoubleOrNull()
+        val goles = golesField.text.toIntOrNull() ?: 0
+        val partidos = partidosField.text.toIntOrNull() ?: 0
+        val especialidadSeleccionada = especialidadComboBox.value
+
+        val rutaImagen = "/images/${apellidos.lowercase()}.png"
+
+        when (rolSeleccionado) {
+            "Jugador" -> {
+                val nuevoJugador = Jugador(
+                    nombre = nombre,
+                    apellidos = apellidos,
+                    fechaNacimiento = fechaNacimiento?.toString() ?: "",
+                    fechaIncorporacion = fechaIncorporacion?.toString() ?: "",
+                    salario = salario,
+                    pais = pais,
+                    posicion = posicionSeleccionada,
+                    dorsal = dorsal,
+                    altura = altura,
+                    peso = peso,
+                    goles = goles,
+                    partidosJugados = partidos,
+                    rutaImagen = rutaImagen
+                )
+                guardarPlantillaEnH2(nuevoJugador)
+                statusLabel.text = "Jugador guardado correctamente."
+            }
+            "Entrenador" -> {
+                val nuevoEntrenador = Entrenador(
+                    nombre = nombre,
+                    apellidos = apellidos,
+                    fechaNacimiento = fechaNacimiento?.toString() ?: "",
+                    fechaIncorporacion = fechaIncorporacion?.toString() ?: "",
+                    salario = salario,
+                    pais = pais,
+                    especialidad = especialidadSeleccionada,
+                    rutaImagen = rutaImagen
+                )
+                guardarPlantillaEnH2(nuevoEntrenador)
+                statusLabel.text = "Entrenador guardado correctamente."
+            }
+            else -> {
+                statusLabel.text = "Selecciona un rol válido."
+                return
+            }
+        }
+
+        cargarDatos()
+        limpiarCampos()
     }
 
-    @FXML
-    fun handleBorrarPersona() {
-        // Código para eliminar una persona seleccionada
+    private fun limpiarCampos() {
+        nombreField.clear()
+        apellidosField.clear()
+        fechaNacimientoField.value = null
+        fechaIncorporacionField.value = null
+        salarioField.clear()
+        paisField.clear()
+        dorsalField.clear()
+        alturaField.clear()
+        pesoField.clear()
+        golesField.clear()
+        partidosField.clear()
+        rolComboBox.selectionModel.selectFirst()
+        posicionComboBox.selectionModel.selectFirst()
+        especialidadComboBox.selectionModel.selectFirst()
+    }
+
+    fun actualizarEstado(mensaje: String) {
+        statusLabel.text = mensaje
     }
 }
- */

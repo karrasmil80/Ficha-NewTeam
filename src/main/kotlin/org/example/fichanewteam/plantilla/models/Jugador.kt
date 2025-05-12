@@ -1,11 +1,11 @@
-
-package org.example.fichanewteam.models
+package org.example.fichanewteam.plantilla.models
 
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.example.models.Plantilla
 
+
+//PARTE BUENA
 /**
  * Clase que representa a un jugador del equipo.
  *
@@ -38,8 +38,9 @@ class Jugador(
     var altura: Double?,
     var peso: Double?,
     var goles: Int,
-    var partidosJugados: Int
-): Plantilla(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol) {
+    var partidosJugados: Int,
+    rutaImagen: String = ""
+): Plantilla(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen) {
 
     /**
      * Sobreescribe la cadena que se muestra al imprimir el modelo.
@@ -72,8 +73,9 @@ class Jugador(
         salario: Double,
         pais: String,
         rol: String,
+        rutaImagen: String
     ): Plantilla {
-        return Jugador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, posicion, dorsal, altura, peso, goles, partidosJugados)
+        return Jugador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, posicion, dorsal, altura, peso, goles, partidosJugados, rutaImagen)
     }
 
     /**
@@ -85,3 +87,4 @@ class Jugador(
         DEFENSA, CENTROCAMPISTA, DELANTERO, PORTERO, NINGUNO
     }
 }
+//PARTE BUENA
