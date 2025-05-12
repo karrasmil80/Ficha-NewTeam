@@ -1,15 +1,15 @@
 package org.example.fichanewteam.plantilla.mapper
 
-import org.example.fichanewteam.plantilla.dto.PersonalDto
+import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
-import org.example.fichanewteam.plantilla.dao.PersonalEntity
+import org.example.fichanewteam.plantilla.dao.PlantillaEntity
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
 
 //PARTE BUENA
-fun PersonalDto.toJugador(): Jugador {
+fun PlantillaDto.toJugador(): Jugador {
     return Jugador(
         id = this.id,
         nombre = this.nombre,
@@ -29,7 +29,7 @@ fun PersonalDto.toJugador(): Jugador {
 }
 
 //Funcion de extension para convertir un PersonalDto a Entrenador
-fun PersonalDto.toEntrenador(): Entrenador {
+fun PlantillaDto.toEntrenador(): Entrenador {
     return Entrenador(
         id = this.id,
         nombre = this.nombre,
@@ -45,7 +45,7 @@ fun PersonalDto.toEntrenador(): Entrenador {
 }
 
 //Funcion de extension que convierte un PersonalDto a Personla, eligiendo despues entre Jugaodr y Entrenador
-fun PersonalDto.toModel(): Plantilla {
+fun PlantillaDto.toModel(): Plantilla {
     return if (this.rol == "Jugador") {
         Jugador(
             id = id,
@@ -80,7 +80,7 @@ fun PersonalDto.toModel(): Plantilla {
     }
 }
 
-fun Plantilla.toEntity(): PersonalEntity {
+fun Plantilla.toEntity(): PlantillaEntity {
     if (rol == "jugador") {
         val jugador = this as Jugador
 
@@ -120,7 +120,7 @@ fun Plantilla.toEntity(): PersonalEntity {
 
     }
 }
-fun PersonalEntity.toJugador(): Jugador {
+fun PlantillaEntity.toJugador(): Jugador {
     val jugador = this as Jugador
     return Jugador(
         id = this.id,
@@ -140,7 +140,7 @@ fun PersonalEntity.toJugador(): Jugador {
     )
 }
 
-fun PersonalEntity.toEntrenador(): Entrenador {
+fun PlantillaEntity.toEntrenador(): Entrenador {
     val entrenador = this as Entrenador
     return Entrenador(
         id = this.id,
@@ -156,7 +156,7 @@ fun PersonalEntity.toEntrenador(): Entrenador {
     )
 }
 
-fun PersonalEntity.toModel() : Plantilla {
+fun PlantillaEntity.toModel() : Plantilla {
     return if (rol == "jugador"){
         val jugador = this as Jugador
         Jugador(

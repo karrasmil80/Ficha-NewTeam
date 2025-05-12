@@ -7,9 +7,9 @@ import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.example.fichanewteam.plantilla.storage.FileFormat
-import org.example.fichanewteam.plantilla.storage.PersonalStorage
-import org.example.fichanewteam.plantilla.storage.PersonalStorageCsv
-import org.example.fichanewteam.plantilla.storage.PersonalStorageJson
+import org.example.fichanewteam.plantilla.storage.PlantillaStorage
+import org.example.fichanewteam.plantilla.storage.PlantillaStorageCsv
+import org.example.fichanewteam.plantilla.storage.PlantillaStorageJson
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
@@ -17,9 +17,9 @@ import java.io.File
 //PARTE BUENA
 class PlantillaServiceImpl (
     val repository: PlantillaRepositoryImpl,
-    val storage : PersonalStorage,
-    val storageCsv: PersonalStorageCsv,
-    val storageJson: PersonalStorageJson,
+    val storage : PlantillaStorage,
+    val storageCsv: PlantillaStorageCsv,
+    val storageJson: PlantillaStorageJson,
     private val cache : Cache<Long, Plantilla>
 ) : PlantillaService {
 

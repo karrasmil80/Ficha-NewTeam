@@ -1,7 +1,7 @@
 package repository
 
 
-import org.example.fichanewteam.plantilla.dao.PersonalEntity
+import org.example.fichanewteam.plantilla.dao.PlantillaEntity
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -27,7 +27,7 @@ class RepositoryTestImplMockito {
     @Test
     @DisplayName("Debería devolver una lista con los miembros de la plantilla")
     fun findAllTest() {
-        val miembro = PersonalEntity(
+        val miembro = PlantillaEntity(
             id = 1L,
             nombre = "Pedro",
             apellidos = "Gonzalez",

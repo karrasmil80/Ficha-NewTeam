@@ -2,13 +2,13 @@ package org.example.fichanewteam.plantilla.mapper
 
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.dto.JugadorDto
-import org.example.fichanewteam.plantilla.dto.PersonalDto
+import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.models.Plantilla
 
 //PARTE BUENA
-fun Jugador.toDto(): PersonalDto {
-    return PersonalDto(
+fun Jugador.toDto(): PlantillaDto {
+    return PlantillaDto(
         id = id,
         nombre = nombre,
         apellidos = apellidos,

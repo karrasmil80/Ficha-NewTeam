@@ -27,5 +27,5 @@ class EntrenadorEntity(
     rol: String,
     var especialidad: Entrenador.Especializacion,
     rutaImagen: String
-) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)
+) : PlantillaEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)
 //PARTE BUENA
