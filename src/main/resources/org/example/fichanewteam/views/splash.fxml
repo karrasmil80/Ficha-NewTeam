@@ -19,11 +19,7 @@
                         <Font name="System Bold" size="36.0" />
                     </font>
                 </Label>
-                <Label text="Cargando..." textFill="WHITE">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
+            <ProgressBar prefHeight="18.0" prefWidth="270.0" progress="0.0" />
             </children>
         </VBox>
     </children>
