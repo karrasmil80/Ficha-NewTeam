@@ -37,5 +37,5 @@ class JugadorEntity(
     var goles: Int,
     var partidosJugados: Int,
     rutaImagen: String
-) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)
+) : PlantillaEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)
 //PARTE BUENA

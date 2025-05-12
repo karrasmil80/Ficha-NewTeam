@@ -26,7 +26,7 @@ import kotlinx.serialization.Serializable
 
 //PARTE BUENA
 @Serializable
-data class  PersonalDto (
+data class  PlantillaDto (
     @SerialName("id")
     var id: Long,
     @SerialName("nombre")
