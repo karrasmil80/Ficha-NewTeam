@@ -1,21 +1,19 @@
 package repository
 
+
 import org.example.fichanewteam.plantilla.dao.PersonalEntity
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
-import kotlin.test.Test
-import kotlin.test.*
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.assertAll
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.Mockito.atLeastOnce
 import org.mockito.junit.jupiter.MockitoExtension
-import org.mockito.kotlin.whenever
-import org.mockito.kotlin.verify
+import org.mockito.kotlin.*
+import kotlin.test.Test
+import kotlin.test.assertNotNull
+
 
 @ExtendWith(MockitoExtension::class)
 class RepositoryTestImplMockito {
@@ -43,16 +41,16 @@ class RepositoryTestImplMockito {
         whenever(dao.findAll()).thenReturn(listOf(miembro))
         val miembroLista = repository.findAll()
 
-        assertAll(
-            { assertNotNull(miembroLista) },
-            { assertEquals(1, miembroLista.size) },
-            { assertEquals("Pedro", miembroLista[0].nombre) },
-            { assertEquals("Gonzalez", miembroLista[0].apellidos) },
-            { assertEquals("1982-04-04", miembroLista[0].fechaNacimiento) },
-            { assertEquals("1990-04-04", miembroLista[0].fechaIncorporacion) },
-            { assertEquals(1000.0, miembroLista[0].salario) },
-            { assertEquals("España", miembroLista[0].pais) }
-        )
+        // Asserts individuales
+        assertNotNull(miembroLista, "La lista de miembros no debería ser nula")
+        assertEquals(1, miembroLista.size, "La lista debería contener exactamente un miembro")
+        assertEquals("Pedro", miembroLista[0].nombre, "El nombre del miembro debería ser 'Pedro'")
+        assertEquals("Gonzalez", miembroLista[0].apellidos, "Los apellidos del miembro deberían ser 'Gonzalez'")
+        assertEquals("1982-04-04", miembroLista[0].fechaNacimiento, "La fecha de nacimiento no coincide")
+        assertEquals("1990-04-04", miembroLista[0].fechaIncorporacion, "La fecha de incorporación no coincide")
+        assertEquals(1000.0, miembroLista[0].salario, "El salario no coincide")
+        assertEquals("España", miembroLista[0].pais, "El país no coincide")
+        assertEquals("Entrenador", miembroLista[0].rol, "El rol no coincide")
 
         verify(dao, atLeastOnce()).findAll()
     }

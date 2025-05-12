@@ -1,4 +1,4 @@
-package org.example.models
+package org.example.fichanewteam.plantilla.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -27,7 +27,8 @@ abstract class Plantilla(
     var fechaIncorporacion: String,
     var salario: Double?,
     var pais: String,
-    val rol: String
+    val rol: String,
+    var rutaImagen: String = ""
 ) {
 
     companion object{
@@ -56,7 +57,8 @@ abstract class Plantilla(
         fechaIncorporacion: String = this.fechaNacimiento,
         salario: Double = this.salario!!,
         pais: String = this.pais,
-        rol: String = this.rol
+        rol: String = this.rol,
+        rutaImagen: String = this.rutaImagen
     ): Plantilla
 
     /**

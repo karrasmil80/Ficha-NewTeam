@@ -10,7 +10,7 @@ import org.example.fichanewteam.plantilla.storage.FileFormat
 import org.example.fichanewteam.plantilla.storage.PersonalStorage
 import org.example.fichanewteam.plantilla.storage.PersonalStorageCsv
 import org.example.fichanewteam.plantilla.storage.PersonalStorageJson
-import org.example.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
 

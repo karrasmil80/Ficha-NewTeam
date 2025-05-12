@@ -1,10 +1,10 @@
 package org.example.fichanewteam.plantilla.storage
 
-import org.example.fichanewteam.models.Jugador
+import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.dto.PersonalDto
 import org.example.fichanewteam.plantilla.mapper.toModel
-import org.example.models.Entrenador
-import org.example.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
 //PARTE BUENA
@@ -48,6 +48,7 @@ class PersonalStorageCsv : PersonalStorage {
                     peso = it[12].toDoubleOrNull(),
                     goles = it[13].toIntOrNull(),
                     partidos_jugados = it[14].toIntOrNull(),
+                    ruta_imagen = it[15]
                 ).toModel()
             }
         return lista
