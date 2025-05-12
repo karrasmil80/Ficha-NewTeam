@@ -1,14 +1,14 @@
 package org.example.fichanewteam.plantilla.storage
 
 import org.example.fichanewteam.plantilla.models.Jugador
-import org.example.fichanewteam.plantilla.dto.PersonalDto
+import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
 //PARTE BUENA
-class PersonalStorageCsv : PersonalStorage {
+class PlantillaStorageCsv : PlantillaStorage {
     //Implementación del logger
     private val logger = logging()
     init {
@@ -32,7 +32,7 @@ class PersonalStorageCsv : PersonalStorage {
             .map { it.split(",") }
             .map { it.map { it.trim() } }
             .map{
-                PersonalDto(
+                PlantillaDto(
                     id = it[0].toLong(),
                     nombre = it[1],
                     apellidos = it[2],

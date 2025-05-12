@@ -1,10 +1,9 @@
 package org.example.fichanewteam.plantilla.storage
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.example.fichanewteam.plantilla.models.Jugador
-import org.example.fichanewteam.plantilla.dto.PersonalDto
+import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.mapper.toDto
 import org.example.fichanewteam.plantilla.mapper.toEntrenador
 import org.example.fichanewteam.plantilla.mapper.toJugador
@@ -13,7 +12,7 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
 //PARTE BUENA
-class PersonalStorageJson : PersonalStorage {
+class PlantillaStorageJson : PlantillaStorage {
     private val logger = logging()
 
     init {
@@ -29,9 +28,9 @@ class PersonalStorageJson : PersonalStorage {
         } else {
             val json = Json { ignoreUnknownKeys = true; prettyPrint = true }
             val imprimirJson = file.readText()
-            val listaPersonalDto = json.decodeFromString<List<PersonalDto>>(imprimirJson)
+            val listaPlantillaDto = json.decodeFromString<List<PlantillaDto>>(imprimirJson)
 
-            val listaPersonalModel = listaPersonalDto.map {
+            val listaPersonalModel = listaPlantillaDto.map {
                 when (it.rol) {
                     "Entrenador" -> it.toEntrenador()
                     else -> it.toJugador()
