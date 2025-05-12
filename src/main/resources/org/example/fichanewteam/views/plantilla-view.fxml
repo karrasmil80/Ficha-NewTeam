@@ -34,7 +34,7 @@
 
     <!-- Parte superior: Menú y barra de herramientas -->
     <top>
-        <VBox>
+        <VBox prefHeight="0.0" prefWidth="990.0">
             <MenuBar>
                 <Menu text="Archivo">
                     <MenuItem text="Nuevo" />
@@ -44,14 +44,12 @@
                     <MenuItem onAction="#handleExit" text="Salir" />
                 </Menu>
                 <Menu text="Editar">
-                    <MenuItem text="Cortar" />
                     <MenuItem text="Copiar" />
                     <MenuItem text="Pegar" />
                 </Menu>
                 <Menu text="Herramientas">
                     <MenuItem text="Importar" />
                     <MenuItem text="Exportar" />
-                    <MenuItem text="Preferencias" />
                 </Menu>
                 <Menu text="Ayuda">
                     <MenuItem onAction="#handleAbout" text="Acerca De" />
