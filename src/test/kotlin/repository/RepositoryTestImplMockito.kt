@@ -35,7 +35,8 @@ class RepositoryTestImplMockito {
             fechaIncorporacion = "1990-04-04",
             salario = 1000.00,
             pais = "España",
-            rol = "Entrenador"
+            rol = "Entrenador",
+            rutaImagen = TODO()
         )
 
         whenever(dao.findAll()).thenReturn(listOf(miembro))

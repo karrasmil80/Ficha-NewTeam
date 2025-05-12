@@ -15,7 +15,7 @@ class HelloApplication : Application() {
     private lateinit var mainStage: Stage
 
     override fun start(stage: Stage) {
-        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("hello-view.fxml"))
+        val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("plantilla-view.fxml"))
         val scene = Scene(fxmlLoader.load(), 320.0, 240.0)
         stage.title = "Hello!"
         stage.scene = scene
@@ -64,7 +64,7 @@ class HelloApplication : Application() {
     private fun mostrarVentanaPrincipal() {
         try {
             // Cargar la ventana principal
-            val mainLoader = FXMLLoader(HelloApplication::class.java.getResource("/hello-view.fxml"))
+            val mainLoader = FXMLLoader(HelloApplication::class.java.getResource("/plantilla-view.fxml"))
             val mainPane = mainLoader.load<javafx.scene.Parent>()
             val mainScene = Scene(mainPane)
 

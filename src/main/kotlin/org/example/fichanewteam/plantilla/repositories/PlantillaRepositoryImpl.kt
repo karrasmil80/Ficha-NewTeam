@@ -1,13 +1,14 @@
 package org.example.fichanewteam.plantilla.repositories
 
-import org.example.fichanewteam.models.Jugador
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.mapper.toEntity
 import org.example.fichanewteam.plantilla.mapper.toModel
-import org.example.models.Entrenador
-import org.example.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Jugador
+import org.example.fichanewteam.plantilla.models.Plantilla
+
 import org.lighthousegames.logging.logging
 
 //PARTE BUENA

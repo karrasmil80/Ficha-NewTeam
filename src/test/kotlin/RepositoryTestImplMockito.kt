@@ -39,7 +39,8 @@ class RepositoryTestImplMockito {
                 salario = 1000.00,
                 pais = "España",
                 rol = "Jugador",
-                especialidad = Entrenador.Especializacion.ENTRENADOR_PORTEROS.toString()
+                especialidad = Entrenador.Especializacion.ENTRENADOR_PORTEROS.toString(),
+                rutaImagen = TODO()
             )
 
             whenever(repository.findAll()).thenReturn(listOf(miembro))
