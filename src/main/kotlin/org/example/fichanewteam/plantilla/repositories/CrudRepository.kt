@@ -1,5 +1,7 @@
 package org.example.fichanewteam.plantilla.repositories
 
+import org.example.fichanewteam.plantilla.models.Plantilla
+
 
 //PARTE BUENA
 /**
@@ -50,8 +52,18 @@ interface CrudRepository<T, ID> {
      */
     fun delete(id: ID): T?
 
-    // --> save all
+    /**
+     * Función para guardar multiples objetos al mismo tiempo
+     *
+     * @param item entidad a guardar
+     * @return la lista de las entidades
+     */
+    fun saveAll(t: List<Plantilla>): List<Plantilla>
 
-    // --> delete all
+    /**
+     * Funcion que elimina toda informacion sobre una entidad
+     *
+     */
+    fun deleteAll()
 }
 //PARTE BUENA

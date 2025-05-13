@@ -12,7 +12,7 @@ package org.example.fichanewteam.plantilla.dao
  */
 
 //PARTE BUENA
-open class PersonalEntity(
+open class PlantillaEntity(
     val id: Long,
     var nombre: String,
     var apellidos: String,

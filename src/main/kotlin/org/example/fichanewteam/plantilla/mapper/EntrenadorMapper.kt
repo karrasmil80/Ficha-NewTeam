@@ -1,13 +1,13 @@
 package org.example.fichanewteam.plantilla.mapper
 
 import org.example.fichanewteam.plantilla.dto.EntrenadorDto
-import org.example.fichanewteam.plantilla.dto.PersonalDto
+import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.fichanewteam.plantilla.models.Entrenador
 
-//PARTE BUENA
-fun Entrenador.toDto(): PersonalDto {
-    return PersonalDto(
+//Funcion que convierte un modelo a dto
+fun Entrenador.toDto(): PlantillaDto {
+    return PlantillaDto(
         id = id,
         nombre = nombre,
         apellidos = apellidos,
@@ -27,6 +27,7 @@ fun Entrenador.toDto(): PersonalDto {
     )
 }
 
+//Funcion que convierte un dto a modelo
 fun EntrenadorDto.toModel(): Entrenador {
     return Entrenador(
         id = this.id,
@@ -42,6 +43,7 @@ fun EntrenadorDto.toModel(): Entrenador {
     )
 }
 
+//Función que convierte un modelo a entidad (Para el dao)
 fun Entrenador.toEntity(): EntrenadorEntity {
     return EntrenadorEntity(
         id = this.id,
@@ -57,6 +59,7 @@ fun Entrenador.toEntity(): EntrenadorEntity {
     )
 }
 
+//Función que convierte una entidad a modelo
 fun EntrenadorEntity.toModel(): Entrenador {
     return Entrenador(
         id = this.id,
@@ -72,6 +75,7 @@ fun EntrenadorEntity.toModel(): Entrenador {
     )
 }
 
+//Función que convierte un dto a modelo
 fun EntrenadorDto.toEntity(): EntrenadorEntity {
     return EntrenadorEntity(
         id = this.id,
@@ -86,4 +90,3 @@ fun EntrenadorDto.toEntity(): EntrenadorEntity {
         rutaImagen = this.rutaImagen
     )
 }
-//PARTE BUENA
