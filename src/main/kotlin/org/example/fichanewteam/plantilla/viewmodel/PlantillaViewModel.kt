@@ -8,6 +8,8 @@ import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
 import java.io.File
+import javafx.scene.image.Image
+
 
 
 class PlantillaViewModel(
@@ -44,7 +46,26 @@ class PlantillaViewModel(
     }
 
     fun savePlantillaToJson(file:File): Result<Long, PlantillaError> {
-        return storage.storage
+        return storage.storageDataJson(file, state.value.plantilla)
+    }
+
+    fun loadPlantillaJson(file: File, withImages: Boolean = false): Result<List<Plantilla>, PlantillaError> {
+        return storage.deleteAllImages().andThen {
+            storage.loadDataJson(file).onSuccess {
+                servicio.deleteAll()
+                servicio.saveAll(
+                    if (withImages)
+                        it
+                    else
+                        it.map{ a -> a.copy(id = Plantilla.NEW_ID, imagen = TipoImagen.SIN_IMAGEN.value) }
+                )
+                loadPlantilla()
+            }
+        }
+    }
+
+    fun updatePlantilla(plantilla: Plantilla) {
+        var imagen = Image(RoutesManager.getResourceAsStream)
     }
 
     enum class TipoFiltro(val value: String) {
