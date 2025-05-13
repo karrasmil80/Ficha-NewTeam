@@ -7,7 +7,7 @@ import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
-//PARTE BUENA
+
 class PlantillaStorageCsv : PlantillaStorage {
     //Implementación del logger
     private val logger = logging()
@@ -75,4 +75,3 @@ class PlantillaStorageCsv : PlantillaStorage {
         }
     }
 }
-//PARTE BUENA

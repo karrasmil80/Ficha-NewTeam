@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
-//PARTE BUENA
+
 /**
  * Clase abstracta que representa a una persona del equipo.
  * Esta clase se utiliza como base para definir jugadores y entrenadores.
@@ -72,4 +72,3 @@ abstract class Plantilla(
         NINGUNO
     }
 }
-//PARTE BUENA

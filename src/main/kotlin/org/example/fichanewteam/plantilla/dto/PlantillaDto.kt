@@ -24,7 +24,7 @@ import kotlinx.serialization.Serializable
  * @param partidos_jugados Número de partidos jugados por el jugador (si se da, puede ser null).
  */
 
-//PARTE BUENA
+
 @Serializable
 data class  PlantillaDto (
     @SerialName("id")
@@ -60,4 +60,3 @@ data class  PlantillaDto (
     @SerialName("ruta_imagen")
     var ruta_imagen: String?
 ) : java.io.Serializable
-//PARTE BUENA

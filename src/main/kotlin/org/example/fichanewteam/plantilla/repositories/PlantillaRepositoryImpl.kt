@@ -11,7 +11,6 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 
 import org.lighthousegames.logging.logging
 
-//PARTE BUENA
 class PlantillaRepositoryImpl (
     val dao : PlantillaDao
 ) : PlantillaRepository<Plantilla> {
@@ -89,4 +88,3 @@ class PlantillaRepositoryImpl (
     }
 
 }
-//PARTE BUENA

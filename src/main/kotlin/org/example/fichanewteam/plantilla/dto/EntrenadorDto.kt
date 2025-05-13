@@ -20,7 +20,7 @@ import org.example.fichanewteam.plantilla.models.Entrenador
  * @param especialidad Especialización del entrenador (principal, asistente, o entrenador de porteros).
  */
 
-//PARTE BUENA
+
 @Serializable
 class EntrenadorDto(
     val id: Long,
@@ -35,4 +35,3 @@ class EntrenadorDto(
     val especialidad: Entrenador.Especializacion,
     var rutaImagen: String
 ) : java.io.Serializable
-//PARTE BUENA

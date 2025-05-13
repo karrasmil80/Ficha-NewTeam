@@ -5,7 +5,7 @@ import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
 import java.io.File
 
-//PARTE BUENA
+
 interface PlantillaStorage {
     fun readFile(file: File, format: FileFormat): List<Plantilla>
     fun writeFile(file: File, format: FileFormat, personal: List<Plantilla>)
@@ -14,4 +14,3 @@ interface PlantillaStorage {
     fun loadDataJson(file: File): Result<Long, PlantillaError>
     fun loadImage(imagenName: String): Result<File, PlantillaError>
 }
-//PARTE BUENA
