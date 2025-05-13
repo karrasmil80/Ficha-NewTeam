@@ -28,7 +28,7 @@ abstract class Plantilla(
     var salario: Double?,
     var pais: String,
     val rol: String,
-    var rutaImagen: String = ""
+    var rutaImagen: String
 ) {
 
     companion object{
