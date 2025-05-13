@@ -6,7 +6,7 @@ import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.models.Plantilla
 
-//PARTE BUENA
+//Función que convierte el modelo a dto
 fun Jugador.toDto(): PlantillaDto {
     return PlantillaDto(
         id = id,
@@ -28,6 +28,7 @@ fun Jugador.toDto(): PlantillaDto {
     )
 }
 
+//Función que convierte un dto a modelo
 fun JugadorDto.toModel(): Plantilla {
     return Jugador(
         id = this.id,
@@ -47,6 +48,7 @@ fun JugadorDto.toModel(): Plantilla {
     )
 }
 
+//Función que convierte un modelo a entidad (para el dao)
 fun Jugador.toEntity(): JugadorEntity {
     return JugadorEntity(
         id = this.id,
@@ -67,6 +69,7 @@ fun Jugador.toEntity(): JugadorEntity {
     )
 }
 
+//Función que convierte una entidad a modelo
 fun JugadorEntity.toModel(): Jugador {
     return Jugador(
         id = this.id,
@@ -87,6 +90,7 @@ fun JugadorEntity.toModel(): Jugador {
     )
 }
 
+//Función que convierte un dto a entidad
 fun JugadorDto.toEntity(): JugadorEntity {
     return JugadorEntity(
         id = this.id,
@@ -106,4 +110,3 @@ fun JugadorDto.toEntity(): JugadorEntity {
         rutaImagen = this.rutaImagen
     )
 }
-//PARTE BUENA

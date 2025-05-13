@@ -8,7 +8,7 @@ import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
 
-//PARTE BUENA
+//Función que convierte PlantillaDto a un modelo (Jugador)
 fun PlantillaDto.toJugador(): Jugador {
     return Jugador(
         id = this.id,
@@ -28,7 +28,7 @@ fun PlantillaDto.toJugador(): Jugador {
     )
 }
 
-//Funcion de extension para convertir un PersonalDto a Entrenador
+//Función que convierte PlantillaDto a un modelo (Entrenador)
 fun PlantillaDto.toEntrenador(): Entrenador {
     return Entrenador(
         id = this.id,
@@ -44,7 +44,7 @@ fun PlantillaDto.toEntrenador(): Entrenador {
     )
 }
 
-//Funcion de extension que convierte un PersonalDto a Personla, eligiendo despues entre Jugaodr y Entrenador
+//Función de extension que convierte un PersonalDto a Personal, eligiendo después entre Jugador y Entrenador
 fun PlantillaDto.toModel(): Plantilla {
     return if (this.rol == "Jugador") {
         Jugador(
@@ -80,6 +80,7 @@ fun PlantillaDto.toModel(): Plantilla {
     }
 }
 
+//Función que convierte un modelo a una entidad, diferenciandolas entre jugador y entrenador
 fun Plantilla.toEntity(): PlantillaEntity {
     if (rol == "jugador") {
         val jugador = this as Jugador
@@ -120,6 +121,8 @@ fun Plantilla.toEntity(): PlantillaEntity {
 
     }
 }
+
+//Función que convierte PlantillaEntity a un modelo (jugador)
 fun PlantillaEntity.toJugador(): Jugador {
     val jugador = this as Jugador
     return Jugador(
@@ -140,6 +143,7 @@ fun PlantillaEntity.toJugador(): Jugador {
     )
 }
 
+//Función que convierte PlantillaEntity a un modelo (entrenador)
 fun PlantillaEntity.toEntrenador(): Entrenador {
     val entrenador = this as Entrenador
     return Entrenador(
@@ -156,6 +160,7 @@ fun PlantillaEntity.toEntrenador(): Entrenador {
     )
 }
 
+//Función que convierte PlantillaEntity a modelo diferenciandolo entre jugador y entrenador
 fun PlantillaEntity.toModel() : Plantilla {
     return if (rol == "jugador"){
         val jugador = this as Jugador
@@ -192,4 +197,3 @@ fun PlantillaEntity.toModel() : Plantilla {
 
     }
 }
-//PARTE BUENA

@@ -9,7 +9,7 @@ import java.util.Properties
 object Config {
     private val logger = logging()
 
-    var dbUrl: String = ""
+    var dbUrl: String = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
         private set
     var dbInitTables: Boolean = false
         private set
@@ -25,7 +25,7 @@ object Config {
             logger.debug { "Iniciando configuración" }
             val properties = Properties()
             properties.load(ClassLoader.getSystemResourceAsStream("config.properties"))
-            dbUrl = properties.getProperty("dbUrl", this.dbUrl)
+            dbUrl = properties.getProperty("database.url", this.dbUrl)
             dbInitTables = properties.getProperty("database.init.tables", this.dbInitTables.toString()).toBoolean()
             dbInitData = properties.getProperty("database.init.data", this.dbInitData.toString()).toBoolean()
             storageData = properties.getProperty("storage.data", this.storageData)

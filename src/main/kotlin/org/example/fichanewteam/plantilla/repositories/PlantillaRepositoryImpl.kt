@@ -22,6 +22,8 @@ class PlantillaRepositoryImpl (
     init {
         logger.debug { "Iniciando repositorio" }
     }
+
+    //Función que devuelve una lista de los miembros de la plantilla
     override fun findAll(): List<Plantilla> {
         logger.debug { "Obteniendo toda la plantilla" }
         return dao.findAll().mapNotNull {
@@ -33,11 +35,13 @@ class PlantillaRepositoryImpl (
         }
     }
 
+    //Función que busca a un miembro de la plantilla por id
     override fun findById(id: Long): Plantilla? {
         logger.debug { "Buscando un miembro de la plantilla por id : $id" }
         return dao.findById(id).toModel()
     }
 
+    //Funcion que guarda una entidad
     override fun save(item: Plantilla): Plantilla {
         logger.debug { "Salvando miembro de la plantilla : $item" }
         val save = item.copy(
@@ -48,6 +52,7 @@ class PlantillaRepositoryImpl (
         return item
     }
 
+    //Funcion que actualiza el id de un miembro de la plantilla
     override fun update(id: Long, item: Plantilla): Plantilla? {
         val plantilla = findById(id)
         if (item != null) {
@@ -59,6 +64,7 @@ class PlantillaRepositoryImpl (
         return plantilla
     }
 
+    //Función que borra el identificador de un miembro de la plantilla
     override fun delete(id : Long): Plantilla? {
         logger.debug { "Eliminando miembro de la plantilla : $id" }
         val plantilla : Plantilla? = dao.findById(1L).toModel()
@@ -71,8 +77,16 @@ class PlantillaRepositoryImpl (
         return plantilla
     }
 
-    // --> save all
+    //Función que guarda todos los items en una lista
+    override fun saveAll(t: List<Plantilla>): List<Plantilla> {
+        return t.map { save(it) }
+    }
 
-    // --> delete all / logical
+    //Función que elimina toda la informacion sobre un miembro de la plantilla
+    override fun deleteAll() {
+        logger.debug { "Eliminando datos de un miembro de la plantilla" }
+        return dao.deleteAll()
+    }
+
 }
 //PARTE BUENA
