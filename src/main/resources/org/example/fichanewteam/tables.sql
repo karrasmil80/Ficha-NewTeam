@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS jugador (
-    id IDENTITY NOT NULL PRIMARY KEY,
+    id IDENTITY NOTNULL PRIMARY KEY,
     nombre VARCHAR NOT NULL,
     apellidos VARCHAR NOT NULL,
     fechaNacimiento DATE NOT NULL,
@@ -13,11 +13,11 @@ CREATE TABLE IF NOT EXISTS jugador (
     peso DOUBLE NOT NULL,
     goles INTEGER NOT NULL,
     partidosJugados INTEGER NOT NULL,
-    ruta_imagen VARCHAR(255) DEFAULT ''
-);
+    ruta_imagen VARCHAR(255) DEFAULT 'images/default_profile.png'
+)
 
 CREATE TABLE IF NOT EXISTS entrenador (
-    id IDENTITY NOT NULL PRIMARY KEY,
+    id IDENTITY NOTNULL PRIMARY KEY,
     nombre VARCHAR NOT NULL,
     apellidos VARCHAR NOT NULL,
     fechaNacimiento DATE NOT NULL,
@@ -26,11 +26,11 @@ CREATE TABLE IF NOT EXISTS entrenador (
     pais VARCHAR NOT NULL,
     rol VARCHAR NOT NULL,
     especialidad VARCHAR NOT NULL,
-    ruta_imagen VARCHAR(255) DEFAULT ''
-);
+    ruta_imagen VARCHAR(255) DEFAULT 'images/default_profile.png'
+)
 
 CREATE TABLE IF NOT EXISTS plantilla (
-    id IDENTITY NOT NULL PRIMARY KEY,
+    id IDENTITY NOTNULL PRIMARY KEY,
     nombre VARCHAR NOT NULL,
     apellidos VARCHAR NOT NULL,
     fechaNacimiento DATE NOT NULL,
@@ -38,5 +38,5 @@ CREATE TABLE IF NOT EXISTS plantilla (
     salario NUMERIC NOT NULL,
     pais VARCHAR NOT NULL,
     rol VARCHAR NOT NULL,
-    ruta_imagen VARCHAR(255) DEFAULT ''
+    ruta_imagen VARCHAR(255) DEFAULT 'images/default_profile.png'
 )

@@ -4,20 +4,22 @@ import com.github.michaelbull.result.*
 import com.github.michaelbull.result.onSuccess
 import org.example.fichanewteam.plantilla.service.PlantillaService
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
-import javafx.beans.property.SimpleObjectProperty
-import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
-import java.io.File
+import org.example.fichanewteam.routes.RoutesManager
+import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
-
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Jugador
+import java.io.File
+import kotlin.String
 
 
 class PlantillaViewModel(
     private val servicio: PlantillaService,
     private val storage: PlantillaStorage
 ) {
-    val state: SimpleObjectProperty<PlantillaState> = SimpleObjectProperty(PlantillaState())
+    val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
     init{
         loadPlantilla()
@@ -65,19 +67,88 @@ class PlantillaViewModel(
         }
     }
 
-    fun updatePlantilla(plantilla: Plantilla) {
-        var imagen = Image(RoutesManager.getResourceAsStream)
+    fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
+        var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
+        var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
+
+        storage.loadImage(plantilla.rutaImagen).onSuccess {
+            imagen = Image(it.absoluteFile.toURI().toString())
+            fileImage = it
+        }
+        when(plantilla.rol){
+            "Jugador" -> state.value = state.value.copy(
+                jugador = JugadorState(
+                    id = plantilla.id.toString(),
+                    nombre = plantilla.nombre,
+                    apellidos = plantilla.apellidos,
+                    fechaNacimiento = plantilla.fechaNacimiento,
+                    fechaIncorporacion = plantilla.fechaIncorporacion,
+                    salario = plantilla.salario,
+                    pais = plantilla.pais,
+                    rol = plantilla.rol,
+                    posicion = plantilla,
+                    dorsal = plantilla,
+                    altura: Double?,
+                    peso: Double?,
+                    goles: Int,
+                    partidosJugados: Int,
+                )
+            )
+            "Entrenador" -> state.value = state.value.copy(
+                entrenador = EntrenadorState(
+
+                )
+            )
+        }
+
     }
 
     enum class TipoFiltro(val value: String) {
         TODOS("Todos/as"), JUGADOR("Jugador: si"), ENTRENADOR("Entrenador: si")
     }
 
-    data class PlantillaState(
+    data class ExpedienteState(
         val typesPlantilla: List<String> = emptyList(),
         val plantilla: List<Plantilla> = emptyList(),
+        val jugador: List<Jugador> = emptyList(),
+        val entrenador: List<Entrenador> = emptyList(),
 
-        val persona: PlantillaState = PlantillaState(),
+        val persona: ExpedienteState = ExpedienteState(),
+    )
+
+    data class JugadorState(
+        val id: String,
+        val nombre: String,
+        val apellidos: String,
+        val fechaNacimiento: String,
+        val fechaIncorporacion: String,
+        val salario: Double?,
+        val pais: String,
+        val rol: String,
+        val posicion: String?,
+        val dorsal: Int?,
+        val altura: Double?,
+        val peso: Double?,
+        val goles: Int,
+        val partidosJugados: Int,
+        val rutaImagen: Image = Image(RoutesManager.getResourceAsStream("images/default_profile.png")),
+        val fileImage: File? = null,
+        val oldFileImage: File? = null,
+    )
+
+    data class EntrenadorState(
+        val id: String,
+        val nombre: String,
+        val apellidos: String,
+        val fechaNacimiento: String,
+        val fechaIncorporacion: String,
+        val salario: Double?,
+        val pais: String,
+        val rol: String,
+        val especialidad: String,
+        val rutaImagen: Image = Image(RoutesManager.getResourceAsStream("images/default_profile.png")),
+        val fileImage: File? = null,
+        val oldFileImage: File? = null,
     )
 }
 
