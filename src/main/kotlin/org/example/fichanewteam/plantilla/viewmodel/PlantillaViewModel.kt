@@ -4,6 +4,12 @@ import com.github.michaelbull.result.*
 import org.example.fichanewteam.plantilla.service.PlantillaService
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
 import javafx.beans.property.SimpleObjectProperty
+import org.example.fichanewteam.plantilla.dto.PlantillaDto
+import org.example.fichanewteam.plantilla.error.PlantillaError
+import org.example.fichanewteam.plantilla.models.Plantilla
+import java.io.File
+import javafx.scene.image.Image
+
 
 
 class PlantillaViewModel(
@@ -18,7 +24,7 @@ class PlantillaViewModel(
     }
 
     private fun loadTypes() {
-        TODO("Not yet implemented")
+        state.value = state.value.copy(typesPlantilla = TipoFiltro.entries.map { it.value })
     }
 
     private fun loadPlantilla() {
@@ -28,10 +34,50 @@ class PlantillaViewModel(
         }
     }
     private fun updateActualState() {
-
+        // variables de las posibles consultas
+        state.value = state.value.copy(
+            //variables = variables de las consultas
+        )
     }
 
-    data class PlantillaState()
+    fun plantillaFilteredList(tipo: String, nombre: String): List<Plantilla>{
+
+        return TODO("Provide the return value")
+    }
+
+    fun savePlantillaToJson(file:File): Result<Long, PlantillaError> {
+        return storage.storageDataJson(file, state.value.plantilla)
+    }
+
+    fun loadPlantillaJson(file: File, withImages: Boolean = false): Result<List<Plantilla>, PlantillaError> {
+        return storage.deleteAllImages().andThen {
+            storage.loadDataJson(file).onSuccess {
+                servicio.deleteAll()
+                servicio.saveAll(
+                    if (withImages)
+                        it
+                    else
+                        it.map{ a -> a.copy(id = Plantilla.NEW_ID, imagen = TipoImagen.SIN_IMAGEN.value) }
+                )
+                loadPlantilla()
+            }
+        }
+    }
+
+    fun updatePlantilla(plantilla: Plantilla) {
+        var imagen = Image(RoutesManager.getResourceAsStream)
+    }
+
+    enum class TipoFiltro(val value: String) {
+        TODOS("Todos/as"), JUGADOR("Jugador: si"), ENTRENADOR("Entrenador: si")
+    }
+
+    data class PlantillaState(
+        val typesPlantilla: List<String> = emptyList(),
+        val plantilla: List<Plantilla> = emptyList(),
+
+        val persona: PlantillaState = PlantillaState(),
+    )
 }
 
 
