@@ -35,12 +35,22 @@ module org.example.fichanewteam {
     requires open;
 
     //Test
-    requires org.junit.jupiter.api;
-    requires org.mockito;
-    requires org.mockito.junit.jupiter;
 
-    opens org.example.fichanewteam to javafx.fxml;
-    exports org.example.fichanewteam to javafx.fxml;
+    //requires org.junit.jupiter.api;
+    //requires org.mockito;
+    //requires org.mockito.junit.jupiter;
 
+
+    //APP
+    opens org.example.fichanewteam to javafx.graphics;
+    exports org.example.fichanewteam to javafx.graphics;
+
+    //Controller
+    opens org.example.fichanewteam.controllers to javafx.fxml;
+    exports org.example.fichanewteam.controllers to javafx.fxml;
+
+    //Routes manager
+    opens org.example.fichanewteam.routes to javafx.fxml;
+    exports org.example.fichanewteam.routes to javafx.fxml;
 
 }

@@ -3,7 +3,7 @@ plugins {
     id 'application'
     id 'org.jetbrains.kotlin.jvm' version '1.9.23'
     id 'org.javamodularity.moduleplugin' version '1.8.12'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
+    //id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.25.0'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.23'
     id 'jacoco'
@@ -34,16 +34,19 @@ tasks.withType(JavaExec).configureEach {
 
 application {
     mainModule = 'org.example.fichanewteam'
-    mainClass = 'org.example.fichanewteam.HelloApplication'
+    mainClass = 'org.example.fichanewteam.HelloApplicationKt'
+
 }
 kotlin {
     jvmToolchain(21)
 }
 
+/*
 javafx {
     version = '21'
     modules = ['javafx.controls', 'javafx.fxml']
 }
+ */
 
 dependencies {
 

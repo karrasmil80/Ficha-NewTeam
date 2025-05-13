@@ -40,7 +40,7 @@
                     <MenuItem text="Abrir" />
                     <MenuItem text="Guardar" />
                     <SeparatorMenuItem />
-                    <MenuItem onAction="#handleExit" text="Salir" />
+                    <MenuItem text="Salir" /> <!-- onAction="#handleExit" -->
                 </Menu>
                 <Menu text="Editar">
                     <MenuItem text="Copiar" />
@@ -51,7 +51,7 @@
                     <MenuItem text="Exportar" />
                 </Menu>
                 <Menu text="Ayuda">
-                    <MenuItem onAction="#handleAbout" text="Acerca De" />
+                    <MenuItem text="Acerca De" /> <!-- onAction="#handleAbout"  -->
                 </Menu>
             </MenuBar>
 
@@ -59,7 +59,7 @@
             <ToolBar nodeOrientation="RIGHT_TO_LEFT">
             <Separator orientation="VERTICAL" />
                 <!-- Botón para cambiar entre modos -->
-                <ToggleButton fx:id="modoEdicionToggle" onAction="#cambiarModo" selected="true" styleClass="tool-button" text="Cambiar a Modo Lectura" />
+                <ToggleButton fx:id="modoEdicionToggle" selected="true" styleClass="tool-button" text="Cambiar a Modo Lectura" /> <!--  onAction="#cambiarModo"  -->
                 <Separator orientation="VERTICAL" />
             </ToolBar>
 
