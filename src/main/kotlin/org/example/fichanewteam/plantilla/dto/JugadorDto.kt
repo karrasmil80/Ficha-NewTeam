@@ -24,7 +24,7 @@ import org.example.fichanewteam.plantilla.models.Jugador
  * @param partidosJugados Número de partidos jugados por el jugador.
  */
 
-//PARTE BUENA
+
 @Serializable
 class JugadorDto(
     val id: Long,
@@ -43,4 +43,3 @@ class JugadorDto(
     val partidosJugados: Int,
     var rutaImagen: String
 ) : java.io.Serializable
-//PARTE BUENA

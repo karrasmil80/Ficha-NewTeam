@@ -20,7 +20,6 @@ module org.example.fichanewteam {
     requires org.jdbi.v3.kotlin;
     requires org.jdbi.v3.sqlobject.kotlin;
     requires io.leangen.geantyref;
-    requires kotlin.reflect;
 
     // Dependencias de la cache
     requires com.github.benmanes.caffeine;
@@ -28,9 +27,20 @@ module org.example.fichanewteam {
     // Dependencias para serializar un JSON
     requires kotlinx.serialization.json;
     requires kotlinx.serialization.core;
+
+    //SQL
     requires java.sql;
+
+    // Open Vadin --> PARA ABRIR EN NAVEGADOR
+    requires open;
+
+    //Test
+    requires org.junit.jupiter.api;
+    requires org.mockito;
+    requires org.mockito.junit.jupiter;
 
     opens org.example.fichanewteam to javafx.fxml;
     exports org.example.fichanewteam to javafx.fxml;
+
 
 }

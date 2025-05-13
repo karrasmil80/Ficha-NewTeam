@@ -1,6 +1,6 @@
 package org.example.fichanewteam.plantilla.viewmodel
-
-import com.github.michaelbull.result.*
+/*
+import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.onSuccess
 import org.example.fichanewteam.plantilla.service.PlantillaService
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
@@ -151,5 +151,5 @@ class PlantillaViewModel(
         val oldFileImage: File? = null,
     )
 }
-
+ */
 

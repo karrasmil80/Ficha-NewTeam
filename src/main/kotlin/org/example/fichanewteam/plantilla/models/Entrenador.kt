@@ -4,8 +4,6 @@ package org.example.fichanewteam.plantilla.models
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-
-//PARTE BUENA
 /**
  * Clase que representa a un entrenador del equipo.
  *
@@ -77,4 +75,3 @@ class Entrenador(
         ENTRENADOR_ASISTENTE, ENTRENADOR_PORTEROS, ENTRENADOR_PRINCIPAL
     }
 }
-//PARTE BUENA

@@ -5,7 +5,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
-//PARTE BUENA
 /**
  * Clase que representa a un jugador del equipo.
  *
@@ -87,4 +86,3 @@ class Jugador(
         DEFENSA, CENTROCAMPISTA, DELANTERO, PORTERO, NINGUNO
     }
 }
-//PARTE BUENA

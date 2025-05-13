@@ -6,7 +6,6 @@ import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.error.PlantillaError
 
-//PARTE BUENA
 class JugadorValidator : Validator<Jugador, PlantillaError> {
     override fun validate(t: Jugador): Result<Jugador, PlantillaError> {
         if (t.nombre.isBlank()) {
@@ -72,4 +71,3 @@ class JugadorValidator : Validator<Jugador, PlantillaError> {
         return Ok(t)
     }
 }
-//PARTE BUENA

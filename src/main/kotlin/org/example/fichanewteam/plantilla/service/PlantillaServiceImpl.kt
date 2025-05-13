@@ -14,7 +14,6 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
 
-//PARTE BUENA
 class PlantillaServiceImpl (
     val repository: PlantillaRepositoryImpl,
     val storage : PlantillaStorage,
@@ -98,4 +97,3 @@ class PlantillaServiceImpl (
         TODO("Not yet implemented")
     }
 }
-//PARTE BUENA

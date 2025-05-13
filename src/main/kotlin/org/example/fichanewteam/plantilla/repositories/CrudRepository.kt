@@ -2,8 +2,6 @@ package org.example.fichanewteam.plantilla.repositories
 
 import org.example.fichanewteam.plantilla.models.Plantilla
 
-
-//PARTE BUENA
 /**
  * Interfaz genérica para operaciones CRUD (Crear, Leer, Actualizar, Eliminar).
  * Esta interfaz define los métodos básicos para interactuar con el almacenamiento de datos.
@@ -66,4 +64,3 @@ interface CrudRepository<T, ID> {
      */
     fun deleteAll()
 }
-//PARTE BUENA

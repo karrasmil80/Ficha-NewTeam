@@ -6,7 +6,6 @@ import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.storage.FileFormat
 import java.io.File
 
-//PARTE BUENA
 interface PlantillaService {
 
     /**
@@ -81,4 +80,3 @@ interface PlantillaService {
      */
     fun saveAll(plantilla: List<Plantilla>): Result<List<Plantilla>, PlantillaError>
 }
-//PARTE BUENA

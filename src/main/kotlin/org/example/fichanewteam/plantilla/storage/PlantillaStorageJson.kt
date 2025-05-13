@@ -11,7 +11,7 @@ import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
-//PARTE BUENA
+
 class PlantillaStorageJson : PlantillaStorage {
     private val logger = logging()
 
@@ -59,4 +59,3 @@ class PlantillaStorageJson : PlantillaStorage {
         }
     }
 }
-//PARTE BUENA
