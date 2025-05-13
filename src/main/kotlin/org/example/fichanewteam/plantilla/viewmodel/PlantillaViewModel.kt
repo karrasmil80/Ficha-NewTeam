@@ -3,13 +3,12 @@ package org.example.fichanewteam.plantilla.viewmodel
 import com.github.michaelbull.result.*
 import org.example.fichanewteam.plantilla.service.PlantillaService
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
-import javafx.beans.property.SimpleObjectProperty
-import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
-import java.io.File
+import org.example.fichanewteam.routes.RoutesManager
+import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
-
+import java.io.File
 
 
 class PlantillaViewModel(
@@ -64,8 +63,14 @@ class PlantillaViewModel(
         }
     }
 
-    fun updatePlantilla(plantilla: Plantilla) {
-        var imagen = Image(RoutesManager.getResourceAsStream)
+    fun updatePlantillaSelecionado(plantilla: Plantilla) {
+        var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
+        var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
+
+        storage.loadImage(plantilla.rutaImagen).onSuccess {
+            imagen = Image(it.absoluteFile.toURI().toString())
+            fileImage = it as File
+        }
     }
 
     enum class TipoFiltro(val value: String) {
