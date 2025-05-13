@@ -35,7 +35,7 @@ object RoutesManager {
      */
 
     enum class View(val fxml : String) {
-        MAIN("views/plantilla-view.fmxl"),
+        MAIN("views/plantilla-view.fxml"),
         HELP("views/acerca-de-view.fxml"),
     }
 
@@ -77,13 +77,12 @@ object RoutesManager {
     fun initHelpStage() {
         val fxmlLoader = FXMLLoader(getResource(View.HELP.fxml))
         val root = fxmlLoader.load<Pane>()
-        val newScene = Scene(root, 800.0, 600.0)
+        val newScene = Scene(root, 00.0, 1000.0)
         Stage().apply {
             title = "Acerca De New-Team"
             scene = newScene
             initOwner(escenaPrincipal)
             centerOnScreen()
-            icons.add(Image(getResourceAsStream("icons/dev1.jpg")))
             isResizable = false
             initModality(Modality.WINDOW_MODAL)
         }.show()
@@ -98,12 +97,11 @@ object RoutesManager {
         logger.debug { "Iniciando Main Stage" }
         val fxmlLoader = FXMLLoader(getResource(View.MAIN.fxml))
         val root = fxmlLoader.load<Pane>()
-        val newScene = Scene(root, 800.0, 600.0)
+        val newScene = Scene(root, 1160.0, 720.0)
         Stage().apply {
             title = "New-Team"
             scene = newScene
             centerOnScreen()
-            icons.add(Image(getResourceAsStream("icons/dev1.png")))
             isResizable = false
             escenaPrincipal = mainStage
             _escenarioActiva = mainStage

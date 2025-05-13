@@ -14,8 +14,9 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 import java.sql.DriverManager
 import java.sql.PreparedStatement
 
-class HelloController {
 
+class HelloController {
+    /*
     // Elementos de la interfaz para vincular con fx:id en el FXML
     @FXML
     private lateinit var modoEdicionToggle: ToggleButton
@@ -513,4 +514,7 @@ class HelloController {
     fun actualizarEstado(mensaje: String) {
         statusLabel.text = mensaje
     }
+
+ */
 }
+

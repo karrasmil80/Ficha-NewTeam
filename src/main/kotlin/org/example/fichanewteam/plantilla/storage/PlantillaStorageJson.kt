@@ -1,5 +1,5 @@
 package org.example.fichanewteam.plantilla.storage
-
+/*
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.example.fichanewteam.plantilla.models.Jugador
@@ -59,3 +59,5 @@ class PlantillaStorageJson : PlantillaStorage {
         }
     }
 }
+
+ */
