@@ -22,6 +22,8 @@ import org.example.fichanewteam.plantilla.models.Jugador
  * @param peso Peso del jugador.
  * @param goles Número de goles anotados por el jugador.
  * @param partidosJugados Número de partidos jugados por el jugador.
+ * @param minutosJugados Número de minutos jugados por el jugador.
+
  */
 
 
@@ -41,5 +43,6 @@ class JugadorDto(
     val peso: Double,
     val goles: Int,
     val partidosJugados: Int,
+    val minutosJugados: Double,
     var rutaImagen: String
 ) : java.io.Serializable

@@ -38,6 +38,7 @@ class Jugador(
     var peso: Double?,
     var goles: Int,
     var partidosJugados: Int,
+    var minutosJugados: Double,
     rutaImagen: String = ""
 ): Plantilla(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen) {
 
@@ -47,7 +48,7 @@ class Jugador(
      * @return Una cadena con los detalles del jugador.
      */
     override fun toString(): String {
-        return ("Jugador(id=$id, nombre=$nombre, apellidos=$apellidos, fechaNacimiento=$fechaNacimiento, fechaIncorporacion=$fechaIncorporacion, salario=$salario, pais=$pais, posiciom=$posicion, dorsal=$dorsal, altura=$altura, peso=$peso, goles=$goles, partidosJugados=$partidosJugados )")
+        return ("Jugador(id=$id, nombre=$nombre, apellidos=$apellidos, fechaNacimiento=$fechaNacimiento, fechaIncorporacion=$fechaIncorporacion, salario=$salario, pais=$pais, posiciom=$posicion, dorsal=$dorsal, altura=$altura, peso=$peso, goles=$goles, partidosJugados=$partidosJugados, minutosJugados=$minutosJugados)")
     }
 
     /**
@@ -74,7 +75,7 @@ class Jugador(
         rol: String,
         rutaImagen: String
     ): Plantilla {
-        return Jugador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, posicion, dorsal, altura, peso, goles, partidosJugados, rutaImagen)
+        return Jugador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, posicion, dorsal, altura, peso, goles, partidosJugados, minutosJugados)
     }
 
     /**
