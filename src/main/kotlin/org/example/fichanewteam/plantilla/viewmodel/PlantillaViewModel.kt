@@ -37,11 +37,11 @@ class PlantillaViewModel(
     }
     private fun updateActualState() {
         //Consultas lucia
-        val golesPromedio = state.value.jugador.count{ it.goles }
-        val salarioMaximo = state.value.jugador.maxOf{ it.salario }
-        val alturaMinima = state.value.jugador.minOf{ it.altura }
+        val golesPromedio = state.value.jugador.map{ it.goles }.average()
+        val salarioMaximo = state.value.jugador.maxOf{ it.salario!!.toDouble() }
+        val alturaMinima = state.value.jugador.minOf{ it.altura!!.toDouble() }
         val totalPartidos = state.value.jugador.sumOf{ it.partidosJugados }
-        val totalJugadores = state.value.jugador.count{ it }
+        val totalJugadores = state.value.jugador.count()
 
         //Consultas Pablo
         //ACUERDATE DE LAS INSTRUCIONES QUE TE HE DADO EN CLASE Y EN SU DEFECTO PREGUNTA
@@ -80,12 +80,13 @@ class PlantillaViewModel(
                     if (withImages)
                         it
                     else
-                        it.map{ a -> a.copy(id = Plantilla.NEW_ID, imagen = TipoImagen.SIN_IMAGEN.value) }
+                        it.map{ a -> a.copy(id = Plantilla.NEW_ID, rutaImagen = TipoImagen.SIN_IMAGEN.value) }
                 )
                 loadPlantilla()
             }
         }
     }
+    /*
 
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
@@ -129,6 +130,10 @@ class PlantillaViewModel(
             )
         }
     }
+*/
+    enum class TipoImagen(val value: String) {
+        SIN_IMAGEN("images/default_profile.png"), EMPTY("sin-imagen.png")
+    }
 
     enum class TipoFiltro(val value: String) {
         TODOS("Todos/as"), JUGADOR("Jugador: si"), ENTRENADOR("Entrenador: si")
@@ -142,7 +147,7 @@ class PlantillaViewModel(
         val entrenador: List<Entrenador> = emptyList(),
 
         //Variables de las consultas
-        val golesPromedio: Int = 0,
+        val golesPromedio: Double = 0.00,
         val salarioMaximo: Double = 0.00,
         val alturaMinima: Double = 0.00,
         val totalPartidos: Int = 0,
