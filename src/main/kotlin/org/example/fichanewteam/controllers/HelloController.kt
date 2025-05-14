@@ -23,6 +23,7 @@ import java.sql.PreparedStatement
 private val logger = logging()
 class HelloController {
 
+
     // Elementos de la interfaz para vincular con fx:id en el FXML
     @FXML
     private lateinit var modoEdicionToggle: ToggleButton
@@ -150,6 +151,9 @@ class HelloController {
     @FXML
     private lateinit var edadLabel: Label
 
+    @FXML
+    lateinit var añadirButton: Button
+
 
 
     @FXML
@@ -162,6 +166,7 @@ class HelloController {
         logger.debug { "Iniciando eventos" }
         menuHelp.setOnAction { onHelpAction() }
         menuSalir.setOnAction { RoutesManager.onAppExit() }
+        modoEdicionToggle.setOnAction { onToggleViewAction() }
     }
 
     private fun onHelpAction() {
@@ -172,12 +177,27 @@ class HelloController {
     private fun initDefaultValues() {
         logger.info { "Iniciando valores por defecto" }
 
-        menuCopiar.accelerator = KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY)
+        menuCopiar.accelerator = KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN)
+        menuGuardar.accelerator = KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN)
+        menuPegar.accelerator = KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN)
+        menuImportar.accelerator = KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_DOWN)
+        menuExportar.accelerator = KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN)
+        menuHelp.accelerator = KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)
     }
 
+    private fun onToggleViewAction() {
+        val cambiarModo = modoEdicionToggle.isSelected
+        editarButton.isDisable = cambiarModo
+        eliminarButton.isDisable = cambiarModo
+        añadirButton.isDisable = cambiarModo
 
+        if (cambiarModo) {
+            RoutesManager.initLoginStage()
+        }
+    }
 
 }
+
 
 
 

@@ -37,7 +37,8 @@ object RoutesManager {
     enum class View(val fxml : String) {
         MAIN("views/plantilla-view.fxml"),
         HELP("views/acerca-de-view.fxml"),
-        SPLASH("views/splash.fxml");
+        SPLASH("views/splash.fxml"),
+        LOGIN("views/login-view.fxml")
     }
 
     /**
@@ -130,7 +131,22 @@ object RoutesManager {
             icons.add(Image(getResourceAsStream("images/logo.png")))
 
         }.show()
+    }
 
+    fun initLoginStage() {
+        val fxmlLoader = FXMLLoader(getResource(View.LOGIN.fxml))
+        val root = fxmlLoader.load<Pane>()
+        val newScene = Scene(root, 1160.0, 720.0)
+
+        Stage().apply {
+            title = "Login"
+            isResizable = false
+            scene = newScene
+            initOwner(escenaPrincipal)
+            centerOnScreen()
+            icons.add(Image(getResourceAsStream("images/logo.png")))
+            initModality(Modality.WINDOW_MODAL)
+        }.show()
     }
 
 
