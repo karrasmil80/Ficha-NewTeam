@@ -1,7 +1,6 @@
 package org.example.fichanewteam.plantilla.viewmodel
-/*
-import com.github.michaelbull.result.Result
-import com.github.michaelbull.result.onSuccess
+
+import com.github.michaelbull.result.*
 import org.example.fichanewteam.plantilla.service.PlantillaService
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
 import org.example.fichanewteam.plantilla.error.PlantillaError
@@ -37,14 +36,35 @@ class PlantillaViewModel(
         }
     }
     private fun updateActualState() {
-        // variables de las posibles consultas
+        //Consultas lucia
+        val golesPromedio = state.value.jugador.map{ it.goles }.average()
+        val salarioMaximo = state.value.jugador.maxOf{ it.salario!!.toDouble() }
+        val alturaMinima = state.value.jugador.minOf{ it.altura!!.toDouble() }
+        val totalPartidos = state.value.jugador.sumOf{ it.partidosJugados }
+        val totalJugadores = state.value.jugador.count()
+
+        //Consultas Pablo
+        //ACUERDATE DE LAS INSTRUCIONES QUE TE HE DADO EN CLASE Y EN SU DEFECTO PREGUNTA
+        /*
+        val salarioPromedio
+        val incorporacionAntigua
+        val nacimientoActual
+        val entrenadoresAsistentes
+        val entrenadoresEspañoles
+        */
+
         state.value = state.value.copy(
-            //variables = variables de las consultas
+            golesPromedio = golesPromedio,
+            salarioMaximo = salarioMaximo,
+            alturaMinima = alturaMinima,
+            totalPartidos = totalPartidos,
+            totalJugadores = totalJugadores,
+
+            persona = PlantillaState()
         )
     }
 
     fun plantillaFilteredList(tipo: String, nombre: String): List<Plantilla>{
-
         return TODO("Provide the return value")
     }
 
@@ -60,12 +80,13 @@ class PlantillaViewModel(
                     if (withImages)
                         it
                     else
-                        it.map{ a -> a.copy(id = Plantilla.NEW_ID, imagen = TipoImagen.SIN_IMAGEN.value) }
+                        it.map{ a -> a.copy(id = Plantilla.NEW_ID, rutaImagen = TipoImagen.SIN_IMAGEN.value) }
                 )
                 loadPlantilla()
             }
         }
     }
+    /*
 
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
@@ -78,29 +99,40 @@ class PlantillaViewModel(
         when(plantilla.rol){
             "Jugador" -> state.value = state.value.copy(
                 jugador = JugadorState(
-                    id = plantilla.id.toString(),
-                    nombre = plantilla.nombre,
-                    apellidos = plantilla.apellidos,
-                    fechaNacimiento = plantilla.fechaNacimiento,
-                    fechaIncorporacion = plantilla.fechaIncorporacion,
-                    salario = plantilla.salario,
-                    pais = plantilla.pais,
-                    rol = plantilla.rol,
-                    posicion = plantilla,
-                    dorsal = plantilla,
-                    altura: Double?,
-                    peso: Double?,
-                    goles: Int,
-                    partidosJugados: Int,
+                    id = jugador.id.toString(),
+                    nombre = jugador.nombre,
+                    apellidos = jugador.apellidos,
+                    fechaNacimiento = jugador.fechaNacimiento,
+                    fechaIncorporacion = jugador.fechaIncorporacion,
+                    salario = jugador.salario,
+                    pais = jugador.pais,
+                    rol = jugador.rol,
+                    posicion = jugador.posicion,
+                    dorsal = jugador.dorsal,
+                    altura = jugador.altura,
+                    peso = jugador.peso,
+                    goles = jugador.goles,
+                    partidosJugados = jugador.partidosJugados
                 )
             )
             "Entrenador" -> state.value = state.value.copy(
                 entrenador = EntrenadorState(
-
+                    id = entrenador.id.toString(),
+                    nombre = entrenador.nombre,
+                    apellidos = entrenador.apellidos,
+                    fechaNacimiento = entrenador.fechaNacimiento,
+                    fechaIncorporacion = entrenador.fechaIncorporacion,
+                    salario = entrenador.salario,
+                    pais = entrenador.pais,
+                    rol = entrenador.rol,
+                    especialidad = entrenador.especialidad
                 )
             )
         }
-
+    }
+*/
+    enum class TipoImagen(val value: String) {
+        SIN_IMAGEN("images/default_profile.png"), EMPTY("sin-imagen.png")
     }
 
     enum class TipoFiltro(val value: String) {
@@ -108,12 +140,36 @@ class PlantillaViewModel(
     }
 
     data class ExpedienteState(
+        //Contenedores
         val typesPlantilla: List<String> = emptyList(),
         val plantilla: List<Plantilla> = emptyList(),
         val jugador: List<Jugador> = emptyList(),
         val entrenador: List<Entrenador> = emptyList(),
 
-        val persona: ExpedienteState = ExpedienteState(),
+        //Variables de las consultas
+        val golesPromedio: Double = 0.00,
+        val salarioMaximo: Double = 0.00,
+        val alturaMinima: Double = 0.00,
+        val totalPartidos: Int = 0,
+        val totalJugadores: Int = 0,
+
+        //Persona hace referencia al conjunto es decir el individual de plantilla
+        val persona: PlantillaState = PlantillaState()
+
+    )
+
+    data class PlantillaState(
+        val id: String = "",
+        val nombre: String = "",
+        val apellidos: String = "",
+        val fechaNacimiento: String = "",
+        val fechaIncorporacion: String = "",
+        val salario: Double? = 0.00,
+        val pais: String = "",
+        val rol: String = "",
+        val rutaImagen: Image = Image(RoutesManager.getResourceAsStream("images/default_profile.png")),
+        val fileImage: File? = null,
+        val oldFileImage: File? = null,
     )
 
     data class JugadorState(
@@ -151,5 +207,3 @@ class PlantillaViewModel(
         val oldFileImage: File? = null,
     )
 }
- */
-

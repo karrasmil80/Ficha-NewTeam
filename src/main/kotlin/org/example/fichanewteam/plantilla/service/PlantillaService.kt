@@ -3,6 +3,7 @@ package org.example.fichanewteam.plantilla.service
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
 import com.github.michaelbull.result.Result
+import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.storage.FileFormat
 import java.io.File
 
@@ -13,7 +14,7 @@ interface PlantillaService {
      *
      * @return una lista de todas las entidades de tipo [T].
      */
-    fun findAll(): List<Plantilla>
+    fun findAll(): Result<List<Jugador>, PlantillaError>
 
     /**
      * Busca una entidad por su identificador único.
