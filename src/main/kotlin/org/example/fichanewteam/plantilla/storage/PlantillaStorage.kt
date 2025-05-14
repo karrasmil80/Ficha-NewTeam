@@ -13,4 +13,5 @@ interface PlantillaStorage {
     fun deleteAllImages(): Result<Long, PlantillaError>
     fun loadDataJson(file: File): Result<List<Plantilla>, PlantillaError>
     fun loadImage(imagenName: String): Result<List<Plantilla>, PlantillaError>
+    fun saveImage(fileName: File):Result<File, PlantillaError>
 }
