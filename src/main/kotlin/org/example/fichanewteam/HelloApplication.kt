@@ -20,8 +20,9 @@ class HelloApplication : Application() {
         logger.debug { "Iniciando New-Team APP" }
         RoutesManager.apply {
             app = this@HelloApplication
+
         }
-        RoutesManager.initMainStage(stage)
+        RoutesManager.initSplashScreen(stage)
     }
 }
 
