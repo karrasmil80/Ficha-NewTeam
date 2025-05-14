@@ -38,7 +38,7 @@ class Jugador(
     var peso: Double?,
     var goles: Int,
     var partidosJugados: Int,
-    var minutosJugados: Double,
+    var minutosJugados: Double?,
     rutaImagen: String = ""
 ): Plantilla(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen) {
 

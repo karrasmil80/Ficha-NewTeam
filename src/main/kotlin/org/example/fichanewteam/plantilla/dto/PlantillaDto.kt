@@ -2,6 +2,7 @@ package org.example.fichanewteam.plantilla.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.example.fichanewteam.plantilla.models.Plantilla
 
 /**
  * Clase que representa la transferencia de datos (DTO) de una persona del equipo.
@@ -57,6 +58,9 @@ data class  PlantillaDto (
     var goles: Int?,
     @SerialName("partidos_jugados")
     var partidos_jugados: Int?,
+    @SerialName("minutos-jugados")
+    var minutos_jugados: Double?,
     @SerialName("ruta_imagen")
     var ruta_imagen: String?
 ) : java.io.Serializable
+
