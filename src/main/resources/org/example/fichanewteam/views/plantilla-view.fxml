@@ -51,7 +51,7 @@
                     <MenuItem fx:id="menuExportar" text="Exportar" />
                 </Menu>
                 <Menu text="Ayuda">
-                    <MenuItem fx:id="menuHelp" text="Acerca De" /> <!-- onAction="#handleAbout"  -->
+                    <MenuItem fx:id="menuHelp" text="Acerca De" />
                 </Menu>
             </MenuBar>
 
@@ -104,21 +104,21 @@
                     </TableView>
 
                     <HBox alignment="CENTER" spacing="10">
-                        <Button styleClass="action-button" text="Añadir">
+                        <Button fx:id="añadirButton" styleClass="action-button" text="Añadir">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="21.0">
                                     <Image url="@../icons/add_white_icon.png" />
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button styleClass="action-button" text="Editar">
+                        <Button fx:id="editarButton" styleClass="action-button" text="Editar">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="21.0">
                                     <Image url="@../icons/edit_white_icon.png" />
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button styleClass="delete-button" text="Eliminar">
+                        <Button fx:id="eliminarButton" styleClass="delete-button" text="Eliminar">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="21.0">
                                     <Image url="@../icons/delete_white_icon.png" />

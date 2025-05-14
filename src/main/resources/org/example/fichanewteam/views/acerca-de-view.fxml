@@ -34,7 +34,7 @@
                   </ImageView>
                   <Label styleClass="developer-name" text="Pablo Zuil" />
                   <Label styleClass="developer-role" text="Líder del Proyecto" />
-                  <Hyperlink fx:id="link2" text="Github"/>
+                  <Hyperlink fx:id="link2" text="Github" />
                </children>
             </VBox>
             <VBox alignment="CENTER" spacing="10.0" styleClass="developer-card">
