@@ -53,4 +53,8 @@ module org.example.fichanewteam {
     opens org.example.fichanewteam.routes to javafx.fxml;
     exports org.example.fichanewteam.routes to javafx.fxml;
 
+    //Help Controller
+    opens org.example.fichanewteam.helpController to javafx.fxml;
+    exports org.example.fichanewteam.helpController to javafx.fxml;
+
 }

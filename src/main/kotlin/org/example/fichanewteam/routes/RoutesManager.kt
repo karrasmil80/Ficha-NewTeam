@@ -71,24 +71,6 @@ object RoutesManager {
     }
 
     /**
-     * Función que a través de un evento mostrara la escena de Acerca-De
-     */
-
-    fun initHelpStage() {
-        val fxmlLoader = FXMLLoader(getResource(View.HELP.fxml))
-        val root = fxmlLoader.load<Pane>()
-        val newScene = Scene(root, 00.0, 1000.0)
-        Stage().apply {
-            title = "Acerca De New-Team"
-            scene = newScene
-            initOwner(escenaPrincipal)
-            centerOnScreen()
-            isResizable = false
-            initModality(Modality.WINDOW_MODAL)
-        }.show()
-    }
-
-    /**
      * Funcion que mostrará la escena principal del programa en el Controller
      * @param mainStage --> escena principal de la aplicación
      */
@@ -98,14 +80,40 @@ object RoutesManager {
         val fxmlLoader = FXMLLoader(getResource(View.MAIN.fxml))
         val root = fxmlLoader.load<Pane>()
         val newScene = Scene(root, 1160.0, 720.0)
-        Stage().apply {
+        mainStage.apply {
             title = "New-Team"
             scene = newScene
             centerOnScreen()
             isResizable = false
-            escenaPrincipal = mainStage
-            _escenarioActiva = mainStage
         }.show()
+
+        escenaPrincipal = mainStage
+        _escenarioActiva = mainStage
+    }
+
+
+    /**
+     * Función que a través de un evento mostrara la escena de Acerca-De
+     */
+
+    fun initHelpStage() {
+        try {
+            logger.debug { "Cargando vista HELP" }
+            val fxmlLoader = FXMLLoader(getResource(View.HELP.fxml))
+            val root = fxmlLoader.load<Pane>()
+            val newScene = Scene(root, 600.0, 400.0)
+            Stage().apply {
+                title = "Acerca De New-Team"
+                scene = newScene
+                initOwner(escenaPrincipal)
+                centerOnScreen()
+                isResizable = false
+                initModality(Modality.WINDOW_MODAL)
+            }.show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logger.error { "Error al cargar ventana de ayuda: ${e.message}" }
+        }
     }
 
     /**
