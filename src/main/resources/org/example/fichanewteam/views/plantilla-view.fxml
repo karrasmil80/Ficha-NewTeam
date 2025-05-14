@@ -36,22 +36,22 @@
         <VBox prefHeight="0.0" prefWidth="990.0">
             <MenuBar>
                 <Menu text="Archivo">
-                    <MenuItem text="Nuevo" />
-                    <MenuItem text="Abrir" />
-                    <MenuItem text="Guardar" />
+                    <MenuItem fx:id="menuItem" text="Nuevo" />
+                    <MenuItem fx:id="menuAbrir" text="Abrir" />
+                    <MenuItem fx:id="menuGuardar" text="Guardar" />
                     <SeparatorMenuItem />
-                    <MenuItem text="Salir" /> <!-- onAction="#handleExit" -->
+                    <MenuItem fx:id="menuSalir" text="Salir" /> <!-- onAction="#handleExit" -->
                 </Menu>
                 <Menu text="Editar">
-                    <MenuItem text="Copiar" />
-                    <MenuItem text="Pegar" />
+                    <MenuItem fx:id="menuCopiar" text="Copiar" />
+                    <MenuItem fx:id="menuPegar" text="Pegar" />
                 </Menu>
                 <Menu text="Herramientas">
-                    <MenuItem text="Importar" />
-                    <MenuItem text="Exportar" />
+                    <MenuItem fx:id="menuImportar" text="Importar" />
+                    <MenuItem fx:id="menuExportar" text="Exportar" />
                 </Menu>
                 <Menu text="Ayuda">
-                    <MenuItem text="Acerca De" /> <!-- onAction="#handleAbout"  -->
+                    <MenuItem fx:id="menuHelp" text="Acerca De" /> <!-- onAction="#handleAbout"  -->
                 </Menu>
             </MenuBar>
 

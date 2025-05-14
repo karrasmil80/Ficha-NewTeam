@@ -10,18 +10,46 @@ import javafx.scene.image.ImageView
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
+import org.example.fichanewteam.routes.RoutesManager
+import org.lighthousegames.logging.logging
 
 import java.sql.DriverManager
 import java.sql.PreparedStatement
 
 
+private val logger = logging()
 class HelloController {
 
     // Elementos de la interfaz para vincular con fx:id en el FXML
     @FXML
     private lateinit var modoEdicionToggle: ToggleButton
 
-    private var modoEdicion = true
+    @FXML
+    private lateinit var menuHelp: MenuItem
+
+    @FXML
+    private lateinit var menuExportar: MenuItem
+
+    @FXML
+    private lateinit var menuImportar: MenuItem
+
+    @FXML
+    private lateinit var menuPegar: MenuItem
+
+    @FXML
+    private lateinit var menuCopiar: MenuItem
+
+    @FXML
+    private lateinit var menuSalir: MenuItem
+
+    @FXML
+    private lateinit var menuGuardar: MenuItem
+
+    @FXML
+    private lateinit var menuAbrir: MenuItem
+
+    @FXML
+    private lateinit var menuItem: MenuItem
 
     @FXML
     private lateinit var nuevoButton: Button
@@ -119,8 +147,25 @@ class HelloController {
     @FXML
     private lateinit var edadLabel: Label
 
-    init {
 
+
+    @FXML
+    private fun initialize() {
+        initEventos()
+    }
+
+    private fun initEventos() {
+
+        menuHelp.setOnAction {
+            onHelpAction()
+        }
+
+
+    }
+
+    private fun onHelpAction() {
+        logger.debug { "onHelpAction" }
+        RoutesManager.initHelpStage()
     }
 
 }
