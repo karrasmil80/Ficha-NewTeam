@@ -24,7 +24,8 @@ fun Jugador.toDto(): PlantillaDto {
         partidos_jugados = partidosJugados,
         rol = rol,
         especialidad = "", // No se aplica a jugadores
-        ruta_imagen = rutaImagen
+        ruta_imagen = rutaImagen,
+        minutos_jugados = minutosJugados
     )
 }
 
@@ -44,7 +45,9 @@ fun JugadorDto.toModel(): Plantilla {
         peso = this.peso,
         goles = this.goles,
         partidosJugados = this.partidosJugados,
-        rol = this.rol
+        rol = this.rol,
+        minutosJugados = this.minutosJugados,
+        rutaImagen = this.rutaImagen,
     )
 }
 
@@ -65,7 +68,8 @@ fun Jugador.toEntity(): JugadorEntity {
         goles = this.goles,
         partidosJugados = this.partidosJugados,
         rol = this.rol,
-        rutaImagen = this.rutaImagen
+        rutaImagen = this.rutaImagen,
+        minutosJugados = this.minutosJugados!!
     )
 }
 
@@ -86,7 +90,8 @@ fun JugadorEntity.toModel(): Jugador {
         goles = this.goles,
         partidosJugados = this.partidosJugados,
         rol = this.rol,
-        rutaImagen = this.rutaImagen
+        rutaImagen = this.rutaImagen,
+        minutosJugados = this.minutosJugados!!
     )
 }
 
@@ -107,6 +112,7 @@ fun JugadorDto.toEntity(): JugadorEntity {
         goles = this.goles,
         partidosJugados = this.partidosJugados,
         rol = this.rol,
-        rutaImagen = this.rutaImagen
+        rutaImagen = this.rutaImagen,
+        minutosJugados = this.minutosJugados
     )
 }

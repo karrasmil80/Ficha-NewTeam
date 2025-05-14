@@ -23,7 +23,8 @@ fun Entrenador.toDto(): PlantillaDto {
         peso = null, // No aplica para entrenadores
         goles = null, // No aplica para entrenadores
         partidos_jugados = null,
-        ruta_imagen = this.rutaImagen // No aplica para entrenadores
+        ruta_imagen = this.rutaImagen,
+        minutos_jugados = null // No aplica para entrenadores
     )
 }
 
