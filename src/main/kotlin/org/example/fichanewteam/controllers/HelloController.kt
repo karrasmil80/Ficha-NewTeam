@@ -7,11 +7,14 @@ import javafx.scene.control.*
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.scene.input.KeyCodeCombination
+import javafx.scene.input.KeyCombination
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.routes.RoutesManager
 import org.lighthousegames.logging.logging
+import javafx.scene.input.KeyCode
 
 import java.sql.DriverManager
 import java.sql.PreparedStatement
@@ -151,22 +154,28 @@ class HelloController {
 
     @FXML
     private fun initialize() {
-        initEventos()
+        initEvents()
+        initDefaultValues()
     }
 
-    private fun initEventos() {
-
-        menuHelp.setOnAction {
-            onHelpAction()
-        }
-
-
+    private fun initEvents() {
+        logger.debug { "Iniciando eventos" }
+        menuHelp.setOnAction { onHelpAction() }
+        menuSalir.setOnAction { RoutesManager.onAppExit() }
     }
 
     private fun onHelpAction() {
         logger.debug { "onHelpAction" }
         RoutesManager.initHelpStage()
     }
+
+    private fun initDefaultValues() {
+        logger.info { "Iniciando valores por defecto" }
+
+        menuCopiar.accelerator = KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_ANY)
+    }
+
+
 
 }
 

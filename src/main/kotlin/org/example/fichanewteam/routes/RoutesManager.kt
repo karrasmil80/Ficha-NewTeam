@@ -21,7 +21,7 @@ private val logger = logging()
 //Objeto principal que gestionará parte del programa
 object RoutesManager {
 
-    private lateinit var escenaPrincipal : Stage
+    lateinit var escenaPrincipal : Stage
     private lateinit var _escenarioActiva : Stage
     val escenaActiva : Stage
         get() = _escenarioActiva
@@ -37,6 +37,7 @@ object RoutesManager {
     enum class View(val fxml : String) {
         MAIN("views/plantilla-view.fxml"),
         HELP("views/acerca-de-view.fxml"),
+        SPLASH("views/splash.fxml");
     }
 
     /**
@@ -84,6 +85,7 @@ object RoutesManager {
             title = "New-Team"
             scene = newScene
             centerOnScreen()
+            icons.add(Image(getResourceAsStream("images/logo.png")))
             isResizable = false
         }.show()
 
@@ -97,7 +99,6 @@ object RoutesManager {
      */
 
     fun initHelpStage() {
-        try {
             logger.debug { "Cargando vista HELP" }
             val fxmlLoader = FXMLLoader(getResource(View.HELP.fxml))
             val root = fxmlLoader.load<Pane>()
@@ -109,12 +110,29 @@ object RoutesManager {
                 centerOnScreen()
                 isResizable = false
                 initModality(Modality.WINDOW_MODAL)
+                icons.add(Image(getResourceAsStream("images/logo.png")))
             }.show()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            logger.error { "Error al cargar ventana de ayuda: ${e.message}" }
-        }
     }
+
+    fun initSplashScreen(stage : Stage) {
+        val fxmlLoader = FXMLLoader(getResource(View.SPLASH.fxml))
+        val root = fxmlLoader.load<Pane>()
+        val newScene = Scene(root, 1160.0, 720.0)
+
+        escenaPrincipal = stage
+        _escenarioActiva = stage
+
+        stage.apply {
+            title = "Splash"
+            isResizable = false
+            scene = newScene
+            centerOnScreen()
+            icons.add(Image(getResourceAsStream("images/logo.png")))
+
+        }.show()
+
+    }
+
 
     /**
      * Funcion que gestiona la ruta para salir de la aplicacion
