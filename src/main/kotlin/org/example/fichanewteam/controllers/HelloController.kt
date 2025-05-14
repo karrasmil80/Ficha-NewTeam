@@ -152,49 +152,142 @@ class HelloController {
     private lateinit var edadLabel: Label
 
     @FXML
-    lateinit var añadirButton: Button
+    private lateinit var añadirButton: Button
+
+    @FXML
+    private lateinit var buttonCancelar: Button
+
+    @FXML
+    private lateinit var buttonGuardar: Button
+
+    @FXML
+    private lateinit var entrenadoresEspañolesField: TextField
+
+    @FXML
+    private lateinit var entrenadoresAsistentesField: TextField
+
+    @FXML
+    private lateinit var fechaActualField: TextField
+
+    @FXML
+    private lateinit var fechaAntiguaField: TextField
+
+    @FXML
+    private lateinit var salarioPromedioField: TextField
+
+    @FXML
+    private lateinit var NumJugadoresField: TextField
+
+    @FXML
+    private lateinit var PartidosTotalField: TextField
+
+    @FXML
+    private lateinit var AlturaMinimaField: TextField
+
+    @FXML
+    private lateinit var salarioMaximoField: TextField
+
+    @FXML
+    private lateinit var golePromedioField: TextField
 
 
 
     @FXML
-    private fun initialize() {
+    fun initialize() {
         initEvents()
         initDefaultValues()
     }
 
-    private fun initEvents() {
+    fun initEvents() {
         logger.debug { "Iniciando eventos" }
         menuHelp.setOnAction { onHelpAction() }
         menuSalir.setOnAction { RoutesManager.onAppExit() }
-        modoEdicionToggle.setOnAction { onToggleViewAction() }
+        añadirButton.setOnAction { onAddMemberAction()}
+        //modoEdicionToggle.setOnAction { onToggleViewAction() }
     }
 
-    private fun onHelpAction() {
+    fun onHelpAction() {
         logger.debug { "onHelpAction" }
         RoutesManager.initHelpStage()
     }
 
-    private fun initDefaultValues() {
+    fun initDefaultValues() {
         logger.info { "Iniciando valores por defecto" }
 
+        //Atajos del teclado
         menuCopiar.accelerator = KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN)
         menuGuardar.accelerator = KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN)
         menuPegar.accelerator = KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN)
         menuImportar.accelerator = KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_DOWN)
         menuExportar.accelerator = KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN)
         menuHelp.accelerator = KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)
+
+        //Variables desactivadas al inicio de la app para imposibilitar el editarlas
+        buttonGuardar.isDisable = true
+        buttonCancelar.isDisable = true
+        buttonGuardar.isDisable = true
+        buttonCancelar.isDisable = true
+        paisField.isDisable = true
+        fechaIncorporacionField.isDisable = true
+        fechaNacimientoField.isDisable = true
+        salarioField.isDisable = true
+        apellidosField.isDisable = true
+        nombreField.isDisable = true
+        golesField.isDisable = true
+        partidosField.isDisable = true
+        dorsalField.isDisable = true
+        alturaField.isDisable = true
+        pesoField.isDisable = true
+        rolComboBox.isDisable = true
+        posicionComboBox.isDisable = true
+        golePromedioField.isDisable = true
+        salarioMaximoField.isDisable = true
+        salarioPromedioField.isDisable = true
+        AlturaMinimaField.isDisable = true
+        PartidosTotalField.isDisable = true
+        NumJugadoresField.isDisable = true
+        fechaAntiguaField.isDisable = true
+        fechaActualField.isDisable = true
+        entrenadoresAsistentesField.isDisable = true
+        entrenadoresEspañolesField.isDisable = true
+
+
+        //Opciones de la comboBox
+        val boxItemsRol = listOf("Jugador", "Entrenador")
+        rolComboBox.items.addAll(boxItemsRol)
+
+        val boxItemsPosicion = listOf("Defensa", "Centrocampista", "Delantero", "Portero")
+        posicionComboBox.items.addAll(boxItemsPosicion)
+
+        //Opciones de la comboBox de entrenador
+        //Por hacer los campos comunes de entrenador (especialidad)
+
     }
 
-    private fun onToggleViewAction() {
-        val cambiarModo = modoEdicionToggle.isSelected
-        editarButton.isDisable = cambiarModo
-        eliminarButton.isDisable = cambiarModo
-        añadirButton.isDisable = cambiarModo
+    fun onAddMemberAction() {
+        logger.debug { "onAddMemberAction" }
+        RoutesManager.initEleccionaStage()
+        buttonGuardar.isDisable = false
+        buttonCancelar.isDisable = false
+        paisField.isDisable = false
+        fechaIncorporacionField.isDisable = false
+        fechaNacimientoField.isDisable = false
+        salarioField.isDisable = false
+        apellidosField.isDisable = false
+        nombreField.isDisable = false
+        rolComboBox.isDisable = false
+        posicionComboBox.isDisable = false
 
-        if (cambiarModo) {
-            RoutesManager.initLoginStage()
-        }
     }
+
+    //Aquí irá lo que diferencia entre entrenador y jugador, es decir, cuando se seleccione en la comboBox de Rol la opcion jugador
+    //Automaticamente se activarán los botones de dicho rol para poder salvarlos o editarlos
+    fun onComboBoxAction() {
+
+    }
+
+
+
 
 }
 

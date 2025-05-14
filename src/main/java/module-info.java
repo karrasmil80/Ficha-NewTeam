@@ -61,5 +61,11 @@ module org.example.fichanewteam {
     opens org.example.fichanewteam.splashController to javafx.fxml;
     exports org.example.fichanewteam.splashController to javafx.fxml;
 
+    //Login Controller
+    opens org.example.fichanewteam.controllers.loginController to javafx.fxml;
+    exports org.example.fichanewteam.controllers.loginController to javafx.fxml;
 
+    //Eleccion Controller
+    opens org.example.fichanewteam.controllers.eleccion to javafx.fxml;
+    exports org.example.fichanewteam.controllers.eleccion to javafx.fxml;
 }
