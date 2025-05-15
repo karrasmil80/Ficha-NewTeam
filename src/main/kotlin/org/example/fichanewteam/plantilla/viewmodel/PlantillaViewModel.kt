@@ -5,11 +5,12 @@ import org.example.fichanewteam.plantilla.service.PlantillaService
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Jugador
+import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
-import org.example.fichanewteam.plantilla.models.Entrenador
-import org.example.fichanewteam.plantilla.models.Jugador
 import java.io.File
 import kotlin.String
 
@@ -97,7 +98,7 @@ class PlantillaViewModel(
         }
     }
 
-    /*
+/*
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
@@ -109,7 +110,7 @@ class PlantillaViewModel(
         when(plantilla.rol){
             "Jugador" -> state.value = state.value.copy(
                 jugador = JugadorState(
-                    id = jugador.id.toString(),
+                    id = jugador.id,
                     nombre = jugador.nombre,
                     apellidos = jugador.apellidos,
                     fechaNacimiento = jugador.fechaNacimiento,
@@ -117,17 +118,18 @@ class PlantillaViewModel(
                     salario = jugador.salario,
                     pais = jugador.pais,
                     rol = jugador.rol,
-                    posicion = jugador.posicion,
+                    posicion = jugador.posicion.toString(),
                     dorsal = jugador.dorsal,
                     altura = jugador.altura,
                     peso = jugador.peso,
                     goles = jugador.goles,
                     partidosJugados = jugador.partidosJugados,
-                )
+                    minutosJugados = jugador.minutosJugados,
+                ).toModel()
             )
             "Entrenador" -> state.value = state.value.copy(
                 entrenador = EntrenadorState(
-                    id = entrenador.id.toString(),
+                    id = entrenador.id,
                     nombre = entrenador.nombre,
                     apellidos = entrenador.apellidos,
                     fechaNacimiento = entrenador.fechaNacimiento,
@@ -136,37 +138,54 @@ class PlantillaViewModel(
                     pais = entrenador.pais,
                     rol = entrenador.rol,
                     especialidad = entrenador.especialidad
-                )
+                ).toModel()
             )
         }
     }
 
-     */
+    fun createJugador(): Result<Plantilla, PlantillaError>{
+        val newJugadorTemp = state.value.jugador.copy()
+        val newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
 
-    /*
-    fun createPlantilla(rol: String): Result<Plantilla, PlantillaError>{
-        when(rol){
-            "Jugador"-> {
-                var newJugadorTemp = state.value.jugador.copy()
-                var newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
-                return newJugador.validate().andThen {
-                    newJugadorTemp.fileImage?.let{ newFileImage ->
-                        storage.saveImage(newFileImage).onSuccess {
-                            newJugador = newJugadorTemp.copy(image = it.name)
-                        }
-                    }
-                    servicio.save(newJugador).andThen {
-                        state.value = state.value.copy(
-                            plantilla = state.value.plantilla + it
-                        )
-                        updateActualState()
-                        Ok(it)
-                    }
-                }
+    }
+
+
+    fun eliminarJugador(): Result<Unit, PlantillaError>{
+        val jugador = state.value.jugador.copy()
+        val myId = jugador.id.toLong()
+
+        jugador.fileImage?.let {
+            if (it.name != TipoImagen.SIN_IMAGEN.value){
+                storage.deleteImage(it)
             }
         }
+
+        servicio.deleteById(myId)
+        state.value = state.value.copy(jugador = state.value.jugador.toMutableList().apply{ this.removeIf { it.id == myId } })
+
+        updateActualState()
+        return Ok(Unit)
     }
-     */
+
+    fun eliminarEntrenador(): Result<Unit, PlantillaError>{
+        val entrenador = state.value.entrenador.copy()
+        val myId = entrenador.id.toLong()
+
+        entrenador.fileImage?.let {
+            if (it.name != TipoImagen.SIN_IMAGEN.value){
+                storage.deleteImage(it)
+            }
+        }
+
+        servicio.deleteById(myId)
+        state.value = state.value.copy(entrenador = state.value.entrenador.toMutableList().apply{ this.removeIf { it.id == myId } })
+
+        updateActualState()
+        return Ok(Unit)
+    }
+    */
+
+
 
     enum class TipoImagen(val value: String) {
         SIN_IMAGEN("images/default_profile.png"), EMPTY("sin-imagen.png")
@@ -210,27 +229,28 @@ class PlantillaViewModel(
     )
 
     data class JugadorState(
-        val id: String,
+        val id: Long,
         val nombre: String,
         val apellidos: String,
         val fechaNacimiento: String,
         val fechaIncorporacion: String,
-        val salario: Double,
+        val salario: Double?,
         val pais: String,
         val rol: String,
         val posicion: String,
-        val dorsal: Int,
-        val altura: Double,
-        val peso: Double,
+        val dorsal: Int?,
+        val altura: Double?,
+        val peso: Double?,
         val goles: Int,
         val partidosJugados: Int,
         val rutaImagen: Image = Image(RoutesManager.getResourceAsStream("images/default_profile.png")),
+        val minutosJugados: Double?,
         val fileImage: File? = null,
         val oldFileImage: File? = null,
     )
 
     data class EntrenadorState(
-        val id: String,
+        val id: Long,
         val nombre: String,
         val apellidos: String,
         val fechaNacimiento: String,

@@ -226,9 +226,32 @@
                                          <!-- Fila 6 - Campos específicos que se mostrarán según el rol -->
                                 <Label text="Rol:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
                                 <ComboBox fx:id="rolComboBox" prefHeight="45.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                        <VBox fx:id="camposJugadorContainer1" spacing="15" GridPane.rowIndex="7">
+                           <children>
+                              <Label styleClass="sub-title" text="Datos del Entrenador" />
+                              <GridPane hgap="15" vgap="15">
+                                 <columnConstraints>
+                                    <ColumnConstraints minWidth="150" />
+                                    <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Posición:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <ComboBox fx:id="posicionComboBox1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </VBox>
 
                                          <!-- Campos para jugadores -->
-                                <VBox fx:id="camposJugadorContainer" spacing="15" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                                <VBox fx:id="camposJugadorContainer" spacing="15" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="8">
                                     <Label styleClass="sub-title" text="Datos del Jugador" />
 
                                              <GridPane hgap="15" vgap="15">
@@ -260,24 +283,6 @@
                                             <RowConstraints />
                                             <RowConstraints />
                                             <RowConstraints />
-                                            <RowConstraints />
-                                        </rowConstraints>
-                                    </GridPane>
-                                </VBox>
-
-                                         <!-- Campos para entrenadores -->
-                                <VBox fx:id="camposEntrenadorContainer" managed="false" spacing="15" visible="false" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="7">
-                                    <Label styleClass="sub-title" text="Datos del Entrenador" />
-
-                                             <GridPane hgap="15" vgap="15">
-                                        <columnConstraints>
-                                            <ColumnConstraints minWidth="150" />
-                                            <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
-                                        </columnConstraints>
-
-                                                 <Label text="Especialidad:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                        <ComboBox fx:id="especialidadComboBox" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                        <rowConstraints>
                                             <RowConstraints />
                                         </rowConstraints>
                                     </GridPane>
