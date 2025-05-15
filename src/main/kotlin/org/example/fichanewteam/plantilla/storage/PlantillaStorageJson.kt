@@ -16,7 +16,7 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import org.example.fichanewteam.plantilla.mapper.toModel
 import java.io.File
-
+/*
 class PlantillaStorageJson : PlantillaStorage {
     private val logger = logging()
 
@@ -86,5 +86,6 @@ class PlantillaStorageJson : PlantillaStorage {
         }
     }
 }
+ */
 
 
