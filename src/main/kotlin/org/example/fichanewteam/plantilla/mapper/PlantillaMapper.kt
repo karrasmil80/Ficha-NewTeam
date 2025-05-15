@@ -199,6 +199,9 @@ fun PlantillaEntity.toModel() : Plantilla {
             especialidad = Entrenador.Especializacion.valueOf(especialidad!!.toString()).toString(),
             rutaImagen = entrenador.rutaImagen
         )
+    }
 
+    fun List<PlantillaDto>.toModel(): List<Plantilla> {
+        return map { it.toModel() }
     }
 }

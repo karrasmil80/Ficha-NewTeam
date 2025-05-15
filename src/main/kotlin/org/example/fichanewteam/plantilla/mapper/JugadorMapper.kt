@@ -6,7 +6,7 @@ import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
-import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel.PlantillaState
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel.JugadorState
 import kotlin.toString
 
 //Función que convierte el modelo a dto
@@ -94,7 +94,7 @@ fun JugadorEntity.toModel(): Jugador {
         partidosJugados = this.partidosJugados,
         rol = this.rol,
         rutaImagen = this.rutaImagen,
-        minutosJugados = this.minutosJugados!!
+        minutosJugados = this.minutosJugados
     )
 }
 
@@ -118,8 +118,9 @@ fun JugadorDto.toEntity(): JugadorEntity {
         rutaImagen = this.rutaImagen,
         minutosJugados = this.minutosJugados
     )
+}
 
-    fun PlantillaViewModel.JugadorState.toModel(): Jugador {
+    fun JugadorState.toModel(): Jugador {
         return Jugador(
             id = this.id,
             nombre = this.nombre,
@@ -138,4 +139,3 @@ fun JugadorDto.toEntity(): JugadorEntity {
             minutosJugados = this.minutosJugados
         )
     }
-}

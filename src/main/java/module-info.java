@@ -67,4 +67,7 @@ module org.example.fichanewteam {
     opens org.example.fichanewteam.controllers.loginController to javafx.fxml;
     exports org.example.fichanewteam.controllers.loginController to javafx.fxml;
 
+    //Mappers
+    opens org.example.fichanewteam.plantilla.mapper to javafx.fxml;
+    exports org.example.fichanewteam.plantilla.mapper to javafx.fxml;
 }
