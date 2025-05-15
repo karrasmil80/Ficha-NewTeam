@@ -1,9 +1,11 @@
 package org.example.fichanewteam.plantilla.storage
-/*
+
+import com.github.michaelbull.result.Result
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.dto.PlantillaDto
+import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.mapper.toDto
 import org.example.fichanewteam.plantilla.mapper.toEntrenador
 import org.example.fichanewteam.plantilla.mapper.toJugador
@@ -58,6 +60,29 @@ class PlantillaStorageJson : PlantillaStorage {
             file.writeText(jsonString)
         }
     }
+
+    override fun storageDataJson(file: File, data: List<Plantilla>): Result<Long, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteAllImages(): Result<Long, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun loadDataJson(file: File): Result<List<Plantilla>, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun loadImage(imagenName: String): Result<List<Plantilla>, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveImage(fileName: File): Result<File, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteImage(fileName: String): Result<Unit, PlantillaError> {
+        TODO("Not yet implemented")
+    }
 }
 
- */

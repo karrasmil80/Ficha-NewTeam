@@ -5,11 +5,12 @@ import org.example.fichanewteam.plantilla.service.PlantillaService
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Jugador
+import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
-import org.example.fichanewteam.plantilla.models.Entrenador
-import org.example.fichanewteam.plantilla.models.Jugador
 import java.io.File
 import kotlin.String
 
@@ -20,7 +21,7 @@ class PlantillaViewModel(
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
-    init{
+    init {
         loadPlantilla()
         loadTypes()
     }
@@ -35,36 +36,45 @@ class PlantillaViewModel(
             updateActualState()
         }
     }
-    private fun updateActualState() {
-        //Consultas lucia
-        val golesPromedio = state.value.jugador.map{ it.goles }.average()
-        val salarioMaximo = state.value.jugador.maxOf{ it.salario!!.toDouble() }
-        val alturaMinima = state.value.jugador.minOf{ it.altura!!.toDouble() }
-        val totalPartidos = state.value.jugador.sumOf{ it.partidosJugados }
-        val minutospromedio = state.value.jugador.map { it.minutosJugados!! }.average()
 
-        //Consultas Pablo
-        //ACUERDATE DE LAS INSTRUCIONES QUE TE HE DADO EN CLASE Y EN SU DEFECTO PREGUNTA
-        /*
-        val salarioPromedio
-        val incorporacionAntigua
-        val nacimientoActual
-        val entrenadoresAsistentes
-        val entrenadoresEspañoles
-        */
+    private fun updateActualState() {
+        //Consultas jugadores
+        val golesPromedioConsulta = state.value.jugador.map{ it.goles }.average()
+        val salarioMaximoConsulta = state.value.jugador.mapNotNull { it.salario }.maxOrNull() ?: 0.0
+        val alturaMinimaConsulta = state.value.jugador.mapNotNull{ it.altura }.minOrNull() ?: 0.0
+        val totalPartidosConsulta = state.value.jugador.sumOf{ it.partidosJugados }
+        val minutospromedioConsulta = state.value.jugador.mapNotNull { it.minutosJugados }.average()
+
+        //Consultas Entrenadores
+        val salarioPromedioConsulta = state.value.entrenador.mapNotNull { it.salario }.average()
+        val incorporacionAntiguaConsulta = state.value.entrenador.minBy { it.fechaIncorporacion }.toString()
+        val nacimientoActualConsulta =  state.value.entrenador.maxBy { it.fechaNacimiento }.toString()
+        val entrenadoresAsistentesConsulta = state.value.entrenador.map { it.especialidad == "ASISTENTE" }.count()
+        val entrenadoresEspañolesConsulta = state.value.entrenador.map { it.pais == "España" }.count()
+
 
         state.value = state.value.copy(
-            golesPromedio = golesPromedio,
-            salarioMaximo = salarioMaximo,
-            alturaMinima = alturaMinima,
-            totalPartidos = totalPartidos,
-            minutosPromedio = minutospromedio,
 
+            //State de jugadores
+            golesPromedio = golesPromedioConsulta,
+            salarioMaximo = salarioMaximoConsulta,
+            alturaMinima = alturaMinimaConsulta,
+            totalPartidos = totalPartidosConsulta,
+            minutosPromedio = minutospromedioConsulta,
 
-            persona = PlantillaState()
+            //State de entrenadores
+            salarioPromedio = salarioPromedioConsulta,
+            incorporacionAntigua = incorporacionAntiguaConsulta,
+            entrenadoresAsistentes = entrenadoresAsistentesConsulta,
+            nacimientoActual = nacimientoActualConsulta,
+            entrenadoresEspanoles =entrenadoresEspañolesConsulta ,
+
+            //Aqui se guarda el state de los miembros de la plantilla
+            miembro = PlantillaState()
         )
     }
 
+    /* //EN PRINCIPIO YA LA TENGO YO HECHA EN EL CONTROLLER
     fun plantillaFilteredList(tipo: String, nombre: String): List<Plantilla>{
         return state.value.plantilla
             .filter { plantilla ->
@@ -77,6 +87,8 @@ class PlantillaViewModel(
                 plantilla.nombre.contains(nombre, true)
             }
     }
+
+     */
 
     fun savePlantillaToJson(file:File): Result<Long, PlantillaError> {
         return storage.storageDataJson(file, state.value.plantilla)
@@ -97,7 +109,7 @@ class PlantillaViewModel(
         }
     }
 
-    /*
+/*
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
@@ -109,7 +121,7 @@ class PlantillaViewModel(
         when(plantilla.rol){
             "Jugador" -> state.value = state.value.copy(
                 jugador = JugadorState(
-                    id = jugador.id.toString(),
+                    id = jugador.id,
                     nombre = jugador.nombre,
                     apellidos = jugador.apellidos,
                     fechaNacimiento = jugador.fechaNacimiento,
@@ -117,17 +129,18 @@ class PlantillaViewModel(
                     salario = jugador.salario,
                     pais = jugador.pais,
                     rol = jugador.rol,
-                    posicion = jugador.posicion,
+                    posicion = jugador.posicion.toString(),
                     dorsal = jugador.dorsal,
                     altura = jugador.altura,
                     peso = jugador.peso,
                     goles = jugador.goles,
                     partidosJugados = jugador.partidosJugados,
-                )
+                    minutosJugados = jugador.minutosJugados,
+                ).toModel()
             )
             "Entrenador" -> state.value = state.value.copy(
                 entrenador = EntrenadorState(
-                    id = entrenador.id.toString(),
+                    id = entrenador.id,
                     nombre = entrenador.nombre,
                     apellidos = entrenador.apellidos,
                     fechaNacimiento = entrenador.fechaNacimiento,
@@ -136,40 +149,58 @@ class PlantillaViewModel(
                     pais = entrenador.pais,
                     rol = entrenador.rol,
                     especialidad = entrenador.especialidad
-                )
+                ).toModel()
             )
         }
     }
 
-     */
+    fun createJugador(): Result<Plantilla, PlantillaError>{
+        val newJugadorTemp = state.value.jugador.copy()
+        val newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
 
-    /*
-    fun createPlantilla(rol: String): Result<Plantilla, PlantillaError>{
-        when(rol){
-            "Jugador"-> {
-                var newJugadorTemp = state.value.jugador.copy()
-                var newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
-                return newJugador.validate().andThen {
-                    newJugadorTemp.fileImage?.let{ newFileImage ->
-                        storage.saveImage(newFileImage).onSuccess {
-                            newJugador = newJugadorTemp.copy(image = it.name)
-                        }
-                    }
-                    servicio.save(newJugador).andThen {
-                        state.value = state.value.copy(
-                            plantilla = state.value.plantilla + it
-                        )
-                        updateActualState()
-                        Ok(it)
-                    }
-                }
+    }
+
+
+    fun eliminarJugador(): Result<Unit, PlantillaError>{
+        val jugador = state.value.jugador.copy()
+        val myId = jugador.id.toLong()
+
+        jugador.fileImage?.let {
+            if (it.name != TipoImagen.SIN_IMAGEN.value){
+                storage.deleteImage(it)
             }
         }
+
+        servicio.deleteById(myId)
+        state.value = state.value.copy(jugador = state.value.jugador.toMutableList().apply{ this.removeIf { it.id == myId } })
+
+        updateActualState()
+        return Ok(Unit)
     }
-     */
+
+    fun eliminarEntrenador(): Result<Unit, PlantillaError>{
+        val entrenador = state.value.entrenador.copy()
+        val myId = entrenador.id.toLong()
+
+        entrenador.fileImage?.let {
+            if (it.name != TipoImagen.SIN_IMAGEN.value){
+                storage.deleteImage(it)
+            }
+        }
+
+        servicio.deleteById(myId)
+        state.value = state.value.copy(entrenador = state.value.entrenador.toMutableList().apply{ this.removeIf { it.id == myId } })
+
+        updateActualState()
+        return Ok(Unit)
+    }
+    */
+
+
 
     enum class TipoImagen(val value: String) {
-        SIN_IMAGEN("images/default_profile.png"), EMPTY("sin-imagen.png")
+        SIN_IMAGEN("images/default_profile.png"),
+        EMPTY("sin-imagen.png") //
     }
 
     enum class TipoFiltro(val value: String) {
@@ -177,21 +208,29 @@ class PlantillaViewModel(
     }
 
     data class ExpedienteState(
+
         //Contenedores
         val typesPlantilla: List<String> = emptyList(),
         val plantilla: List<Plantilla> = emptyList(),
         val jugador: List<Jugador> = emptyList(),
         val entrenador: List<Entrenador> = emptyList(),
 
-        //Variables de las consultas
+        //Variables de las consultas de jugadores
         val golesPromedio: Double = 0.00,
         val salarioMaximo: Double = 0.00,
         val alturaMinima: Double = 0.00,
         val totalPartidos: Int = 0,
         val minutosPromedio: Double = 0.00,
 
+        //Variables de las consultas de entrenador
+        val salarioPromedio: Double = 0.00,
+        val incorporacionAntigua: String = "",
+        val nacimientoActual: String = "",
+        val entrenadoresAsistentes: Int = 0,
+        val entrenadoresEspanoles: Int = 0,
+
         //Persona hace referencia al conjunto es decir el individual de plantilla
-        val persona: PlantillaState = PlantillaState()
+        val miembro : PlantillaState = PlantillaState()
 
     )
 
@@ -210,27 +249,28 @@ class PlantillaViewModel(
     )
 
     data class JugadorState(
-        val id: String,
+        val id: Long,
         val nombre: String,
         val apellidos: String,
         val fechaNacimiento: String,
         val fechaIncorporacion: String,
-        val salario: Double,
+        val salario: Double?,
         val pais: String,
         val rol: String,
         val posicion: String,
-        val dorsal: Int,
-        val altura: Double,
-        val peso: Double,
+        val dorsal: Int?,
+        val altura: Double?,
+        val peso: Double?,
         val goles: Int,
         val partidosJugados: Int,
         val rutaImagen: Image = Image(RoutesManager.getResourceAsStream("images/default_profile.png")),
+        val minutosJugados: Double?,
         val fileImage: File? = null,
         val oldFileImage: File? = null,
     )
 
     data class EntrenadorState(
-        val id: String,
+        val id: Long,
         val nombre: String,
         val apellidos: String,
         val fechaNacimiento: String,
