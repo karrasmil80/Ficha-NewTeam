@@ -194,8 +194,13 @@ class HelloController {
 
     @FXML
     fun initialize() {
+
         initEvents()
         initDefaultValues()
+
+        //Las añado aqui por qué si no hay que hacer click dos veces para que se inicialice
+        onComboBoxAction()
+        onAddMemberAction()
     }
 
     fun initEvents() {
@@ -203,7 +208,6 @@ class HelloController {
         menuHelp.setOnAction { onHelpAction() }
         menuSalir.setOnAction { RoutesManager.onAppExit() }
         añadirButton.setOnAction { onAddMemberAction()}
-        //modoEdicionToggle.setOnAction { onToggleViewAction() }
     }
 
     fun onHelpAction() {
@@ -223,10 +227,7 @@ class HelloController {
         menuHelp.accelerator = KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)
 
         //Variables desactivadas al inicio de la app para imposibilitar el editarlas
-        buttonGuardar.isDisable = true
-        buttonCancelar.isDisable = true
-        buttonGuardar.isDisable = true
-        buttonCancelar.isDisable = true
+
         paisField.isDisable = true
         fechaIncorporacionField.isDisable = true
         fechaNacimientoField.isDisable = true
@@ -266,29 +267,45 @@ class HelloController {
 
     fun onAddMemberAction() {
         logger.debug { "onAddMemberAction" }
-        RoutesManager.initEleccionaStage()
-        buttonGuardar.isDisable = false
-        buttonCancelar.isDisable = false
-        paisField.isDisable = false
-        fechaIncorporacionField.isDisable = false
-        fechaNacimientoField.isDisable = false
-        salarioField.isDisable = false
-        apellidosField.isDisable = false
-        nombreField.isDisable = false
-        rolComboBox.isDisable = false
-        posicionComboBox.isDisable = false
-
+        añadirButton.setOnAction {
+            buttonGuardar.isDisable = false
+            buttonCancelar.isDisable = false
+            paisField.isDisable = false
+            fechaIncorporacionField.isDisable = false
+            fechaNacimientoField.isDisable = false
+            salarioField.isDisable = false
+            apellidosField.isDisable = false
+            nombreField.isDisable = false
+            rolComboBox.isDisable = false
+        }
     }
 
     //Aquí irá lo que diferencia entre entrenador y jugador, es decir, cuando se seleccione en la comboBox de Rol la opcion jugador
     //Automaticamente se activarán los botones de dicho rol para poder salvarlos o editarlos
     fun onComboBoxAction() {
+        rolComboBox.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+            if (newValue == "Jugador") {
+                posicionComboBox.isDisable = false
+                dorsalField.isDisable = false
+                alturaField.isDisable = false
+                pesoField.isDisable = false
+                golesField.isDisable = false
+                partidosField.isDisable = false
+            }
+            if (newValue == "Entrenador") {
+                //Field de entrenador
+                especialidadComboBox.isDisable = false
 
+                //Field de jugador
+                posicionComboBox.isDisable = true
+                dorsalField.isDisable = true
+                alturaField.isDisable = true
+                pesoField.isDisable = true
+                golesField.isDisable = true
+                partidosField.isDisable = true
+            }
+        }
     }
-
-
-
-
 }
 
 

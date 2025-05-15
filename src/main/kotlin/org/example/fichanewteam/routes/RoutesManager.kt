@@ -149,22 +149,6 @@ object RoutesManager {
         }.show()
     }
 
-    fun initEleccionaStage() {
-        val fxmlLoader = FXMLLoader(getResource(View.ELECCION.fxml))
-        val root = fxmlLoader.load<Pane>()
-        val newScene = Scene(root, 400.0, 400.0)
-        Stage().apply {
-            title = "Eleccion"
-            scene = newScene
-            initOwner(escenaPrincipal)
-            centerOnScreen()
-            icons.add(Image(getResourceAsStream("images/logo.png")))
-            isResizable = false
-            initModality(Modality.WINDOW_MODAL)
-        }.show()
-    }
-
-
     /**
      * Funcion que gestiona la ruta para salir de la aplicacion
      * @param title --> título que se mostrará al presionar el botón exit
