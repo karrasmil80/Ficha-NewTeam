@@ -33,6 +33,8 @@ module org.example.fichanewteam {
 
     // Open Vadin --> PARA ABRIR EN NAVEGADOR
     requires open;
+    requires koin.core.jvm;
+
 
     //Test
 

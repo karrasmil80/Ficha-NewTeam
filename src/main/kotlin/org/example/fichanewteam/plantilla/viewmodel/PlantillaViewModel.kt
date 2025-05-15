@@ -46,20 +46,31 @@ class PlantillaViewModel(
         val minutospromedioConsulta = state.value.jugador.mapNotNull { it.minutosJugados }.average()
 
         //Consultas Entrenadores
-        val salarioPromedio = state.value.entrenador.mapNotNull { it.salario }.average()
-        val incorporacionAntigua = state.value.entrenador.minBy { it.fechaIncorporacion }
-        val nacimientoActual =  state.value.entrenador.maxBy { it.fechaNacimiento }
-        val entrenadoresAsistentes = state.value.entrenador.map { it.especialidad }.equals("ASISTENTE")
-        val entrenadoresEspañoles = state.value.entrenador.map { it.pais }.equals("España")
+        val salarioPromedioConsulta = state.value.entrenador.mapNotNull { it.salario }.average()
+        val incorporacionAntiguaConsulta = state.value.entrenador.minBy { it.fechaIncorporacion }.toString()
+        val nacimientoActualConsulta =  state.value.entrenador.maxBy { it.fechaNacimiento }.toString()
+        val entrenadoresAsistentesConsulta = state.value.entrenador.map { it.especialidad == "ASISTENTE" }.count()
+        val entrenadoresEspañolesConsulta = state.value.entrenador.map { it.pais == "España" }.count()
 
 
         state.value = state.value.copy(
+
+            //State de jugadores
             golesPromedio = golesPromedioConsulta,
             salarioMaximo = salarioMaximoConsulta,
             alturaMinima = alturaMinimaConsulta,
             totalPartidos = totalPartidosConsulta,
             minutosPromedio = minutospromedioConsulta,
-            persona = PlantillaState()
+
+            //State de entrenadores
+            salarioPromedio = salarioPromedioConsulta,
+            incorporacionAntigua = incorporacionAntiguaConsulta,
+            entrenadoresAsistentes = entrenadoresAsistentesConsulta,
+            nacimientoActual = nacimientoActualConsulta,
+            entrenadoresEspanoles =entrenadoresEspañolesConsulta ,
+
+            //Aqui se guarda el state de los miembros de la plantilla
+            miembro = PlantillaState()
         )
     }
 
@@ -197,6 +208,7 @@ class PlantillaViewModel(
     }
 
     data class ExpedienteState(
+
         //Contenedores
         val typesPlantilla: List<String> = emptyList(),
         val plantilla: List<Plantilla> = emptyList(),
@@ -218,7 +230,7 @@ class PlantillaViewModel(
         val entrenadoresEspanoles: Int = 0,
 
         //Persona hace referencia al conjunto es decir el individual de plantilla
-        val persona: PlantillaState = PlantillaState()
+        val miembro : PlantillaState = PlantillaState()
 
     )
 
