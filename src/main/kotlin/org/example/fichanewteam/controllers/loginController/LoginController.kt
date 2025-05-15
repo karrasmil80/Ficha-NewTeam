@@ -1,5 +1,6 @@
 package org.example.fichanewteam.controllers.loginController
 
+import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.control.Button
 import javafx.scene.control.Label
@@ -24,8 +25,24 @@ class LoginController {
 
     fun initialize() {
         logger.debug { "Iniciando pantalla de login" }
+        initEvents()
+    }
+
+    fun initEvents(){
+        contrasenaField.onAction = EventHandler { onLoginAction() }
+        usuarioField.onAction = EventHandler { onLoginAction() }
+    }
+
+    fun onLoginAction(){
+        contrasenaField = ""
+    }
+
+    fun loginButtonClicked(){
         loginButton.setOnAction {
             RoutesManager.initPlantillaStage()
         }
     }
+
+
+
 }
