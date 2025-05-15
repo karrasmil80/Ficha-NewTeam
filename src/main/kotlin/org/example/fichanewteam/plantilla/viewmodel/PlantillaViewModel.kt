@@ -21,7 +21,7 @@ class PlantillaViewModel(
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
-    init{
+    init {
         loadPlantilla()
         loadTypes()
     }
@@ -36,36 +36,45 @@ class PlantillaViewModel(
             updateActualState()
         }
     }
-    private fun updateActualState() {
-        //Consultas lucia
-        val golesPromedio = state.value.jugador.map{ it.goles }.average()
-        val salarioMaximo = state.value.jugador.maxOf{ it.salario!!.toDouble() }
-        val alturaMinima = state.value.jugador.minOf{ it.altura!!.toDouble() }
-        val totalPartidos = state.value.jugador.sumOf{ it.partidosJugados }
-        val minutospromedio = state.value.jugador.map { it.minutosJugados!! }.average()
 
-        //Consultas Pablo
-        //ACUERDATE DE LAS INSTRUCIONES QUE TE HE DADO EN CLASE Y EN SU DEFECTO PREGUNTA
-        /*
-        val salarioPromedio
-        val incorporacionAntigua
-        val nacimientoActual
-        val entrenadoresAsistentes
-        val entrenadoresEspañoles
-        */
+    private fun updateActualState() {
+        //Consultas jugadores
+        val golesPromedioConsulta = state.value.jugador.map{ it.goles }.average()
+        val salarioMaximoConsulta = state.value.jugador.mapNotNull { it.salario }.maxOrNull() ?: 0.0
+        val alturaMinimaConsulta = state.value.jugador.mapNotNull{ it.altura }.minOrNull() ?: 0.0
+        val totalPartidosConsulta = state.value.jugador.sumOf{ it.partidosJugados }
+        val minutospromedioConsulta = state.value.jugador.mapNotNull { it.minutosJugados }.average()
+
+        //Consultas Entrenadores
+        val salarioPromedioConsulta = state.value.entrenador.mapNotNull { it.salario }.average()
+        val incorporacionAntiguaConsulta = state.value.entrenador.minBy { it.fechaIncorporacion }.toString()
+        val nacimientoActualConsulta =  state.value.entrenador.maxBy { it.fechaNacimiento }.toString()
+        val entrenadoresAsistentesConsulta = state.value.entrenador.map { it.especialidad == "ASISTENTE" }.count()
+        val entrenadoresEspañolesConsulta = state.value.entrenador.map { it.pais == "España" }.count()
+
 
         state.value = state.value.copy(
-            golesPromedio = golesPromedio,
-            salarioMaximo = salarioMaximo,
-            alturaMinima = alturaMinima,
-            totalPartidos = totalPartidos,
-            minutosPromedio = minutospromedio,
 
+            //State de jugadores
+            golesPromedio = golesPromedioConsulta,
+            salarioMaximo = salarioMaximoConsulta,
+            alturaMinima = alturaMinimaConsulta,
+            totalPartidos = totalPartidosConsulta,
+            minutosPromedio = minutospromedioConsulta,
 
-            persona = PlantillaState()
+            //State de entrenadores
+            salarioPromedio = salarioPromedioConsulta,
+            incorporacionAntigua = incorporacionAntiguaConsulta,
+            entrenadoresAsistentes = entrenadoresAsistentesConsulta,
+            nacimientoActual = nacimientoActualConsulta,
+            entrenadoresEspanoles =entrenadoresEspañolesConsulta ,
+
+            //Aqui se guarda el state de los miembros de la plantilla
+            miembro = PlantillaState()
         )
     }
 
+    /* //EN PRINCIPIO YA LA TENGO YO HECHA EN EL CONTROLLER
     fun plantillaFilteredList(tipo: String, nombre: String): List<Plantilla>{
         return state.value.plantilla
             .filter { plantilla ->
@@ -78,6 +87,8 @@ class PlantillaViewModel(
                 plantilla.nombre.contains(nombre, true)
             }
     }
+
+     */
 
     fun savePlantillaToJson(file:File): Result<Long, PlantillaError> {
         return storage.storageDataJson(file, state.value.plantilla)
@@ -188,7 +199,8 @@ class PlantillaViewModel(
 
 
     enum class TipoImagen(val value: String) {
-        SIN_IMAGEN("images/default_profile.png"), EMPTY("sin-imagen.png")
+        SIN_IMAGEN("images/default_profile.png"),
+        EMPTY("sin-imagen.png") //
     }
 
     enum class TipoFiltro(val value: String) {
@@ -196,21 +208,29 @@ class PlantillaViewModel(
     }
 
     data class ExpedienteState(
+
         //Contenedores
         val typesPlantilla: List<String> = emptyList(),
         val plantilla: List<Plantilla> = emptyList(),
         val jugador: List<Jugador> = emptyList(),
         val entrenador: List<Entrenador> = emptyList(),
 
-        //Variables de las consultas
+        //Variables de las consultas de jugadores
         val golesPromedio: Double = 0.00,
         val salarioMaximo: Double = 0.00,
         val alturaMinima: Double = 0.00,
         val totalPartidos: Int = 0,
         val minutosPromedio: Double = 0.00,
 
+        //Variables de las consultas de entrenador
+        val salarioPromedio: Double = 0.00,
+        val incorporacionAntigua: String = "",
+        val nacimientoActual: String = "",
+        val entrenadoresAsistentes: Int = 0,
+        val entrenadoresEspanoles: Int = 0,
+
         //Persona hace referencia al conjunto es decir el individual de plantilla
-        val persona: PlantillaState = PlantillaState()
+        val miembro : PlantillaState = PlantillaState()
 
     )
 
