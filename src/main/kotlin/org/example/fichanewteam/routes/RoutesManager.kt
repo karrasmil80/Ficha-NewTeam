@@ -35,10 +35,11 @@ object RoutesManager {
      */
 
     enum class View(val fxml : String) {
-        MAIN("views/plantilla-view.fxml"),
+        PLANTILLA("views/plantilla-view.fxml"),
         HELP("views/acerca-de-view.fxml"),
         SPLASH("views/splash.fxml"),
-        LOGIN("views/login-view.fxml")
+        LOGIN("views/login-view.fxml"),
+        ELECCION("views/eleccion-view.fxml");
     }
 
     /**
@@ -79,9 +80,9 @@ object RoutesManager {
 
     fun initMainStage(mainStage: Stage) {
         logger.debug { "Iniciando Main Stage" }
-        val fxmlLoader = FXMLLoader(getResource(View.MAIN.fxml))
+        val fxmlLoader = FXMLLoader(getResource(View.LOGIN.fxml))
         val root = fxmlLoader.load<Pane>()
-        val newScene = Scene(root, 1160.0, 720.0)
+        val newScene = Scene(root, 400.0, 400.0)
         mainStage.apply {
             title = "New-Team"
             scene = newScene
@@ -133,18 +134,32 @@ object RoutesManager {
         }.show()
     }
 
-    fun initLoginStage() {
-        val fxmlLoader = FXMLLoader(getResource(View.LOGIN.fxml))
+    fun initPlantillaStage() {
+        val fxmlLoader = FXMLLoader(getResource(View.PLANTILLA.fxml))
         val root = fxmlLoader.load<Pane>()
         val newScene = Scene(root, 1160.0, 720.0)
-
         Stage().apply {
-            title = "Login"
-            isResizable = false
+            title = "Plantilla"
             scene = newScene
             initOwner(escenaPrincipal)
             centerOnScreen()
             icons.add(Image(getResourceAsStream("images/logo.png")))
+            isResizable = false
+            initModality(Modality.WINDOW_MODAL)
+        }.show()
+    }
+
+    fun initEleccionaStage() {
+        val fxmlLoader = FXMLLoader(getResource(View.ELECCION.fxml))
+        val root = fxmlLoader.load<Pane>()
+        val newScene = Scene(root, 400.0, 400.0)
+        Stage().apply {
+            title = "Eleccion"
+            scene = newScene
+            initOwner(escenaPrincipal)
+            centerOnScreen()
+            icons.add(Image(getResourceAsStream("images/logo.png")))
+            isResizable = false
             initModality(Modality.WINDOW_MODAL)
         }.show()
     }

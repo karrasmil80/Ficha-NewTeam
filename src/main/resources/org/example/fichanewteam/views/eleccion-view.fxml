@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="225.0" prefWidth="329.0" spacing="20.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fichanewteam.controllers.HelloController">
+<VBox alignment="CENTER" prefHeight="225.0" prefWidth="329.0" spacing="20.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fichanewteam.controllers.eleccion.EleccionController">
     <padding>
         <Insets bottom="40" left="40" right="40" top="40" />
     </padding>
@@ -23,9 +23,9 @@
       </HBox>
       <HBox prefHeight="25.0" prefWidth="295.0">
          <children>
-              <Button fx:id="loginButton" defaultButton="true" minWidth="85.0" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Jugador" />
+              <Button fx:id="jugadorButton" defaultButton="true" minWidth="85.0" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Jugador" />
             <Label prefHeight="17.0" prefWidth="42.0" text="Label" />
-            <Button fx:id="loginButton1" defaultButton="true" minWidth="94.0" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Entrenador" />
+            <Button fx:id="entrenadorButton" defaultButton="true" minWidth="94.0" prefHeight="25.0" prefWidth="103.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Entrenador" />
          </children>
       </HBox>
     </children>

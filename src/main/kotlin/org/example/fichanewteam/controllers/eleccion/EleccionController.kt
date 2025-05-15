@@ -3,18 +3,12 @@ package org.example.fichanewteam.controllers.eleccion
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.event.EventHandler
+import org.example.fichanewteam.routes.RoutesManager
 
 
 class EleccionController {
-    @FXML
-    private lateinit var eleccionEntrenador: Button
 
-    @FXML
-    private lateinit var eleccionJugador: Button
-
-    @FXML
-    private lateinit var textField: TextField
-
+    /*
     @FXML
     private fun initialize() {
         initEvents()
@@ -37,6 +31,29 @@ class EleccionController {
         var isEntrenador = true
         textField.text = "Entrenador"
         return isEntrenador
+    }
+
+     */
+
+
+    @FXML
+    private lateinit var jugadorButton: Button
+
+    @FXML
+    private lateinit var entrenadorButton: Button
+
+    fun initialize() {
+        initEvents()
+    }
+
+    fun initEvents() {
+        jugadorButton.setOnAction { onButtonJugadorClicked() }
+    }
+
+    fun onButtonJugadorClicked() {
+        jugadorButton.setOnAction {
+            RoutesManager.initHelpStage()
+        }
     }
 
 }
