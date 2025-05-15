@@ -16,7 +16,7 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import org.example.fichanewteam.plantilla.mapper.toModel
 import java.io.File
-/*
+
 class PlantillaStorageJson : PlantillaStorage {
     private val logger = logging()
 
@@ -78,14 +78,23 @@ class PlantillaStorageJson : PlantillaStorage {
             ignoreUnknownKeys = true
         }
         return try{
-            val jsonString = file.readText()
-            val data = json.decodeFromString<List<PlantillaDto>>(jsonString)
-            Ok(data.toModel())
+    //            val jsonString = file.readText()
+    //            val data = json.decodeFromString<List<PlantillaDto>>(jsonString)
+    //            Ok(data.toModel)
         }catch (e: Exception){
             Err(PlantillaError.PlantillaStorageError("Error a la hora de cargar los datos del Json"))
-        }
+        } as Result<List<Plantilla>, PlantillaError>
+    }
+
+    override fun loadImage(imagenName: String): Result<List<Plantilla>, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveImage(fileName: File): Result<File, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteImage(fileName: String): Result<Unit, PlantillaError> {
+        TODO("Not yet implemented")
     }
 }
- */
-
-
