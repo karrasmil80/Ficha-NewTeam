@@ -1,6 +1,6 @@
 package org.example.fichanewteam.plantilla.models
 
-class Ususario (
-    var nombreUsusario: String,
+class Usuario (
+    var nombreUsuario: String,
     var contraseña: String
 )
