@@ -23,7 +23,6 @@ import java.sql.PreparedStatement
 private val logger = logging()
 class HelloController {
 
-
     // Elementos de la interfaz para vincular con fx:id en el FXML
     @FXML
     private lateinit var modoEdicionToggle: ToggleButton
@@ -190,6 +189,9 @@ class HelloController {
     @FXML
     private lateinit var golePromedioField: TextField
 
+    @FXML
+    private lateinit var filterComboBox: ComboBox<String>
+
 
 
     @FXML
@@ -201,6 +203,7 @@ class HelloController {
         //Las añado aqui por qué si no hay que hacer click dos veces para que se inicialice
         onComboBoxAction()
         onAddMemberAction()
+        onEditMemberAction()
     }
 
     fun initEvents() {
@@ -260,6 +263,9 @@ class HelloController {
         val boxItemsPosicion = listOf("Defensa", "Centrocampista", "Delantero", "Portero")
         posicionComboBox.items.addAll(boxItemsPosicion)
 
+        val boxItemsFilter = listOf("Jugador", "Entrenador", "Todos")
+        filterComboBox.items.addAll(boxItemsFilter)
+
         //Opciones de la comboBox de entrenador
         //Por hacer los campos comunes de entrenador (especialidad)
 
@@ -278,6 +284,26 @@ class HelloController {
             nombreField.isDisable = false
             rolComboBox.isDisable = false
         }
+    }
+
+    fun onEditMemberAction() {
+        logger.debug { "onEditMemberAction" }
+        editarButton.setOnAction {
+            buttonGuardar.isDisable = false
+            buttonCancelar.isDisable = false
+            paisField.isDisable = false
+            fechaIncorporacionField.isDisable = false
+            fechaNacimientoField.isDisable = false
+            salarioField.isDisable = false
+            apellidosField.isDisable = false
+            nombreField.isDisable = false
+            rolComboBox.isDisable = false
+        }
+    }
+
+    //Por implementar
+    fun onDeleteMemberAction() {
+        logger.debug { "onDeleteMemberAction" }
     }
 
     //Aquí irá lo que diferencia entre entrenador y jugador, es decir, cuando se seleccione en la comboBox de Rol la opcion jugador

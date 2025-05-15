@@ -78,7 +78,7 @@
                     <Label styleClass="section-title" text="Miembros del Equipo" />
 
                     <HBox alignment="CENTER_LEFT" spacing="10" styleClass="filter-panel">
-                        <ComboBox prefWidth="150" promptText="Filtrar por tipo">
+                        <ComboBox fx:id="filterComboBox" prefWidth="150" promptText="Filtrar por tipo">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></ComboBox>
