@@ -12,9 +12,12 @@ import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
 import org.example.fichanewteam.plantilla.storage.PlantillaImageStorage
+import org.lighthousegames.logging.logging
 import java.io.File
 import kotlin.String
 
+
+private val logger = logging()
 
 class PlantillaViewModel(
     private val servicio: PlantillaService,
@@ -111,20 +114,18 @@ class PlantillaViewModel(
         }
     }
 
-
-
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
 
-        storage.loadImage(plantilla.rutaImagen).onSuccess {
+        imageStorage.loadImage(plantilla.rutaImagen).onSuccess {
             imagen = Image(it.toString())
             fileImage = it as File
         }
 
         when(plantilla.rol){
             "Jugador" -> state.value = state.value.copy(
-                jugador = JugadorState(
+                jugador = listOf(JugadorState(
                     id = jugador.id,
                     nombre = jugador.nombre,
                     apellidos = jugador.apellidos,
@@ -140,11 +141,11 @@ class PlantillaViewModel(
                     goles = jugador.goles,
                     partidosJugados = jugador.partidosJugados,
                     minutosJugados = jugador.minutosJugados,
-                ).toModel()
+                ).toModel())
 
             )
             "Entrenador" -> state.value = state.value.copy(
-                entrenador = EntrenadorState(
+                entrenador = listOf(EntrenadorState(
                     id = entrenador.id,
                     nombre = entrenador.nombre,
                     apellidos = entrenador.apellidos,
@@ -154,24 +155,25 @@ class PlantillaViewModel(
                     pais = entrenador.pais,
                     rol = entrenador.rol,
                     especialidad = entrenador.especialidad
-                ).toModel()
+                ).toModel())
             )
         }
     }
 
-//    fun createJugador(): Result<Plantilla, PlantillaError>{
-//        val newJugadorTemp = state.value.jugador.copy()
-//        val newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
-//
-//    }
 
+
+
+
+
+
+    /*
     fun eliminarJugador(): Result<Unit, PlantillaError>{
         val jugador = state.value.jugador.copy()
         val myId = jugador.id.toLong()
 
         jugador.fileImage?.let {
             if (it.name != TipoImagen.SIN_IMAGEN.value){
-                storage.deleteImage(it)
+                imageStorage.deleteImage(it)
             }
         }
 
@@ -182,13 +184,16 @@ class PlantillaViewModel(
         return Ok(Unit)
     }
 
+     */
+
+/*
     fun eliminarEntrenador(): Result<Unit, PlantillaError>{
         val entrenador = state.value.entrenador.copy()
         val myId = entrenador.id.toLong()
 
         entrenador.fileImage?.let {
             if (it.name != TipoImagen.SIN_IMAGEN.value){
-                storage.deleteImage(it)
+                imageStorage.deleteImage(it)
             }
         }
 
@@ -198,6 +203,9 @@ class PlantillaViewModel(
         updateActualState()
         return Ok(Unit)
     }
+
+ */
+
 
 
     enum class TipoImagen(val value: String) {

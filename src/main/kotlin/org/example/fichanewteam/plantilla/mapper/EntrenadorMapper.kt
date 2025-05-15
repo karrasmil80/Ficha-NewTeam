@@ -4,6 +4,7 @@ import org.example.fichanewteam.plantilla.dto.EntrenadorDto
 import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
 
 //Funcion que convierte un modelo a dto
 fun Entrenador.toDto(): PlantillaDto {
@@ -89,5 +90,20 @@ fun EntrenadorDto.toEntity(): EntrenadorEntity {
         especialidad = this.especialidad,
         rol = this.rol,
         rutaImagen = this.rutaImagen
+    )
+}
+
+fun PlantillaViewModel.EntrenadorState.toModel() : Entrenador {
+    return Entrenador(
+        id = this.id,
+        nombre = this.nombre,
+        apellidos = this.apellidos,
+        fechaNacimiento = this.fechaNacimiento,
+        fechaIncorporacion = this.fechaIncorporacion,
+        salario = this.salario,
+        pais = this.pais,
+        especialidad = this.especialidad,
+        rol = this.rol,
+        rutaImagen = this.rutaImagen.toString()
     )
 }
