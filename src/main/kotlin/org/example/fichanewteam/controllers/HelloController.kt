@@ -23,7 +23,6 @@ import java.sql.PreparedStatement
 private val logger = logging()
 class HelloController {
 
-
     // Elementos de la interfaz para vincular con fx:id en el FXML
     @FXML
     private lateinit var modoEdicionToggle: ToggleButton
@@ -152,50 +151,187 @@ class HelloController {
     private lateinit var edadLabel: Label
 
     @FXML
-    lateinit var añadirButton: Button
+    private lateinit var añadirButton: Button
+
+    @FXML
+    private lateinit var buttonCancelar: Button
+
+    @FXML
+    private lateinit var buttonGuardar: Button
+
+    @FXML
+    private lateinit var entrenadoresEspañolesField: TextField
+
+    @FXML
+    private lateinit var entrenadoresAsistentesField: TextField
+
+    @FXML
+    private lateinit var fechaActualField: TextField
+
+    @FXML
+    private lateinit var fechaAntiguaField: TextField
+
+    @FXML
+    private lateinit var salarioPromedioField: TextField
+
+    @FXML
+    private lateinit var NumJugadoresField: TextField
+
+    @FXML
+    private lateinit var PartidosTotalField: TextField
+
+    @FXML
+    private lateinit var AlturaMinimaField: TextField
+
+    @FXML
+    private lateinit var salarioMaximoField: TextField
+
+    @FXML
+    private lateinit var golePromedioField: TextField
+
+    @FXML
+    private lateinit var filterComboBox: ComboBox<String>
 
 
 
     @FXML
-    private fun initialize() {
+    fun initialize() {
+
         initEvents()
         initDefaultValues()
+
+        //Las añado aqui por qué si no hay que hacer click dos veces para que se inicialice
+        onComboBoxAction()
+        onAddMemberAction()
+        onEditMemberAction()
     }
 
-    private fun initEvents() {
+    fun initEvents() {
         logger.debug { "Iniciando eventos" }
         menuHelp.setOnAction { onHelpAction() }
         menuSalir.setOnAction { RoutesManager.onAppExit() }
-        modoEdicionToggle.setOnAction { onToggleViewAction() }
+        añadirButton.setOnAction { onAddMemberAction()}
     }
 
-    private fun onHelpAction() {
+    fun onHelpAction() {
         logger.debug { "onHelpAction" }
         RoutesManager.initHelpStage()
     }
 
-    private fun initDefaultValues() {
+    fun initDefaultValues() {
         logger.info { "Iniciando valores por defecto" }
 
+        //Atajos del teclado
         menuCopiar.accelerator = KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN)
         menuGuardar.accelerator = KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN)
         menuPegar.accelerator = KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN)
         menuImportar.accelerator = KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_DOWN)
         menuExportar.accelerator = KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN)
         menuHelp.accelerator = KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)
+
+        //Variables desactivadas al inicio de la app para imposibilitar el editarlas
+
+        paisField.isDisable = true
+        fechaIncorporacionField.isDisable = true
+        fechaNacimientoField.isDisable = true
+        salarioField.isDisable = true
+        apellidosField.isDisable = true
+        nombreField.isDisable = true
+        golesField.isDisable = true
+        partidosField.isDisable = true
+        dorsalField.isDisable = true
+        alturaField.isDisable = true
+        pesoField.isDisable = true
+        rolComboBox.isDisable = true
+        posicionComboBox.isDisable = true
+        golePromedioField.isDisable = true
+        salarioMaximoField.isDisable = true
+        salarioPromedioField.isDisable = true
+        AlturaMinimaField.isDisable = true
+        PartidosTotalField.isDisable = true
+        NumJugadoresField.isDisable = true
+        fechaAntiguaField.isDisable = true
+        fechaActualField.isDisable = true
+        entrenadoresAsistentesField.isDisable = true
+        entrenadoresEspañolesField.isDisable = true
+
+
+        //Opciones de la comboBox
+        val boxItemsRol = listOf("Jugador", "Entrenador")
+        rolComboBox.items.addAll(boxItemsRol)
+
+        val boxItemsPosicion = listOf("Defensa", "Centrocampista", "Delantero", "Portero")
+        posicionComboBox.items.addAll(boxItemsPosicion)
+
+        val boxItemsFilter = listOf("Jugador", "Entrenador", "Todos")
+        filterComboBox.items.addAll(boxItemsFilter)
+
+        //Opciones de la comboBox de entrenador
+        //Por hacer los campos comunes de entrenador (especialidad)
+
     }
 
-    private fun onToggleViewAction() {
-        val cambiarModo = modoEdicionToggle.isSelected
-        editarButton.isDisable = cambiarModo
-        eliminarButton.isDisable = cambiarModo
-        añadirButton.isDisable = cambiarModo
-
-        if (cambiarModo) {
-            RoutesManager.initLoginStage()
+    fun onAddMemberAction() {
+        logger.debug { "onAddMemberAction" }
+        añadirButton.setOnAction {
+            buttonGuardar.isDisable = false
+            buttonCancelar.isDisable = false
+            paisField.isDisable = false
+            fechaIncorporacionField.isDisable = false
+            fechaNacimientoField.isDisable = false
+            salarioField.isDisable = false
+            apellidosField.isDisable = false
+            nombreField.isDisable = false
+            rolComboBox.isDisable = false
         }
     }
 
+    fun onEditMemberAction() {
+        logger.debug { "onEditMemberAction" }
+        editarButton.setOnAction {
+            buttonGuardar.isDisable = false
+            buttonCancelar.isDisable = false
+            paisField.isDisable = false
+            fechaIncorporacionField.isDisable = false
+            fechaNacimientoField.isDisable = false
+            salarioField.isDisable = false
+            apellidosField.isDisable = false
+            nombreField.isDisable = false
+            rolComboBox.isDisable = false
+        }
+    }
+
+    //Por implementar
+    fun onDeleteMemberAction() {
+        logger.debug { "onDeleteMemberAction" }
+    }
+
+    //Aquí irá lo que diferencia entre entrenador y jugador, es decir, cuando se seleccione en la comboBox de Rol la opcion jugador
+    //Automaticamente se activarán los botones de dicho rol para poder salvarlos o editarlos
+    fun onComboBoxAction() {
+        rolComboBox.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+            if (newValue == "Jugador") {
+                posicionComboBox.isDisable = false
+                dorsalField.isDisable = false
+                alturaField.isDisable = false
+                pesoField.isDisable = false
+                golesField.isDisable = false
+                partidosField.isDisable = false
+            }
+            if (newValue == "Entrenador") {
+                //Field de entrenador
+                especialidadComboBox.isDisable = false
+
+                //Field de jugador
+                posicionComboBox.isDisable = true
+                dorsalField.isDisable = true
+                alturaField.isDisable = true
+                pesoField.isDisable = true
+                golesField.isDisable = true
+                partidosField.isDisable = true
+            }
+        }
+    }
 }
 
 

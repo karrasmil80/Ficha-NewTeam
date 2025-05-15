@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fichanewteam.controllers.HelloController">
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #2D3447;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fichanewteam.controllers.loginController.LoginController">
     <padding>
         <Insets bottom="40" left="40" right="40" top="40" />
     </padding>
@@ -37,7 +37,7 @@
                 </HBox>
             </children>
         </VBox>
-        <Button fx:id="loginButton" defaultButton="true" minWidth="120" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Acceder" />
+        <ToggleButton fx:id="loginButton" minWidth="120" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Acceder" />
         <Label fx:id="mensajeLabel" text="" textFill="red" />
     </children>
 </VBox>

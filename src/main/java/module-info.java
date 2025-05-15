@@ -33,6 +33,8 @@ module org.example.fichanewteam {
 
     // Open Vadin --> PARA ABRIR EN NAVEGADOR
     requires open;
+    requires koin.core.jvm;
+
 
     //Test
 
@@ -61,5 +63,8 @@ module org.example.fichanewteam {
     opens org.example.fichanewteam.splashController to javafx.fxml;
     exports org.example.fichanewteam.splashController to javafx.fxml;
 
+    //Login Controller
+    opens org.example.fichanewteam.controllers.loginController to javafx.fxml;
+    exports org.example.fichanewteam.controllers.loginController to javafx.fxml;
 
 }

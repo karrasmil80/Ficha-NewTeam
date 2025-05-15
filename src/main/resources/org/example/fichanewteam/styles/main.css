@@ -416,3 +416,8 @@
     -fx-background-radius: 60;
     -fx-border-radius: 60;
 }
+
+.text-field {
+    -fx-background-radius: 5px;
+    -fx-border-color: derive(-fx-primary-color, 70%) ;
+}
