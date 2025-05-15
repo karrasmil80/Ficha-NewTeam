@@ -11,13 +11,15 @@ import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
+import org.example.fichanewteam.plantilla.storage.PlantillaImageStorage
 import java.io.File
 import kotlin.String
 
 
 class PlantillaViewModel(
     private val servicio: PlantillaService,
-    private val storage: PlantillaStorage
+    private val storage: PlantillaStorage,
+    private val imageStorage : PlantillaImageStorage
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
@@ -95,7 +97,7 @@ class PlantillaViewModel(
     }
 
     fun loadPlantillaJson(file: File, withImages: Boolean = false): Result<List<Plantilla>, PlantillaError> {
-        return storage.deleteAllImages().andThen {
+        return imageStorage.deleteAllImages().andThen {
             storage.loadDataJson(file).onSuccess {
                 servicio.deleteAll()
                 servicio.saveAll(

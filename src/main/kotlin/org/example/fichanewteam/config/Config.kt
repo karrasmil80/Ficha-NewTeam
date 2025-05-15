@@ -2,35 +2,52 @@ package org.example.fichanewteam.config
 
 
 import org.lighthousegames.logging.logging
+import java.io.File
+import java.io.InputStream
 import java.util.Locale
 import java.util.Properties
+import java.util.*
 
-object Config {
-    private val logger = logging()
+private const val CONFIG_FILE_NAME = "application.properties"
 
-    var dbUrl: String = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
-        private set
-    var dbInitTables: Boolean = false
-        private set
-    var dbInitData: Boolean = false
-        private set
-    var storageData : String = "data"
-        private set
+class Config {
+    val APP_PATH = System.getProperty("user.dir")
 
-    var locale: String = Locale.getDefault().language
+    val imagesDirectory by lazy {
+        val path = readProperty("app.images") ?: "imagenes"
+        "$APP_PATH${File.separator}$path/"
+    }
 
-    init {
-        try {
-            logger.debug { "Iniciando configuración" }
+    val databaseUrl : String by lazy {
+        readProperty("database.url") ?: "jdbc:h2:mem:plantilla;DB_CLOSE_DELAY=-1"
+    }
+
+    val databaseInitTables : Boolean by lazy {
+        readProperty("database.init.tables") ?.toBoolean() ?: false
+    }
+
+    val dataBaseInitData : Boolean by lazy {
+        readProperty("database.init.data") ?.toBoolean() ?: false
+    }
+
+    val cacheCapacity : Long by lazy {
+        readProperty("app.cache.capacity") ?.toLong() ?: 5L
+    }
+
+    val cacheExpiration : Long by lazy {
+        readProperty("app.cache.expiration") ?.toLong() ?: 60L
+    }
+
+    fun readProperty(key: String): String? {
+        return try {
             val properties = Properties()
-            properties.load(ClassLoader.getSystemResourceAsStream("config.properties"))
-            dbUrl = properties.getProperty("database.url", this.dbUrl)
-            dbInitTables = properties.getProperty("database.init.tables", this.dbInitTables.toString()).toBoolean()
-            dbInitData = properties.getProperty("database.init.data", this.dbInitData.toString()).toBoolean()
-            storageData = properties.getProperty("storage.data", this.storageData)
-            locale = properties.getProperty("locale", this.locale)
-        } catch (e: Exception) {
-            logger.error { "Error en el inicio de la cofniguracion: ${e.message}" }
+            val inputStream : InputStream = ClassLoader.getSystemResourceAsStream(CONFIG_FILE_NAME) ?:
+            throw Exception("No se puede leer la configuracion $CONFIG_FILE_NAME")
+            properties.load(inputStream)
+            properties.getProperty(key)
+        } catch (e : Exception) {
+            println(e)
+            null
         }
     }
 }
