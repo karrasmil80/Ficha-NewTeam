@@ -1,4 +1,5 @@
 package org.example.fichanewteam.controllers.loginController
+import javafx.scene.input.KeyCodeCombination
 
 import javafx.event.EventHandler
 import javafx.fxml.FXML
@@ -41,26 +42,19 @@ class LoginController {
         }
     }
 
-
-
     fun onLoginAction(userName : String, password: String){
         val passwordHashed = usuarios[userName]
 
-        if (passwordHashed == null) {
-            contrasenaField.clear()
-            usuarioField.clear()
-        }
-
-        val loginCorrecto = BCrypt.checkpw(password, passwordHashed)
-
-        if (loginCorrecto) {
+        if (passwordHashed != null && BCrypt.checkpw(password, passwordHashed)) {
             RoutesManager.initPlantillaStage()
         } else {
+            contrasenaField.clear()
+            usuarioField.clear()
+            mensajeLabel.text = "Usuario o contraseña incorrectos"
             Alert(Alert.AlertType.ERROR).apply {
-                title = "Contraseña o usuario incorrecto"
+                title = "Error de autenticación"
                 headerText = "Vuelva a introducir sus datos correctamente"
-
-            }
+            }.showAndWait()
         }
 
     }
