@@ -5,6 +5,9 @@ import org.example.fichanewteam.plantilla.dto.JugadorDto
 import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.models.Plantilla
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel.PlantillaState
+import kotlin.toString
 
 //Función que convierte el modelo a dto
 fun Jugador.toDto(): PlantillaDto {
@@ -115,4 +118,24 @@ fun JugadorDto.toEntity(): JugadorEntity {
         rutaImagen = this.rutaImagen,
         minutosJugados = this.minutosJugados
     )
+
+    fun PlantillaViewModel.JugadorState.toModel(): Jugador {
+        return Jugador(
+            id = this.id,
+            nombre = this.nombre,
+            apellidos = this.apellidos,
+            fechaNacimiento = this.fechaNacimiento,
+            fechaIncorporacion = this.fechaNacimiento,
+            salario = this.salario,
+            pais = this.pais,
+            posicion = Jugador.Posicion.valueOf(this.posicion.toString()).toString(),
+            dorsal = this.dorsal,
+            altura = this.altura,
+            peso = this.peso,
+            goles = this.goles,
+            partidosJugados = this.partidosJugados,
+            rol = this.rol,
+            minutosJugados = this.minutosJugados
+        )
+    }
 }
