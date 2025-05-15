@@ -98,7 +98,7 @@ class PlantillaViewModel(
         }
     }
 
-
+/*
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
@@ -183,6 +183,7 @@ class PlantillaViewModel(
         updateActualState()
         return Ok(Unit)
     }
+    */
 
 
 
