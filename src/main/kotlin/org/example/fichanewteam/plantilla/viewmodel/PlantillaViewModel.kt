@@ -109,7 +109,8 @@ class PlantillaViewModel(
         }
     }
 
-/*
+
+
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
@@ -118,6 +119,7 @@ class PlantillaViewModel(
             imagen = Image(it.toString())
             fileImage = it as File
         }
+
         when(plantilla.rol){
             "Jugador" -> state.value = state.value.copy(
                 jugador = JugadorState(
@@ -137,6 +139,7 @@ class PlantillaViewModel(
                     partidosJugados = jugador.partidosJugados,
                     minutosJugados = jugador.minutosJugados,
                 ).toModel()
+
             )
             "Entrenador" -> state.value = state.value.copy(
                 entrenador = EntrenadorState(
@@ -154,12 +157,11 @@ class PlantillaViewModel(
         }
     }
 
-    fun createJugador(): Result<Plantilla, PlantillaError>{
-        val newJugadorTemp = state.value.jugador.copy()
-        val newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
-
-    }
-
+//    fun createJugador(): Result<Plantilla, PlantillaError>{
+//        val newJugadorTemp = state.value.jugador.copy()
+//        val newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
+//
+//    }
 
     fun eliminarJugador(): Result<Unit, PlantillaError>{
         val jugador = state.value.jugador.copy()
@@ -194,13 +196,10 @@ class PlantillaViewModel(
         updateActualState()
         return Ok(Unit)
     }
-    */
-
 
 
     enum class TipoImagen(val value: String) {
-        SIN_IMAGEN("images/default_profile.png"),
-        EMPTY("sin-imagen.png") //
+        SIN_IMAGEN("images/default_profile.png"), EMPTY("sin-imagen.png")
     }
 
     enum class TipoFiltro(val value: String) {
@@ -208,7 +207,6 @@ class PlantillaViewModel(
     }
 
     data class ExpedienteState(
-
         //Contenedores
         val typesPlantilla: List<String> = emptyList(),
         val plantilla: List<Plantilla> = emptyList(),
@@ -229,9 +227,8 @@ class PlantillaViewModel(
         val entrenadoresAsistentes: Int = 0,
         val entrenadoresEspanoles: Int = 0,
 
-        //Persona hace referencia al conjunto es decir el individual de plantilla
+        //Miembro hace referencia al conjunto es decir el individual de plantilla
         val miembro : PlantillaState = PlantillaState()
-
     )
 
     data class PlantillaState(

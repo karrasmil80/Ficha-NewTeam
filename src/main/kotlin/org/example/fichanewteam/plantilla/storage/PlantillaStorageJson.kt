@@ -1,5 +1,7 @@
 package org.example.fichanewteam.plantilla.storage
 
+import com.github.michaelbull.result.Err
+import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -12,6 +14,7 @@ import org.example.fichanewteam.plantilla.mapper.toJugador
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
+import org.example.fichanewteam.plantilla.mapper.toModel
 import java.io.File
 
 class PlantillaStorageJson : PlantillaStorage {
@@ -70,19 +73,18 @@ class PlantillaStorageJson : PlantillaStorage {
     }
 
     override fun loadDataJson(file: File): Result<List<Plantilla>, PlantillaError> {
-        TODO("Not yet implemented")
-    }
-
-    override fun loadImage(imagenName: String): Result<List<Plantilla>, PlantillaError> {
-        TODO("Not yet implemented")
-    }
-
-    override fun saveImage(fileName: File): Result<File, PlantillaError> {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteImage(fileName: String): Result<Unit, PlantillaError> {
-        TODO("Not yet implemented")
+        val json = Json{
+            prettyPrint = true
+            ignoreUnknownKeys = true
+        }
+        return try{
+            val jsonString = file.readText()
+            val data = json.decodeFromString<List<PlantillaDto>>(jsonString)
+            Ok(data.toModel())
+        }catch (e: Exception){
+            Err(PlantillaError.PlantillaStorageError("Error a la hora de cargar los datos del Json"))
+        }
     }
 }
+
 
