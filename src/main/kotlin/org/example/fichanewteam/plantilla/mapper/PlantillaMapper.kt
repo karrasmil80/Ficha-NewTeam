@@ -24,7 +24,8 @@ fun PlantillaDto.toJugador(): Jugador {
         altura = this.altura ?: 0.0, // Si es nulo, asigna 0.0
         peso = this.peso ?: 0.0, // Si es nulo, asigna 0.0
         goles = this.goles ?: 0, // Si es nulo, asigna 0
-        partidosJugados = this.partidos_jugados ?: 0 // Si es nulo, asigna 0
+        partidosJugados = this.partidos_jugados ?: 0, // Si es nulo, asigna 0
+        minutosJugados = this.minutos_jugados
     )
 }
 
@@ -62,6 +63,7 @@ fun PlantillaDto.toModel(): Plantilla {
             goles = goles!!, // Asume que no es nulo para jugadores
             partidosJugados = this.partidos_jugados!!, // Asume que no es nulo para jugadores
             rol = this.rol,
+            minutosJugados = this.minutos_jugados,
             rutaImagen = this.ruta_imagen ?: ""
         )
     } else {
@@ -100,7 +102,8 @@ fun Plantilla.toEntity(): PlantillaEntity {
             peso = jugador.peso!!,
             goles = jugador.goles!!,
             partidosJugados = jugador.partidosJugados!!,
-            rutaImagen = jugador.rutaImagen
+            minutosJugados = jugador.minutosJugados!!,
+            rutaImagen = jugador.rutaImagen!!,
         )
     } else {
 
@@ -140,6 +143,7 @@ fun PlantillaEntity.toJugador(): Jugador {
         peso = peso!!,
         goles = goles!!,
         partidosJugados = partidosJugados!!,
+        minutosJugados = this.minutosJugados
     )
 }
 
@@ -178,7 +182,8 @@ fun PlantillaEntity.toModel() : Plantilla {
             altura = this.altura!!,
             peso = this.peso!!,
             goles = this.goles!!,
-            partidosJugados = this.partidosJugados!!
+            partidosJugados = this.partidosJugados!!,
+            minutosJugados = this.minutosJugados
         )
     } else {
         val entrenador = this as Entrenador

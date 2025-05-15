@@ -21,7 +21,7 @@ private val logger = logging()
 //Objeto principal que gestionará parte del programa
 object RoutesManager {
 
-    private lateinit var escenaPrincipal : Stage
+    lateinit var escenaPrincipal : Stage
     private lateinit var _escenarioActiva : Stage
     val escenaActiva : Stage
         get() = _escenarioActiva
@@ -35,8 +35,11 @@ object RoutesManager {
      */
 
     enum class View(val fxml : String) {
-        MAIN("views/plantilla-view.fmxl"),
+        PLANTILLA("views/plantilla-view.fxml"),
         HELP("views/acerca-de-view.fxml"),
+        SPLASH("views/splash.fxml"),
+        LOGIN("views/login-view.fxml"),
+        ELECCION("views/eleccion-view.fxml");
     }
 
     /**
@@ -71,42 +74,78 @@ object RoutesManager {
     }
 
     /**
-     * Función que a través de un evento mostrara la escena de Acerca-De
-     */
-
-    fun initHelpStage() {
-        val fxmlLoader = FXMLLoader(getResource(View.HELP.fxml))
-        val root = fxmlLoader.load<Pane>()
-        val newScene = Scene(root, 800.0, 600.0)
-        Stage().apply {
-            title = "Acerca De New-Team"
-            scene = newScene
-            initOwner(escenaPrincipal)
-            centerOnScreen()
-            icons.add(Image(getResourceAsStream("icons/dev1.jpg")))
-            isResizable = false
-            initModality(Modality.WINDOW_MODAL)
-        }.show()
-    }
-
-    /**
      * Funcion que mostrará la escena principal del programa en el Controller
      * @param mainStage --> escena principal de la aplicación
      */
 
     fun initMainStage(mainStage: Stage) {
         logger.debug { "Iniciando Main Stage" }
-        val fxmlLoader = FXMLLoader(getResource(View.MAIN.fxml))
+        val fxmlLoader = FXMLLoader(getResource(View.LOGIN.fxml))
         val root = fxmlLoader.load<Pane>()
-        val newScene = Scene(root, 800.0, 600.0)
-        Stage().apply {
+        val newScene = Scene(root, 400.0, 400.0)
+        mainStage.apply {
             title = "New-Team"
             scene = newScene
             centerOnScreen()
-            icons.add(Image(getResourceAsStream("icons/dev1.png")))
+            icons.add(Image(getResourceAsStream("images/logo.png")))
             isResizable = false
-            escenaPrincipal = mainStage
-            _escenarioActiva = mainStage
+        }.show()
+
+        escenaPrincipal = mainStage
+        _escenarioActiva = mainStage
+    }
+
+
+    /**
+     * Función que a través de un evento mostrara la escena de Acerca-De
+     */
+
+    fun initHelpStage() {
+            logger.debug { "Cargando vista HELP" }
+            val fxmlLoader = FXMLLoader(getResource(View.HELP.fxml))
+            val root = fxmlLoader.load<Pane>()
+            val newScene = Scene(root, 600.0, 400.0)
+            Stage().apply {
+                title = "Acerca De New-Team"
+                scene = newScene
+                initOwner(escenaPrincipal)
+                centerOnScreen()
+                isResizable = false
+                initModality(Modality.WINDOW_MODAL)
+                icons.add(Image(getResourceAsStream("images/logo.png")))
+            }.show()
+    }
+
+    fun initSplashScreen(stage : Stage) {
+        val fxmlLoader = FXMLLoader(getResource(View.SPLASH.fxml))
+        val root = fxmlLoader.load<Pane>()
+        val newScene = Scene(root, 1160.0, 720.0)
+
+        escenaPrincipal = stage
+        _escenarioActiva = stage
+
+        stage.apply {
+            title = "Splash"
+            isResizable = false
+            scene = newScene
+            centerOnScreen()
+            icons.add(Image(getResourceAsStream("images/logo.png")))
+
+        }.show()
+    }
+
+    fun initPlantillaStage() {
+        val fxmlLoader = FXMLLoader(getResource(View.PLANTILLA.fxml))
+        val root = fxmlLoader.load<Pane>()
+        val newScene = Scene(root, 1160.0, 720.0)
+        Stage().apply {
+            title = "Plantilla"
+            scene = newScene
+            initOwner(escenaPrincipal)
+            centerOnScreen()
+            icons.add(Image(getResourceAsStream("images/logo.png")))
+            isResizable = false
+            initModality(Modality.WINDOW_MODAL)
         }.show()
     }
 

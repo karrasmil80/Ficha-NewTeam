@@ -11,6 +11,8 @@ interface PlantillaStorage {
     fun writeFile(file: File, format: FileFormat, personal: List<Plantilla>)
     fun storageDataJson(file: File, data: List<Plantilla>): Result<Long, PlantillaError>
     fun deleteAllImages(): Result<Long, PlantillaError>
-    fun loadDataJson(file: File): Result<Long, PlantillaError>
-    fun loadImage(imagenName: String): Result<File, PlantillaError>
+    fun loadDataJson(file: File): Result<List<Plantilla>, PlantillaError>
+    fun loadImage(imagenName: String): Result<List<Plantilla>, PlantillaError>
+    fun saveImage(fileName: File):Result<File, PlantillaError>
+    fun deleteImage(fileName: String):Result<Unit, PlantillaError>
 }

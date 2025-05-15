@@ -33,14 +33,38 @@ module org.example.fichanewteam {
 
     // Open Vadin --> PARA ABRIR EN NAVEGADOR
     requires open;
+    requires koin.core.jvm;
+
 
     //Test
-    requires org.junit.jupiter.api;
-    requires org.mockito;
-    requires org.mockito.junit.jupiter;
 
-    opens org.example.fichanewteam to javafx.fxml;
-    exports org.example.fichanewteam to javafx.fxml;
+    //requires org.junit.jupiter.api;
+    //requires org.mockito;
+    //requires org.mockito.junit.jupiter;
 
+
+    //APP
+    opens org.example.fichanewteam to javafx.graphics;
+    exports org.example.fichanewteam to javafx.graphics;
+
+    //Controller
+    opens org.example.fichanewteam.controllers to javafx.fxml;
+    exports org.example.fichanewteam.controllers to javafx.fxml;
+
+    //Routes manager
+    opens org.example.fichanewteam.routes to javafx.fxml;
+    exports org.example.fichanewteam.routes to javafx.fxml;
+
+    //Help Controller
+    opens org.example.fichanewteam.helpController to javafx.fxml;
+    exports org.example.fichanewteam.helpController to javafx.fxml;
+
+    //Splash Controller
+    opens org.example.fichanewteam.splashController to javafx.fxml;
+    exports org.example.fichanewteam.splashController to javafx.fxml;
+
+    //Login Controller
+    opens org.example.fichanewteam.controllers.loginController to javafx.fxml;
+    exports org.example.fichanewteam.controllers.loginController to javafx.fxml;
 
 }

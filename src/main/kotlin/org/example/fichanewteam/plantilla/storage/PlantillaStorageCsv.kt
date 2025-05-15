@@ -1,7 +1,9 @@
 package org.example.fichanewteam.plantilla.storage
 
+import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.dto.PlantillaDto
+import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Plantilla
@@ -48,7 +50,10 @@ class PlantillaStorageCsv : PlantillaStorage {
                     peso = it[12].toDoubleOrNull(),
                     goles = it[13].toIntOrNull(),
                     partidos_jugados = it[14].toIntOrNull(),
-                    ruta_imagen = it[15]
+                    minutos_jugados = it[15].toDoubleOrNull(),
+                    ruta_imagen = it[16]
+
+
                 ).toModel()
             }
         return lista
@@ -74,4 +79,30 @@ class PlantillaStorageCsv : PlantillaStorage {
             }
         }
     }
+
+    override fun storageDataJson(file: File, data: List<Plantilla>): Result<Long, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteAllImages(): Result<Long, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun loadDataJson(file: File): Result<List<Plantilla>, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun loadImage(imagenName: String): Result<List<Plantilla>, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun saveImage(fileName: File): Result<File, PlantillaError> {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteImage(fileName: String): Result<Unit, PlantillaError> {
+        TODO("Not yet implemented")
+    }
 }
+
+
