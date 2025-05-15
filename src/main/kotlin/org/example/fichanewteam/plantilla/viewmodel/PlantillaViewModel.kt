@@ -114,6 +114,52 @@ class PlantillaViewModel(
         }
     }
 
+//    fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
+//        var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
+//        var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
+//
+//        storage.loadImage(plantilla.rutaImagen).onSuccess {
+//            imagen = Image(it.toString())
+//            fileImage = it as File
+//        }
+//
+//        when(plantilla.rol){
+//            "Jugador" -> state.value = state.value.copy(
+//                jugador = JugadorState(
+//                    id = jugador.id,
+//                    nombre = jugador.nombre,
+//                    apellidos = jugador.apellidos,
+//                    fechaNacimiento = jugador.fechaNacimiento,
+//                    fechaIncorporacion = jugador.fechaIncorporacion,
+//                    salario = jugador.salario,
+//                    pais = jugador.pais,
+//                    rol = jugador.rol,
+//                    posicion = jugador.posicion.toString(),
+//                    dorsal = jugador.dorsal,
+//                    altura = jugador.altura,
+//                    peso = jugador.peso,
+//                    goles = jugador.goles,
+//                    partidosJugados = jugador.partidosJugados,
+//                    minutosJugados = jugador.minutosJugados,
+//                ).toModel()
+//
+//            )
+//            "Entrenador" -> state.value = state.value.copy(
+//                entrenador = EntrenadorState(
+//                    id = entrenador.id,
+//                    nombre = entrenador.nombre,
+//                    apellidos = entrenador.apellidos,
+//                    fechaNacimiento = entrenador.fechaNacimiento,
+//                    fechaIncorporacion = entrenador.fechaIncorporacion,
+//                    salario = entrenador.salario,
+//                    pais = entrenador.pais,
+//                    rol = entrenador.rol,
+//                    especialidad = entrenador.especialidad
+//                ).toModel()
+//            )
+//        }
+//    }
+
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
@@ -163,6 +209,42 @@ class PlantillaViewModel(
 
 
 
+//    fun eliminarJugador(): Result<Unit, PlantillaError>{
+//        val jugador = state.value.jugador.copy()
+//        val myId = jugador.id.toLong()
+//
+//        jugador.fileImage?.let {
+//            if (it.name != TipoImagen.SIN_IMAGEN.value){
+//                storage.deleteImage(it)
+//            }
+//        }
+//
+//        servicio.deleteById(myId)
+//        state.value = state.value.copy(jugador = state.value.jugador.toMutableList().apply{ this.removeIf { it.id == myId } })
+//
+//        updateActualState()
+//        return Ok(Unit)
+//    }
+//
+//    fun eliminarEntrenador(): Result<Unit, PlantillaError>{
+//        val entrenador = state.value.entrenador.copy()
+//        val myId = entrenador.id.toLong()
+//
+//        entrenador.fileImage?.let {
+//            if (it.name != TipoImagen.SIN_IMAGEN.value){
+//                storage.deleteImage(it)
+//            }
+//        }
+//
+//        servicio.deleteById(myId)
+//        state.value = state.value.copy(entrenador = state.value.entrenador.toMutableList().apply{ this.removeIf { it.id == myId } })
+//
+//        updateActualState()
+//        return Ok(Unit)
+//    }
+
+
+
 
 
 
@@ -203,6 +285,7 @@ class PlantillaViewModel(
         updateActualState()
         return Ok(Unit)
     }
+
 
  */
 

@@ -40,3 +40,8 @@ CREATE TABLE IF NOT EXISTS plantilla (
     rol VARCHAR NOT NULL,
     ruta_imagen VARCHAR(255) DEFAULT 'images/default_profile.png'
 );
+
+CREATE TABLE IF NOT EXISTS usuarios(
+    nombreUsuario IDENTITY NOT NULL PRIMARY KEY,
+    hashContraseña VARCHAR
+);
