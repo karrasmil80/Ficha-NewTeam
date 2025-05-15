@@ -12,6 +12,7 @@ import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
 import org.example.fichanewteam.plantilla.storage.PlantillaImageStorage
+import org.jetbrains.dokka.model.doc.Li
 import org.lighthousegames.logging.logging
 import java.io.File
 import kotlin.String
@@ -194,6 +195,22 @@ class PlantillaViewModel(
         updateActualState()
         return Ok(Unit)
     }
+
+//    fun crearJugador(): Result<Jugador, PlantillaError> {}
+//
+//    fun crearEntrenador(): Result<Entrenador, PlantillaError> {}
+//
+//    fun editarPlantilla(): Result<Plantilla, PlantillaError> {}
+//
+//    fun updateimagePlantillaOperacion(fileImage: File){}
+//
+//    fun exportToZip(fileImage: File): Result<Unit, PlantillaError> {}
+//
+//    fun loadPlantillaFromZip(fileToUnzip: File): Result<List<Plantilla>, PlantillaError> {}
+//
+//    fun changePlantillaOperacion(newValue: TipoOperacion){}
+//
+//    fun updatePlantillaOperacion(){}
 
 
     enum class TipoImagen(val value: String) {
