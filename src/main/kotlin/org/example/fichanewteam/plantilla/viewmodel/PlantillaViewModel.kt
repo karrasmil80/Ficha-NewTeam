@@ -224,19 +224,19 @@ class PlantillaViewModel(
         }
     }
 
-    fun changePlantillaOperacion(newValue: TipoOperacion){
-        if (newValue == TipoOperacion.EDITAR){
-            state.value = state.value.copy(
-                plantilla = state.value.plantilla.copy(),
-                tipoOperacion = newValue,
-            )
-        }else{
-            state.value = state.value.copy(
-                plantilla = PlantillaState(),
-                tipoOperacion = newValue,
-            )
-        }
-    }
+//    fun changePlantillaOperacion(newValue: TipoOperacion){
+//        if (newValue == TipoOperacion.EDITAR){
+//            state.value = state.value.copy(
+//                plantilla = state.value.plantilla.copy(),
+//                tipoOperacion = newValue,
+//            )
+//        }else{
+//            state.value = state.value.copy(
+//                plantilla = PlantillaState(),
+//                tipoOperacion = newValue,
+//            )
+//        }
+//    }
 
     fun updateDataPlantilla() {}
 
