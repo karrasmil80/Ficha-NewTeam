@@ -39,7 +39,6 @@ interface PlantillaService {
      * @param item la entidad con los nuevos valores.
      * @return la entidad actualizada, o null si no se encuentra la entidad original.
      */
-    fun update(id: Long, item: Plantilla): Result<Plantilla, PlantillaError>
 
     /**
      * Elimina una entidad su identificador único.

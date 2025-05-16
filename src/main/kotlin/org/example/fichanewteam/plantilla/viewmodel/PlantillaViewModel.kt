@@ -23,7 +23,6 @@ private val logger = logging()
 class PlantillaViewModel(
     private val servicio: PlantillaService,
     private val storage: PlantillaStorage,
-    private val imageStorage : PlantillaImageStorage
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
@@ -101,7 +100,7 @@ class PlantillaViewModel(
     }
 
     fun loadPlantillaJson(file: File, withImages: Boolean = false): Result<List<Plantilla>, PlantillaError> {
-        return imageStorage.deleteAllImages().andThen {
+        return storage.deleteAllImages().andThen {
             storage.loadDataJson(file).onSuccess {
                 servicio.deleteAll()
                 servicio.saveAll(
@@ -119,7 +118,7 @@ class PlantillaViewModel(
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
 
-        imageStorage.loadImage(plantilla.rutaImagen).onSuccess {
+        storage.loadImage(plantilla.rutaImagen).onSuccess {
             imagen = Image(it.toString())
             fileImage = it as File
         }
@@ -167,7 +166,7 @@ class PlantillaViewModel(
 
         jugador.fileImage.let { file ->
             if (file?.name != TipoImagen.SIN_IMAGEN.value) {
-                imageStorage.deleteImage(file.toString())
+                storage.deleteImage(file.toString())
             }
         }
 
@@ -184,7 +183,7 @@ class PlantillaViewModel(
 
         entrenador.fileImage.let { file ->
             if (file?.name != TipoImagen.SIN_IMAGEN.value) {
-                imageStorage.deleteImage(file.toString())
+                storage.deleteImage(file.toString())
             }
         }
 

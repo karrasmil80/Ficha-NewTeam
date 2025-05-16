@@ -52,6 +52,7 @@ class PlantillaServiceImpl (
         return Ok(repository.save(item))
     }
 
+    /*
     //Funcion que actualiza el id de un miembro de la plantilla
     override fun update(id: Long, item: Plantilla): Result<Plantilla, PlantillaError> {
         logger.debug { "Actualizando miembro de la plantilla : $id" }
@@ -62,10 +63,12 @@ class PlantillaServiceImpl (
         return Ok(repository.update(id, item)!!)
     }
 
+     */
+
     //Función que borra el identificador de un miembro de la plantilla
     override fun deleteById(id: Long): Result<Unit, PlantillaError> {
         logger.debug { "deleteById" }
-        repository.delete(id).also {
+        repository.deleteById(id).also {
             cache.invalidate(id)
             return Ok(Unit) // no se si se puede
 
