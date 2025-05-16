@@ -205,6 +205,7 @@ class PlantillaViewModel(
 //
 //    fun updateimagePlantillaOperacion(fileImage: File){}
 //
+
     fun exportToZip(fileToZip: File): Result<Unit, PlantillaError> {
         servicio.findAll().andThen {
             storageZip.exportToZip(fileToZip, it)
@@ -224,21 +225,23 @@ class PlantillaViewModel(
         }
     }
 
-//    fun changePlantillaOperacion(newValue: TipoOperacion){
-//        if (newValue == TipoOperacion.EDITAR){
-//            state.value = state.value.copy(
-//                plantilla = state.value.plantilla.copy(),
-//                tipoOperacion = newValue,
-//            )
-//        }else{
-//            state.value = state.value.copy(
-//                plantilla = PlantillaState(),
-//                tipoOperacion = newValue,
-//            )
-//        }
-//    }
+    fun changePlantillaOperacion(newValue: TipoOperacion){
+        if (newValue == TipoOperacion.EDITAR){
+            state.value = state.value.copy(
+                plantilla = state.value.plantilla.map { it.copy() },
+                tipoOperacion = newValue
+            )
+        }else{
+            state.value = state.value.copy(
+                plantilla = emptyList(),
+                tipoOperacion = newValue,
+            )
+        }
+    }
 
-    fun updateDataPlantilla() {}
+    fun updateDataPlantilla() {
+
+    }
 
 
     enum class TipoOperacion(val value: String){
