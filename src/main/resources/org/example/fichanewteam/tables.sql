@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS jugador (
     id IDENTITY NOT NULL PRIMARY KEY,
-    nombre VARCHAR NOT NULL,
-    apellidos VARCHAR NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
     fechaNacimiento DATE NOT NULL,
     fechaIncorporacion DATE NOT NULL,
     salario NUMERIC NOT NULL,
-    pais VARCHAR NOT NULL,
-    rol VARCHAR NOT NULL,
-    posicion VARCHAR NOT NULL,
+    pais VARCHAR(50) NOT NULL,
+    rol VARCHAR(50) NOT NULL,
+    posicion VARCHAR(50) NOT NULL,
     dorsal INTEGER NOT NULL,
     altura DOUBLE NOT NULL,
     peso DOUBLE NOT NULL,
@@ -18,30 +18,26 @@ CREATE TABLE IF NOT EXISTS jugador (
 
 CREATE TABLE IF NOT EXISTS entrenador (
     id IDENTITY NOT NULL PRIMARY KEY,
-    nombre VARCHAR NOT NULL,
-    apellidos VARCHAR NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
     fechaNacimiento DATE NOT NULL,
     fechaIncorporacion DATE NOT NULL,
     salario NUMERIC NOT NULL,
-    pais VARCHAR NOT NULL,
-    rol VARCHAR NOT NULL,
-    especialidad VARCHAR NOT NULL,
+    pais VARCHAR(50) NOT NULL,
+    rol VARCHAR(50) NOT NULL,
+    especialidad VARCHAR(100) NOT NULL,
     ruta_imagen VARCHAR(255) DEFAULT 'images/default_profile.png'
 );
+
 
 CREATE TABLE IF NOT EXISTS plantilla (
     id IDENTITY NOT NULL PRIMARY KEY,
-    nombre VARCHAR NOT NULL,
-    apellidos VARCHAR NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
     fechaNacimiento DATE NOT NULL,
     fechaIncorporacion DATE NOT NULL,
     salario NUMERIC NOT NULL,
-    pais VARCHAR NOT NULL,
-    rol VARCHAR NOT NULL,
+    pais VARCHAR(50) NOT NULL,
+    rol VARCHAR(50) NOT NULL,
     ruta_imagen VARCHAR(255) DEFAULT 'images/default_profile.png'
-);
-
-CREATE TABLE IF NOT EXISTS usuarios(
-    nombreUsuario IDENTITY NOT NULL PRIMARY KEY,
-    hashContraseña VARCHAR
 );

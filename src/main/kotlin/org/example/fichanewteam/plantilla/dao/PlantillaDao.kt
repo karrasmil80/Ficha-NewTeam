@@ -16,22 +16,15 @@ interface PlantillaDao {
     fun findAll(): List<PlantillaEntity>
 
     //Consulta que selecciona miembros de la plantilla por su id
-    @SqlQuery("SELECT * FROM PLANTILLA WHERE id = :id")
+    @SqlQuery("SELECT * FROM plantilla WHERE id = :id")
     fun findById(@Bind("id") id: Long): PlantillaEntity
 
     //Consulta que añade miembros a la tabla plantilla
-    @SqlUpdate("INSERT INTO plantilla (id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol) VALUES (:id, :nombre, :apellidos, :fechaNacimiento, :fechaIncorporacion, :salario, :paais, :rol)")
+    @SqlUpdate("INSERT INTO plantilla (id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol) VALUES (:id, :nombre, :apellidos, :fechaNacimiento, :fechaIncorporacion, :salario, :pais, :rol, :rutaImagen)")
     fun save(@BindBean personalentity: PlantillaEntity) : Long
 
-    /*
-    //Consulta que actualiza el estado de un miembro de la plantilla
-    @SqlUpdate("UPDATE plantilla SET id=:id, nombre=:nombre, apellidos=:apellidos, fechaNacimiento=:fecha_nacimiento, salario=:salario, pais=:pais, rol=:rol")
-    fun update(@BindBean personalentity: PlantillaEntity) : Long
-
-     */
-
     //Cosulta que elimina a un miembro de la plantilla por id
-    @SqlUpdate("DELETE FROM plantilla")
+    @SqlUpdate("DELETE FROM plantilla WHERE id = :id")
     fun delete(@Bind("id") id: Long) : Long
 
     //Consulta que elimina toda la informacion de miembros de la plantilla por id
