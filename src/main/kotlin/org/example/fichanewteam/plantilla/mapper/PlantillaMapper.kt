@@ -7,6 +7,8 @@ import org.example.fichanewteam.plantilla.dao.PlantillaEntity
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel.ExpedienteState
 
 // Función que convierte PlantillaDto a un modelo (Jugador)
 fun PlantillaDto.toJugador(): Jugador {

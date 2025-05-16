@@ -96,7 +96,7 @@ class PlantillaViewModel(
 
      */
 
-    fun savePlantillaToJson(file:File): Result<Long, PlantillaError> {
+    fun savePlantillaToFile(file:File): Result<Long, PlantillaError> {
         return storage.storageDataJson(file, state.value.plantilla)
     }
 
@@ -196,15 +196,12 @@ class PlantillaViewModel(
     }
 
 //    fun crearJugador(): Result<Jugador, PlantillaError> {
-//        val newJugadorTemp = (Jugador.copy())
+//        val newJugadorTemp = state.value.copy(jugador = state.value.jugador)
+//        val newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
 //    }
-//
+
 //   fun crearEntrenador(): Result<Entrenador, PlantillaError> {}
-//
 //    fun editarPlantilla(): Result<Plantilla, PlantillaError> {}
-//
-//    fun updateimagePlantillaOperacion(fileImage: File){}
-//
 
     fun exportToZip(fileToZip: File): Result<Unit, PlantillaError> {
         servicio.findAll().andThen {
