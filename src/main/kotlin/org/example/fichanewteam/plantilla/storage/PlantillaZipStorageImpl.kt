@@ -14,14 +14,13 @@ import java.nio.file.StandardCopyOption
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
-import kotlin.io.path.createTempDirectory
 import kotlin.io.path.name
 
 private val logger = logging()
 
 class PlantillaZipStorageImpl(
     private val config: Config,
-    private val jsonStorage: PlantillaStorageJson
+    private val jsonStorage: PlantillaStorageJsonImpl
 ) : PlantillaZipStorage {
 
     val tempDir = "miembrosPlantilla"

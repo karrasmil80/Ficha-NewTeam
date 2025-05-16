@@ -5,37 +5,49 @@ import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
 import java.io.File
 
-class PlantillaStorageImpl : PlantillaStorage {
+class PlantillaStorageImpl (
+    private val zipStorage: PlantillaZipStorage,
+    private val imageStorage: PlantillaImageStorage,
+    private val jsonStorage: PlantillaStorage
+) : PlantillaStorage {
     override fun readFile(file: File, format: FileFormat): List<Plantilla> {
-        TODO("Not yet implemented")
+        return jsonStorage.readFile(file, format)
     }
 
     override fun writeFile(file: File, format: FileFormat, personal: List<Plantilla>) {
-        TODO("Not yet implemented")
+        jsonStorage.writeFile(file, format, personal)
     }
 
     override fun storageDataJson(file: File, data: List<Plantilla>): Result<Long, PlantillaError> {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteAllImages(): Result<Long, PlantillaError> {
-        TODO("Not yet implemented")
+        return jsonStorage.storageDataJson(file, data)
     }
 
     override fun loadDataJson(file: File): Result<List<Plantilla>, PlantillaError> {
-        TODO("Not yet implemented")
+        return jsonStorage.loadDataJson(file)
     }
 
-    override fun loadImage(imagenName: String): Result<List<Plantilla>, PlantillaError> {
-        TODO("Not yet implemented")
+    override fun deleteAllImages(): Result<Long, PlantillaError> {
+        return imageStorage.deleteAllImages()
+    }
+
+
+    override fun loadImage(imagenName: String): Result<File, PlantillaError> {
+        return imageStorage.loadImage(imagenName)
     }
 
     override fun saveImage(fileName: File): Result<File, PlantillaError> {
-        TODO("Not yet implemented")
+        return imageStorage.saveImage(fileName)
     }
 
     override fun deleteImage(fileName: String): Result<Unit, PlantillaError> {
-        TODO("Not yet implemented")
+        return imageStorage.deleteImage(File(fileName))
     }
 
+    override fun exportToZip(zipFile: File, data: List<Plantilla>): Result<File, PlantillaError> {
+        return zipStorage.exportToZip(zipFile, data)
+    }
+
+    override fun loadFromZip(unzipFile: File): Result<List<Plantilla>, PlantillaError> {
+        return zipStorage.loadFromZip(unzipFile)
+    }
 }
