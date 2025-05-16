@@ -205,6 +205,7 @@ class PlantillaViewModel(
 //
 //    fun updateimagePlantillaOperacion(fileImage: File){}
 //
+
     fun exportToZip(fileToZip: File): Result<Unit, PlantillaError> {
         servicio.findAll().andThen {
             storageZip.exportToZip(fileToZip, it)
@@ -224,22 +225,51 @@ class PlantillaViewModel(
         }
     }
 
-//    fun changePlantillaOperacion(newValue: TipoOperacion){
-//        if (newValue == TipoOperacion.EDITAR){
-//            state.value = state.value.copy(
-//                plantilla = state.value.plantilla.copy(),
-//                tipoOperacion = newValue,
-//            )
-//        }else{
-//            state.value = state.value.copy(
-//                plantilla = PlantillaState(),
-//                tipoOperacion = newValue,
-//            )
-//        }
-//    }
+    fun changePlantillaOperacion(newValue: TipoOperacion){
+        if (newValue == TipoOperacion.EDITAR){
+            state.value = state.value.copy(
+                plantilla = state.value.plantilla.map { it.copy() },
+                tipoOperacion = newValue
+            )
+        }else{
+            state.value = state.value.copy(
+                plantilla = emptyList(),
+                tipoOperacion = newValue,
+            )
+        }
+    }
 
-    fun updateDataPlantilla() {}
-
+    fun updateDataPlantilla(
+        jugador: Jugador,
+        entrenador: Entrenador
+    ) {
+        state.value = state.value.copy(
+            plantilla = state.value.plantilla.map { plantilla ->
+                when (plantilla.rol) {
+                    "Jugador" -> jugador.copy(
+                        id = jugador.id,
+                        nombre = jugador.nombre,
+                        apellidos = jugador.apellidos,
+                        fechaNacimiento = jugador.fechaNacimiento,
+                        fechaIncorporacion = jugador.fechaIncorporacion,
+                        salario = jugador.salario!!,
+                        pais = jugador.pais,
+                        rol = jugador.rol
+                    )
+                    else -> entrenador.copy(
+                        id = entrenador.id,
+                        nombre = entrenador.nombre,
+                        apellidos = entrenador.apellidos,
+                        fechaNacimiento = entrenador.fechaNacimiento,
+                        fechaIncorporacion = entrenador.fechaIncorporacion,
+                        salario = entrenador.salario!!,
+                        pais = entrenador.pais,
+                        rol = entrenador.rol,
+                    )
+                }
+            }
+        )
+    }
 
     enum class TipoOperacion(val value: String){
         NUEVO("Nuevo"), EDITAR("Editar")

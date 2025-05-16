@@ -75,7 +75,7 @@ class Jugador(
         rol: String,
         rutaImagen: String
     ): Plantilla {
-        return Jugador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, posicion, dorsal, altura, peso, goles, partidosJugados, minutosJugados)
+        return Jugador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, this.posicion, this.dorsal, this.altura, this.peso, this.goles, this.partidosJugados, this.minutosJugados, rutaImagen)
     }
 
     /**
