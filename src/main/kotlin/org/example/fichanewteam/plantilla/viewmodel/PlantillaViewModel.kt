@@ -261,7 +261,7 @@ class PlantillaViewModel(
         val entrenador: List<Entrenador> = emptyList(),
 
         //Variables de las consultas de jugadores
-        val golesPromedio: Int = 0,
+        val golesPromedio: Double = 0.00,
         val salarioMaximo: Double = 0.00,
         val alturaMinima: Double = 0.00,
         val totalPartidos: Int = 0,
