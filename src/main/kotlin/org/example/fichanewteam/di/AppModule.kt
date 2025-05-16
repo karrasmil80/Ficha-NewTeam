@@ -11,16 +11,12 @@ import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
 import org.example.fichanewteam.plantilla.service.PlantillaServiceImpl
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
 import org.example.fichanewteam.plantilla.storage.PlantillaStorageImpl
-import org.example.fichanewteam.plantilla.storage.PlantillaImageStorage
-import org.example.fichanewteam.plantilla.storage.PlantillaImgStorageImpl
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepository
-import org.example.fichanewteam.database.JdbiManager
 import org.example.fichanewteam.database.provideDatabaseManager
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.dao.providePlantillaDao
 import org.example.fichanewteam.plantilla.storage.PlantillaStorageJson
-
 import org.jdbi.v3.core.Jdbi
 import org.koin.core.module.dsl.bind
 
