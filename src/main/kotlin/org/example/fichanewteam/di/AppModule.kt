@@ -17,6 +17,7 @@ import org.example.fichanewteam.database.provideDatabaseManager
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.dao.providePlantillaDao
 import org.example.fichanewteam.plantilla.storage.PlantillaStorageJson
+import org.example.fichanewteam.plantilla.storage.PlantillaStorageJsonImpl
 import org.jdbi.v3.core.Jdbi
 import org.koin.core.module.dsl.bind
 
@@ -60,17 +61,7 @@ import org.koin.core.module.dsl.bind
         }
 
         //SINGLETON STORAGE JSON - SERVICE
-        singleOf(::PlantillaStorageJson) {
-            bind<PlantillaStorage>()
+        singleOf(::PlantillaStorageJsonImpl) {
+            bind<PlantillaStorageJson>()
         }
-
-
-
-
-
-
-
-
-
-
 }
