@@ -11,9 +11,7 @@ import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
-import org.example.fichanewteam.plantilla.storage.PlantillaImageStorage
 import org.example.fichanewteam.plantilla.storage.PlantillaZipStorage
-import org.koin.core.component.getScopeId
 import org.lighthousegames.logging.logging
 import java.io.File
 import kotlin.String
@@ -226,10 +224,26 @@ class PlantillaViewModel(
         }
     }
 
-//    fun changePlantillaOperacion(newValue: TipoOperacion){}
-//
-//    fun updatePlantillaOperacion(){}
+    fun changePlantillaOperacion(newValue: TipoOperacion){
+        if (newValue == TipoOperacion.EDITAR){
+            state.value = state.value.copy(
+                plantilla = state.value.plantilla.copy(),
+                tipoOperacion = newValue,
+            )
+        }else{
+            state.value = state.value.copy(
+                plantilla = PlantillaState(),
+                tipoOperacion = newValue,
+            )
+        }
+    }
 
+    fun updateDataPlantilla() {}
+
+
+    enum class TipoOperacion(val value: String){
+        NUEVO("Nuevo"), EDITAR("Editar")
+    }
 
     enum class TipoImagen(val value: String) {
         SIN_IMAGEN("images/default_profile.png"), EMPTY("sin-imagen.png")
@@ -247,7 +261,7 @@ class PlantillaViewModel(
         val entrenador: List<Entrenador> = emptyList(),
 
         //Variables de las consultas de jugadores
-        val golesPromedio: Double = 0.00,
+        val golesPromedio: Int = 0,
         val salarioMaximo: Double = 0.00,
         val alturaMinima: Double = 0.00,
         val totalPartidos: Int = 0,
@@ -261,7 +275,9 @@ class PlantillaViewModel(
         val entrenadoresEspanoles: Int = 0,
 
         //Miembro hace referencia al conjunto es decir el individual de plantilla
-        val miembro : PlantillaState = PlantillaState()
+        val miembro: PlantillaState = PlantillaState(),
+
+        val tipoOperacion: TipoOperacion = TipoOperacion.NUEVO
     )
 
     data class PlantillaState(
