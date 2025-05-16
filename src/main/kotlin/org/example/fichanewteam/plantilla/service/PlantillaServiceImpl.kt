@@ -1,5 +1,5 @@
 package org.example.fichanewteam.plantilla.service
-/*
+
 import com.github.benmanes.caffeine.cache.Cache
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -9,7 +9,7 @@ import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.example.fichanewteam.plantilla.storage.FileFormat
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
-import org.example.fichanewteam.plantilla.storage.PlantillaStorageCsv
+//import org.example.fichanewteam.plantilla.storage.PlantillaStorageCsv
 import org.example.fichanewteam.plantilla.storage.PlantillaStorageJson
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
@@ -18,7 +18,7 @@ import java.io.File
 class PlantillaServiceImpl (
     val repository: PlantillaRepositoryImpl,
     val storage : PlantillaStorage,
-    val storageCsv: PlantillaStorageCsv,
+    //val storageCsv: PlantillaStorageCsv,
     val storageJson: PlantillaStorageJson,
     private val cache : Cache<Long, Plantilla>
 ) : PlantillaService {
@@ -76,7 +76,7 @@ class PlantillaServiceImpl (
     override fun readFile(file: File, format: FileFormat): List<Plantilla> {
         logger.debug { "Leyendo el fichero..." }
         return when(format) {
-            FileFormat.CSV -> storageCsv.readFile(file, format)
+           // FileFormat.CSV -> storageCsv.readFile(file, format)
             FileFormat.JSON -> storageJson.readFile(file, format)
             else -> throw IllegalArgumentException("Format invalido")
         }
@@ -100,4 +100,4 @@ class PlantillaServiceImpl (
         TODO("Not yet implemented")
     }
 }
- */
+

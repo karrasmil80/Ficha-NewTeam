@@ -1,4 +1,4 @@
-package org.example.fichanewteam.splashController
+package org.example.fichanewteam.controllers.splashController
 
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
