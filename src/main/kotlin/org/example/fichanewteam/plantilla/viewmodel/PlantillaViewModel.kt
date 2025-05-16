@@ -12,6 +12,8 @@ import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
 import org.example.fichanewteam.plantilla.storage.PlantillaImageStorage
+import org.example.fichanewteam.plantilla.storage.PlantillaZipStorage
+import org.koin.core.component.getScopeId
 import org.lighthousegames.logging.logging
 import java.io.File
 import kotlin.String
@@ -23,6 +25,7 @@ private val logger = logging()
 class PlantillaViewModel(
     private val servicio: PlantillaService,
     private val storage: PlantillaStorage,
+    private val storageZip: PlantillaZipStorage
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
@@ -194,18 +197,35 @@ class PlantillaViewModel(
         return Ok(Unit)
     }
 
-//    fun crearJugador(): Result<Jugador, PlantillaError> {}
+//    fun crearJugador(): Result<Jugador, PlantillaError> {
+//        val newJugadorTemp = (Jugador.copy())
+//    }
 //
-//    fun crearEntrenador(): Result<Entrenador, PlantillaError> {}
+//   fun crearEntrenador(): Result<Entrenador, PlantillaError> {}
 //
 //    fun editarPlantilla(): Result<Plantilla, PlantillaError> {}
 //
 //    fun updateimagePlantillaOperacion(fileImage: File){}
 //
-//    fun exportToZip(fileImage: File): Result<Unit, PlantillaError> {}
-//
-//    fun loadPlantillaFromZip(fileToUnzip: File): Result<List<Plantilla>, PlantillaError> {}
-//
+    fun exportToZip(fileToZip: File): Result<Unit, PlantillaError> {
+        servicio.findAll().andThen {
+            storageZip.exportToZip(fileToZip, it)
+        }.onFailure {
+            return Err(it)
+        }
+        return Ok(Unit)
+    }
+
+    fun loadPlantillaFromZip(fileToUnzip: File): Result<List<Plantilla>, PlantillaError> {
+        return storageZip.loadFromZip(fileToUnzip).onSuccess {lista ->
+            servicio.deleteAll().andThen {
+                servicio.saveAll(lista.map{ a -> a.copy(id = Plantilla.NEW_ID) })
+            }.onFailure {
+                loadPlantilla()
+            }
+        }
+    }
+
 //    fun changePlantillaOperacion(newValue: TipoOperacion){}
 //
 //    fun updatePlantillaOperacion(){}
