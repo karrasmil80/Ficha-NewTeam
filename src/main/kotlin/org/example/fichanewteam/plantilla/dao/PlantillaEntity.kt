@@ -11,7 +11,6 @@ package org.example.fichanewteam.plantilla.dao
  * @param rol Rol de la persona en el equipo (jugador o entrenador).
  */
 
-//PARTE BUENA
 open class PlantillaEntity(
     val id: Long,
     var nombre: String,
@@ -23,4 +22,3 @@ open class PlantillaEntity(
     val rol: String,
     var rutaImagen: String
 )
-//PARTE BUENA

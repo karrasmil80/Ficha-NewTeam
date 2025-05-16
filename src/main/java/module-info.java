@@ -6,6 +6,7 @@ module org.example.fichanewteam {
 
     // Dependencias de KOTLIN
     requires kotlin.stdlib;
+    requires kotlin.reflect;
 
     // Dependencias del Logger
     requires logging.jvm;

@@ -8,7 +8,7 @@ import java.io.File
 class PlantillaStorageImpl (
     private val zipStorage: PlantillaZipStorage,
     private val imageStorage: PlantillaImageStorage,
-    private val jsonStorage: PlantillaStorage
+    private val jsonStorage: PlantillaStorageJson
 ) : PlantillaStorage {
     override fun readFile(file: File, format: FileFormat): List<Plantilla> {
         return jsonStorage.readFile(file, format)

@@ -20,7 +20,6 @@ import org.example.fichanewteam.plantilla.models.Jugador.Posicion
  * @param goles Número de goles anotados por el jugador.
  * @param partidosJugados Número de partidos jugados por el jugador.
  */
-//PARTE BUENA
 class JugadorEntity(
     id: Long,
     nombre: String,
@@ -39,4 +38,3 @@ class JugadorEntity(
     var minutosJugados: Double,
     rutaImagen: String
 ) : PlantillaEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)
-//PARTE BUENA
