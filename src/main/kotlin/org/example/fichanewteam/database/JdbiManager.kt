@@ -9,27 +9,28 @@ import org.lighthousegames.logging.logging
 
 
 class JdbiManager (
-    private val dbUrl: String,
-    private val dbInitData: Boolean,
-    private val dbInitTables: Boolean
+    private val databaseUrl: String,
+    private val databaseInitData: Boolean,
+    private val databaseInitTables: Boolean
 ){
     val logger = logging()
-    val jdbi by lazy { Jdbi.create(dbUrl) }
+    val jdbi by lazy { Jdbi.create(databaseUrl) }
 
     init {
         jdbi.installPlugin(KotlinPlugin())
         jdbi.installPlugin(SqlObjectPlugin())
 
-        if (dbInitTables) {
+        if (databaseInitTables) {
             logger.debug { "Cargando Jdbi, creando tablas" }
-            executeSqlScriptFromResources("tables.sql")
+            executeSqlScriptFromResources("resources/tables.sql")
         }
 
-        if (dbInitData) {
+        if (databaseInitData) {
             logger.debug { "Cargando Jdbi, cargando datos" }
-            executeSqlScriptFromResources("data.sql")
+            executeSqlScriptFromResources("resources/data.sql")
         }
     }
+
 
     private fun executeSqlScriptFromResources(resourcePath: String) {
         val inputStream = ClassLoader.getSystemResourceAsStream(resourcePath)?.bufferedReader()!!

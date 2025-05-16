@@ -14,7 +14,7 @@ interface PlantillaService {
      *
      * @return una lista de todas las entidades de tipo [T].
      */
-    fun findAll(): Result<List<Jugador>, PlantillaError>
+    fun findAll(): Result<List<Plantilla>, PlantillaError>
 
     /**
      * Busca una entidad por su identificador único.

@@ -15,7 +15,6 @@ import org.example.fichanewteam.plantilla.models.Entrenador
  * @param rol Rol del entrenador en el equipo (en este caso, siempre será "entrenador").
  * @param especialidad Especialización del entrenador (principal, asistente, o entrenador de porteros).
  */
-//PARTE BUENA
 class EntrenadorEntity(
     id: Long,
     nombre: String,
@@ -28,4 +27,3 @@ class EntrenadorEntity(
     var especialidad: Entrenador.Especializacion,
     rutaImagen: String
 ) : PlantillaEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)
-//PARTE BUENA

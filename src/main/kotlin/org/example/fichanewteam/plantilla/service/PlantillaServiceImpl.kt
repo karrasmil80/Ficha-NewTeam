@@ -5,6 +5,7 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.error.PlantillaError
+import org.example.fichanewteam.plantilla.mapper.toDto
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.example.fichanewteam.plantilla.storage.FileFormat
@@ -25,10 +26,8 @@ class PlantillaServiceImpl (
 
     private val logger = logging()
     //Función que devuelve una lista de los miembros de la plantilla
-    override fun findAll(): Result<List<Jugador>, PlantillaError> {
-        //logger.debug { "Obteniendo toda la plantilla" }
-        //return repository.findAll()
-        TODO()
+    override fun findAll(): Result<List<Plantilla>, PlantillaError> {
+        return Ok(repository.findAll())
     }
 
     //Función que busca a un miembro de la plantilla por id
@@ -95,12 +94,18 @@ class PlantillaServiceImpl (
 
     //Función que elimina toda la informacion sobre un miembro de la plantilla
     override fun deleteAll(): Result<Unit, PlantillaError> {
-        TODO("Not yet implemented")
+        repository.deleteAll().also {
+            cache.invalidateAll()
+            return Ok(it)
+        }
     }
 
     //Función que guarda todos los items en una lista
     override fun saveAll(plantilla: List<Plantilla>): Result<List<Plantilla>, PlantillaError> {
-        TODO("Not yet implemented")
+        repository.saveAll(plantilla).also {
+            cache.invalidateAll()
+            return Ok(it)
+        }
     }
 }
 

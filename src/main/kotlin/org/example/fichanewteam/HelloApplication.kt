@@ -9,6 +9,8 @@ import javafx.scene.paint.Color
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import javafx.util.Duration
+import org.example.fichanewteam.config.Config
+import org.example.fichanewteam.database.provideDatabaseManager
 import org.example.fichanewteam.di.appModule
 import org.example.fichanewteam.routes.RoutesManager
 import org.koin.core.context.startKoin
@@ -27,6 +29,9 @@ class HelloApplication : Application() {
 
     override fun start(stage: Stage) {
         logger.debug { "Iniciando New-Team APP" }
+        val config = Config()
+        provideDatabaseManager(config)
+
         RoutesManager.apply {
             app = this@HelloApplication
 
