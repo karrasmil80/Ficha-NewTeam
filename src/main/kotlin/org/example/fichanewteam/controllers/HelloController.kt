@@ -15,13 +15,18 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.routes.RoutesManager
 import org.lighthousegames.logging.logging
 import javafx.scene.input.KeyCode
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 import java.sql.DriverManager
 import java.sql.PreparedStatement
 
 
 private val logger = logging()
-class HelloController {
+class HelloController : KoinComponent {
+
+    val viewModel: PlantillaViewModel by inject()
 
     // Elementos de la interfaz para vincular con fx:id en el FXML
     @FXML
@@ -192,6 +197,9 @@ class HelloController {
     @FXML
     private lateinit var filterComboBox: ComboBox<String>
 
+    @FXML
+    lateinit var sliderTable: Slider
+
 
 
     @FXML
@@ -204,6 +212,7 @@ class HelloController {
         onComboBoxAction()
         onAddMemberAction()
         onEditMemberAction()
+        loadQuery()
     }
 
     fun initEvents() {
@@ -332,6 +341,24 @@ class HelloController {
             }
         }
     }
+
+    //POR IMPLEMENTAR
+    fun onSliderAction() {
+
+    }
+
+    fun loadQuery() {
+
+        //textAlumnoNumero.text = viewModel.state.value.alumno.numero
+
+        golePromedioField.text = viewModel.state.value.golesPromedio.toString()
+
+
+
+
+    }
+
+
 }
 
 

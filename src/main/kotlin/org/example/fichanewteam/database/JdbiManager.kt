@@ -38,6 +38,7 @@ class JdbiManager (
             handle.createScript(script).execute()
         }
     }
+}
 
     fun provideDatabaseManager(config: Config): Jdbi{
         return JdbiManager(
@@ -46,4 +47,3 @@ class JdbiManager (
             config.databaseInitTables,
         ).jdbi
     }
-}

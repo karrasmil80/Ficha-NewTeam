@@ -1,11 +1,11 @@
-package org.example.fichanewteam.helpController
+package org.example.fichanewteam.controllers.helpController
 
 import com.vaadin.open.Open
 import javafx.fxml.FXML
 import org.lighthousegames.logging.logging
 
 private val logger = logging()
-class helpController {
+class HelpController {
 
     @FXML
     private lateinit var link1 : javafx.scene.control.Hyperlink

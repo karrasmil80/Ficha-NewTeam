@@ -13,7 +13,7 @@ import org.lighthousegames.logging.logging
 
 class PlantillaRepositoryImpl (
     val dao : PlantillaDao
-) : PlantillaRepository<Plantilla> {
+) : PlantillaRepository {
 
     private val plantilla = mutableMapOf<Long, Plantilla>()
     private val logger = logging()
@@ -51,6 +51,7 @@ class PlantillaRepositoryImpl (
         return item
     }
 
+    /*
     //Funcion que actualiza el id de un miembro de la plantilla
     override fun update(id: Long, item: Plantilla): Plantilla? {
         val plantilla = findById(id)
@@ -62,9 +63,10 @@ class PlantillaRepositoryImpl (
         }
         return plantilla
     }
+     */
 
     //Función que borra el identificador de un miembro de la plantilla
-    override fun delete(id : Long): Plantilla? {
+    override fun deleteById(id : Long) {
         logger.debug { "Eliminando miembro de la plantilla : $id" }
         val plantilla : Plantilla? = dao.findById(1L).toModel()
         if (plantilla != null) {
@@ -73,7 +75,6 @@ class PlantillaRepositoryImpl (
                 logger.error { "Fallo al remover el miembro de la plantilla" }
             }
         }
-        return plantilla
     }
 
     //Función que guarda todos los items en una lista
