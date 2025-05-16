@@ -58,10 +58,4 @@ class LoginController {
         }
 
     }
-
-
-
-
-
-
 }
