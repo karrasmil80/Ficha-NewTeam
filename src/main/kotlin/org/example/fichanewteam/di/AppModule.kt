@@ -1,6 +1,7 @@
 package org.example.fichanewteam.di
 
 import com.github.benmanes.caffeine.cache.Cache
+import com.github.michaelbull.result.binding
 import org.koin.dsl.module
 import org.koin.core.module.dsl.singleOf
 import org.example.fichanewteam.config.Config
@@ -31,13 +32,25 @@ import org.koin.core.module.dsl.bind
         //SINGLETON DE CONFIG
         singleOf(::Config)
 
-        //SINGLETON DE JDBI MANAGER
-        singleOf(::providePersonalCache) {
-            bind<Cache<Int, Plantilla>>()
+        //SINGLETON JDBI MANAGER
+        singleOf(::provideDatabaseManager) {
+            bind<Jdbi>()
         }
 
-        // SINGLETON VIEW MODEL
-        singleOf(::PlantillaViewModel)
+        // SINGLETON DAO
+        singleOf(::providePlantillaDao) {
+            bind<PlantillaDao>()
+        }
+
+        //SINGLETON DE CACHE
+        singleOf(::providePersonalCache) {
+            bind<Cache<Long, Plantilla>>()
+        }
+
+        // SINGLETON REPOSITORY
+        singleOf(::PlantillaRepositoryImpl) {
+            bind<PlantillaRepository>()
+        }
 
         //SINGLETON SERVICE - VIEW MODEL
         singleOf(::PlantillaServiceImpl) {
@@ -50,18 +63,8 @@ import org.koin.core.module.dsl.bind
         }
 
         // SINGLETON REPOSITORY
-        singleOf(::PlantillaRepositoryImpl) {
+        singleOf(::PlantillaRepositoryImpl){
             bind<PlantillaRepository>()
-        }
-
-        //SINGLETON JDBI MANAGER
-        singleOf(::provideDatabaseManager) {
-            bind<Jdbi>()
-        }
-
-        // SINGLETON DAO - REPOSITORY
-        singleOf(::providePlantillaDao) {
-            bind<PlantillaDao>()
         }
 
         //SINGLETON STORAGE JSON - SERVICE
@@ -76,4 +79,7 @@ import org.koin.core.module.dsl.bind
         singleOf(::PlantillaImgStorageImpl) {
             bind<PlantillaImageStorage>()
         }
+
+        // SINGLETON VIEW MODEL
+        singleOf(::PlantillaViewModel)
 }

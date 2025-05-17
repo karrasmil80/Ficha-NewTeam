@@ -1,13 +1,9 @@
 package org.example.fichanewteam.controllers.loginController
 import javafx.scene.input.KeyCodeCombination
 
-import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.control.*
-import javafx.stage.Stage
 import org.example.fichanewteam.routes.RoutesManager
-import org.example.fichanewteam.utils.PasswordUtils
-import org.example.fichanewteam.utils.PasswordUtils.checkPassword
 import org.lighthousegames.logging.logging
 import org.mindrot.jbcrypt.BCrypt
 
@@ -27,7 +23,6 @@ class LoginController {
         "Pablo" to BCrypt.hashpw("admin", BCrypt.gensalt()),
         "Lucia" to BCrypt.hashpw("user", BCrypt.gensalt())
     )
-
 
     fun initialize() {
         logger.debug { "Iniciando pantalla de login" }
@@ -56,6 +51,5 @@ class LoginController {
                 headerText = "Vuelva a introducir sus datos correctamente"
             }.showAndWait()
         }
-
     }
 }
