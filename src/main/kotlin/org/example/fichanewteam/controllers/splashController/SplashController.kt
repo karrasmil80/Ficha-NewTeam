@@ -1,4 +1,4 @@
-package org.example.fichanewteam.splashController
+package org.example.fichanewteam.controllers.splashController
 
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
@@ -6,7 +6,6 @@ import javafx.fxml.FXML
 import javafx.scene.control.ProgressBar
 import javafx.util.Duration
 import org.example.fichanewteam.routes.RoutesManager
-import java.lang.Thread.sleep
 
 class SplashController {
 
@@ -31,5 +30,4 @@ class SplashController {
         timeline.cycleCount = 100 // 100 * 0.01 = 1.0 (100%)
         timeline.play()
     }
-
 }

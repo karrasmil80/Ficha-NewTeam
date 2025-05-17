@@ -5,12 +5,12 @@ import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import org.example.fichanewteam.plantilla.error.PlantillaError
+import org.example.fichanewteam.plantilla.mapper.toDto
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.example.fichanewteam.plantilla.storage.FileFormat
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
-import org.example.fichanewteam.plantilla.storage.PlantillaStorageCsv
-import org.example.fichanewteam.plantilla.storage.PlantillaStorageJson
+import org.example.fichanewteam.plantilla.storage.PlantillaStorageJsonImpl
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
@@ -18,28 +18,25 @@ import java.io.File
 class PlantillaServiceImpl (
     val repository: PlantillaRepositoryImpl,
     val storage : PlantillaStorage,
-    val storageCsv: PlantillaStorageCsv,
-    val storageJson: PlantillaStorageJson,
+    val storageJson: PlantillaStorageJsonImpl,
     private val cache : Cache<Long, Plantilla>
 ) : PlantillaService {
 
     private val logger = logging()
     //Función que devuelve una lista de los miembros de la plantilla
-    override fun findAll(): Result<List<Jugador>, PlantillaError> {
-        //logger.debug { "Obteniendo toda la plantilla" }
-        //return repository.findAll()
-        TODO()
+    override fun findAll(): Result<List<Plantilla>, PlantillaError> {
+        return Ok(repository.findAll())
     }
 
     //Función que busca a un miembro de la plantilla por id
     override fun findById(id: Long): Result<Plantilla, PlantillaError> {
-        logger.debug { "Obteniendo por identificador : $id" }
-        repository.findById(id)?.let {
-            cache.put(id, it)
+        return cache.getIfPresent(id)?.let {
             Ok(it)
-        } ?: Err(PlantillaError.PlantillaIdNotFound("Id no encontradaa : $id"))
-
-        return Ok(repository.findById(id)!!)
+        } ?: repository.findById(id)?.also {
+            cache.put(id, it)
+        } ?.let {
+            Ok(it)
+        } ?: Err(PlantillaError.PlantillaIdNotFound("Plantilla $id no econtrada"))
     }
 
     //Funcion que guarda una entidad
@@ -52,20 +49,10 @@ class PlantillaServiceImpl (
         return Ok(repository.save(item))
     }
 
-    //Funcion que actualiza el id de un miembro de la plantilla
-    override fun update(id: Long, item: Plantilla): Result<Plantilla, PlantillaError> {
-        logger.debug { "Actualizando miembro de la plantilla : $id" }
-        repository.update(id, item)?.id?.let {
-            cache.put(id, item)
-            Ok(it)
-        }
-        return Ok(repository.update(id, item)!!)
-    }
-
     //Función que borra el identificador de un miembro de la plantilla
     override fun deleteById(id: Long): Result<Unit, PlantillaError> {
         logger.debug { "deleteById" }
-        repository.delete(id).also {
+        repository.deleteById(id).also {
             cache.invalidate(id)
             return Ok(Unit) // no se si se puede
 
@@ -76,7 +63,7 @@ class PlantillaServiceImpl (
     override fun readFile(file: File, format: FileFormat): List<Plantilla> {
         logger.debug { "Leyendo el fichero..." }
         return when(format) {
-            FileFormat.CSV -> storageCsv.readFile(file, format)
+           // FileFormat.CSV -> storageCsv.readFile(file, format)
             FileFormat.JSON -> storageJson.readFile(file, format)
             else -> throw IllegalArgumentException("Format invalido")
         }
@@ -92,11 +79,18 @@ class PlantillaServiceImpl (
 
     //Función que elimina toda la informacion sobre un miembro de la plantilla
     override fun deleteAll(): Result<Unit, PlantillaError> {
-        TODO("Not yet implemented")
+        repository.deleteAll().also {
+            cache.invalidateAll()
+            return Ok(it)
+        }
     }
 
     //Función que guarda todos los items en una lista
     override fun saveAll(plantilla: List<Plantilla>): Result<List<Plantilla>, PlantillaError> {
-        TODO("Not yet implemented")
+        repository.saveAll(plantilla).also {
+            cache.invalidateAll()
+            return Ok(it)
+        }
     }
 }
+

@@ -14,7 +14,7 @@ interface PlantillaService {
      *
      * @return una lista de todas las entidades de tipo [T].
      */
-    fun findAll(): Result<List<Jugador>, PlantillaError>
+    fun findAll(): Result<List<Plantilla>, PlantillaError>
 
     /**
      * Busca una entidad por su identificador único.
@@ -39,7 +39,6 @@ interface PlantillaService {
      * @param item la entidad con los nuevos valores.
      * @return la entidad actualizada, o null si no se encuentra la entidad original.
      */
-    fun update(id: Long, item: Plantilla): Result<Plantilla, PlantillaError>
 
     /**
      * Elimina una entidad su identificador único.

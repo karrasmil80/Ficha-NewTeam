@@ -59,7 +59,7 @@ abstract class Plantilla(
         pais: String = this.pais,
         rol: String = this.rol,
         rutaImagen: String = this.rutaImagen
-    ): Plantilla
+    ) : Plantilla
 
     /**
      * Enum que representa los posibles tipos de roles en el equipo.

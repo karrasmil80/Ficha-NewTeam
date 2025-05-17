@@ -12,6 +12,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -73,7 +74,7 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </BorderPane.margin>
             <VBox prefHeight="640.0" prefWidth="376.0">
-                <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="100.0" prefHeight="647.0" prefWidth="426.0" spacing="20.0" styleClass="master-panel">
+                <VBox maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="100.0" prefHeight="673.0" prefWidth="426.0" spacing="20.0" styleClass="master-panel">
 
                     <Label styleClass="section-title" text="Miembros del Equipo" />
 
@@ -88,7 +89,7 @@
                      </cursor></TextField>
                     </HBox>
 
-                    <TableView fx:id="plantillaTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="395.0" VBox.vgrow="ALWAYS">
+                    <TableView fx:id="plantillaTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="412.0" prefWidth="383.0" VBox.vgrow="ALWAYS">
                         <columns>
                             <TableColumn fx:id="idColumn" prefWidth="39.0" text="  ID" />
                             <TableColumn fx:id="nombreColumn" prefWidth="104.0" text="Nombre" />
@@ -102,8 +103,9 @@
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                         </columnResizePolicy>
                     </TableView>
+               <Slider fx:id="sliderTable" />
 
-                    <HBox alignment="CENTER" spacing="10">
+                    <HBox alignment="CENTER" prefHeight="59.0" prefWidth="396.0" spacing="10">
                         <Button fx:id="añadirButton" styleClass="action-button" text="Añadir">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="21.0">
@@ -226,32 +228,9 @@
                                          <!-- Fila 6 - Campos específicos que se mostrarán según el rol -->
                                 <Label text="Rol:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
                                 <ComboBox fx:id="rolComboBox" prefHeight="45.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <VBox fx:id="camposJugadorContainer1" spacing="15" GridPane.rowIndex="7">
-                           <children>
-                              <Label styleClass="sub-title" text="Datos del Entrenador" />
-                              <GridPane hgap="15" vgap="15">
-                                 <columnConstraints>
-                                    <ColumnConstraints minWidth="150" />
-                                    <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints />
-                                    <RowConstraints />
-                                    <RowConstraints />
-                                    <RowConstraints />
-                                    <RowConstraints />
-                                    <RowConstraints />
-                                 </rowConstraints>
-                                 <children>
-                                    <Label text="Posición:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                    <ComboBox fx:id="posicionComboBox1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                 </children>
-                              </GridPane>
-                           </children>
-                        </VBox>
 
                                          <!-- Campos para jugadores -->
-                                <VBox fx:id="camposJugadorContainer" spacing="15" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="8">
+                                <VBox fx:id="camposJugadorContainer" spacing="15" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="7">
                                     <Label styleClass="sub-title" text="Datos del Jugador" />
 
                                              <GridPane hgap="15" vgap="15">
@@ -287,6 +266,29 @@
                                         </rowConstraints>
                                     </GridPane>
                                 </VBox>
+                        <VBox fx:id="camposJugadorContainer1" spacing="15" GridPane.rowIndex="8">
+                           <children>
+                              <Label styleClass="sub-title" text="Datos del Entrenador" />
+                              <GridPane hgap="15" vgap="15">
+                                 <columnConstraints>
+                                    <ColumnConstraints minWidth="150" />
+                                    <ColumnConstraints hgrow="ALWAYS" minWidth="200" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                    <RowConstraints />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label text="Posición:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                                    <ComboBox fx:id="posicionComboBox1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </VBox>
 
                                          <!-- Botones de acción -->
                                 <HBox alignment="CENTER_RIGHT" spacing="10" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="8">
