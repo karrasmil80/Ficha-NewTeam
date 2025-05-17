@@ -1,7 +1,6 @@
 package org.example.fichanewteam.di
 
 import com.github.benmanes.caffeine.cache.Cache
-import com.github.michaelbull.result.binding
 import org.koin.dsl.module
 import org.koin.core.module.dsl.singleOf
 import org.example.fichanewteam.config.Config

@@ -39,7 +39,6 @@ object RoutesManager {
         HELP("views/acerca-de-view.fxml"),
         SPLASH("views/splash.fxml"),
         LOGIN("views/login-view.fxml"),
-        ELECCION("views/eleccion-view.fxml");
     }
 
     /**
@@ -49,28 +48,6 @@ object RoutesManager {
     init {
         logger.debug { "Iniciando Routes Manager" }
         Locale.setDefault(Locale.forLanguageTag("es-ES"))
-    }
-
-    /**
-     * Funcion para cargar recursos por flujo de entrada
-     * @param resource --> ruta del archivo a cargar
-     * @return --> devuelve la imagen o una excepción
-     */
-
-    fun getResourceAsStream(resource: String): InputStream {
-        return app::class.java.getResourceAsStream(resource)
-            ?: throw RuntimeException("No se ha encontrado el recurso como stream: $resource")
-    }
-
-    /**
-     * Función para cargar recursos
-     * @param resource --> ruta del archivo a cargar
-     * @return --> devuelve la URL de la imagen o una excepción
-     */
-
-    fun getResource(resource: String): URL {
-        return app::class.java.getResource(resource)
-            ?: throw RuntimeException("No se ha encontrado el recurso: $resource")
     }
 
     /**
@@ -147,6 +124,28 @@ object RoutesManager {
             isResizable = false
             initModality(Modality.WINDOW_MODAL)
         }.show()
+    }
+
+    /**
+     * Funcion para cargar recursos por flujo de entrada
+     * @param resource --> ruta del archivo a cargar
+     * @return --> devuelve la imagen o una excepción
+     */
+
+    fun getResourceAsStream(resource: String): InputStream {
+        return app::class.java.getResourceAsStream(resource)
+            ?: throw RuntimeException("No se ha encontrado el recurso como stream: $resource")
+    }
+
+    /**
+     * Función para cargar recursos
+     * @param resource --> ruta del archivo a cargar
+     * @return --> devuelve la URL de la imagen o una excepción
+     */
+
+    fun getResource(resource: String): URL {
+        return app::class.java.getResource(resource)
+            ?: throw RuntimeException("No se ha encontrado el recurso: $resource")
     }
 
     /**
