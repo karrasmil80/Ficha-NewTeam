@@ -31,58 +31,6 @@ import org.jdbi.v3.core.Jdbi
 import org.koin.core.module.dsl.bind
 import org.lighthousegames.logging.logging
 
-private val logger = logging()
-    val appModule = module {
+val appModule = module {
 
-        //SINGLETON DE CONFIG
-        singleOf(::Config)
-
-        //SINGLETON DE JDBI MANAGER
-        singleOf(::providePersonalCache) {
-            bind<Cache<Long, Plantilla>>()
-        }
-
-
-        //SINGLETON SERVICE - VIEW MODEL
-        singleOf(::PlantillaServiceImpl) {
-            bind<PlantillaService>()
-        }
-
-        //SINGLETON STORAGE - VIEW MODEL
-        singleOf(::PlantillaStorageImpl) {
-            bind<PlantillaStorage>()
-        }
-
-        // SINGLETON REPOSITORY
-        singleOf(::PlantillaRepositoryImpl) {
-            bind<PlantillaRepository>()
-        }
-
-        //SINGLETON JDBI MANAGER
-        singleOf(::provideDatabaseManager) {
-            bind<Jdbi>()
-        }
-
-        // SINGLETON DAO - REPOSITORY
-        singleOf(::providePlantillaDao) {
-            bind<PlantillaDao>()
-        }
-
-        //SINGLETON STORAGE JSON - SERVICE
-        singleOf(::PlantillaStorageJsonImpl) {
-            bind<PlantillaStorageJson>()
-        }
-
-        singleOf(::PlantillaZipStorageImpl) {
-            bind<PlantillaZipStorage>()
-        }
-
-        singleOf(::PlantillaImgStorageImpl) {
-            bind<PlantillaImageStorage>()
-        }
-
-        singleOf(::HelloController)
-
-        singleOf(::PlantillaViewModel)
-
-    }
+}

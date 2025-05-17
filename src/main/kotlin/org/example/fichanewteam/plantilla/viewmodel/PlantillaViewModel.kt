@@ -1,8 +1,6 @@
 package org.example.fichanewteam.plantilla.viewmodel
 
 import com.github.michaelbull.result.*
-import org.example.fichanewteam.plantilla.service.PlantillaService
-import org.example.fichanewteam.plantilla.storage.PlantillaStorage
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.plantilla.models.Entrenador
@@ -11,9 +9,9 @@ import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
+import org.example.fichanewteam.config.Config
 import org.example.fichanewteam.plantilla.service.PlantillaServiceImpl
-import org.example.fichanewteam.plantilla.storage.PlantillaStorageImpl
-import org.example.fichanewteam.plantilla.storage.PlantillaZipStorage
+
 import org.lighthousegames.logging.logging
 import java.io.File
 import kotlin.String
@@ -24,7 +22,6 @@ private val logger = logging()
 
 class PlantillaViewModel(
     private val servicio: PlantillaServiceImpl,
-    private val storage: PlantillaStorageImpl
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
@@ -98,12 +95,12 @@ class PlantillaViewModel(
      */
 
     fun savePlantillaToFile(file:File): Result<Long, PlantillaError> {
-        return storage.storageDataJson(file, state.value.plantilla)
+        return servicio.storageDataJson(file, state.value.plantilla)
     }
 
     fun loadPlantillaJson(file: File, withImages: Boolean = false): Result<List<Plantilla>, PlantillaError> {
-        return storage.deleteAllImages().andThen {
-            storage.loadDataJson(file).onSuccess {
+        return servicio.deleteAllImages().andThen {
+            servicio.loadDataJson(file).onSuccess {
                 servicio.deleteAll()
                 servicio.saveAll(
                     if (withImages)
@@ -120,7 +117,7 @@ class PlantillaViewModel(
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
 
-        storage.loadImage(plantilla.rutaImagen).onSuccess {
+        servicio.loadImage(plantilla.rutaImagen).onSuccess {
             imagen = Image(it.toString())
             fileImage = it as File
         }
@@ -168,7 +165,7 @@ class PlantillaViewModel(
 
         jugador.fileImage.let { file ->
             if (file?.name != TipoImagen.SIN_IMAGEN.value) {
-                storage.deleteImage(file.toString())
+                servicio.deleteImage(file.toString())
             }
         }
 
@@ -185,7 +182,7 @@ class PlantillaViewModel(
 
         entrenador.fileImage.let { file ->
             if (file?.name != TipoImagen.SIN_IMAGEN.value) {
-                storage.deleteImage(file.toString())
+                servicio.deleteImage(file.toString())
             }
         }
 
@@ -206,7 +203,7 @@ class PlantillaViewModel(
 
     fun exportToZip(fileToZip: File): Result<Unit, PlantillaError> {
         servicio.findAll().andThen {
-            storage.exportToZip(fileToZip, it)
+            servicio.exportToZip(fileToZip, it)
         }.onFailure {
             return Err(it)
         }
@@ -214,7 +211,7 @@ class PlantillaViewModel(
     }
 
     fun loadPlantillaFromZip(fileToUnzip: File): Result<List<Plantilla>, PlantillaError> {
-        return storage.loadFromZip(fileToUnzip).onSuccess {lista ->
+        return servicio.loadFromZip(fileToUnzip).onSuccess {lista ->
             servicio.deleteAll().andThen {
                 servicio.saveAll(lista.map{ a -> a.copy(id = Plantilla.NEW_ID) })
             }.onFailure {

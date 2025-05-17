@@ -4,23 +4,37 @@ import com.github.benmanes.caffeine.cache.Cache
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import org.example.fichanewteam.config.Config
+import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.mapper.toDto
+import org.example.fichanewteam.plantilla.mapper.toEntrenador
+import org.example.fichanewteam.plantilla.mapper.toJugador
+import org.example.fichanewteam.plantilla.mapper.toModel
+import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
-import org.example.fichanewteam.plantilla.storage.FileFormat
-import org.example.fichanewteam.plantilla.storage.PlantillaStorage
-import org.example.fichanewteam.plantilla.storage.PlantillaStorageJsonImpl
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.time.Instant
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+import java.util.zip.ZipOutputStream
+import kotlin.io.path.name
 
 class PlantillaServiceImpl (
-    val repository: PlantillaRepositoryImpl,
-    val storage : PlantillaStorage,
-    val storageJson: PlantillaStorageJsonImpl,
+    private val repository: PlantillaRepositoryImpl,
+    private val config : Config,
     private val cache : Cache<Long, Plantilla>
 ) : PlantillaService {
+
+    val tempDir = "miembrosPlantilla"
 
     private val logger = logging()
     //Función que devuelve una lista de los miembros de la plantilla
@@ -61,19 +75,42 @@ class PlantillaServiceImpl (
 
     //Función que lee un archivo con información de la plantilla y lo convierte en una lista de objetos
     override fun readFile(file: File, format: FileFormat): List<Plantilla> {
-        logger.debug { "Leyendo el fichero..." }
-        return when(format) {
-           // FileFormat.CSV -> storageCsv.readFile(file, format)
-            FileFormat.JSON -> storageJson.readFile(file, format)
-            else -> throw IllegalArgumentException("Format invalido")
+        println()
+        logger.debug { "Leyendo JSON" }
+
+        if (!file.exists() || !file.isFile || !file.canRead()) {
+            throw IllegalArgumentException("El fichero no se puede leer, no es un fichero o no se ha encontrado")
+        } else {
+            val json = Json { ignoreUnknownKeys = true; prettyPrint = true }
+            val imprimirJson = file.readText()
+            val listaPlantillaDto = json.decodeFromString<List<PlantillaDto>>(imprimirJson)
+
+            val listaPersonalModel = listaPlantillaDto.map {
+                when (it.rol) {
+                    "Entrenador" -> it.toEntrenador()
+                    else -> it.toJugador()
+                }
+            }
+            return listaPersonalModel
         }
     }
 
     //Función que escribe una lista de objetos de plantilla en un archivo en el formato especificado.
     override fun writeFile(file: File, format: FileFormat, personal: List<Plantilla>) {
-        return when(format) {
-            FileFormat.JSON -> storageJson.writeFile(file, format, personal)
-            else -> throw IllegalArgumentException("El formato no es compatible")
+        if (!file.parentFile.exists() || !file.parentFile.isDirectory || !file.canWrite()) {
+            throw IllegalArgumentException("El fichero json no se puede sobreescribir o no existe en su directorio padre")
+        } else {
+            val json = Json { ignoreUnknownKeys = true; prettyPrint = true }
+            val listaPersonalDto = personal.map {
+                when (it) {
+                    is Jugador -> { it.toDto() }
+                    is Entrenador -> { it.toDto() }
+                    else -> null
+                }
+            }
+
+            val jsonString = json.encodeToString(listaPersonalDto)
+            file.writeText(jsonString)
         }
     }
 
@@ -92,5 +129,158 @@ class PlantillaServiceImpl (
             return Ok(it)
         }
     }
+
+    override fun storageDataJson(file: File, data: List<Plantilla>): Result<Long, PlantillaError> {
+        logger.debug { "Guardando datos en fichero $file" }
+        return try {
+            val json = Json {
+                prettyPrint = true
+                ignoreUnknownKeys = true
+            }
+            val jsonString = json.encodeToString<List<PlantillaDto>>(data.toDto())
+            file.writeText(jsonString)
+            Ok(data.size.toLong())
+        } catch (e: Exception) {
+            Err(PlantillaError.PlantillaStorageError("Error al escribir el JSON: ${e.message}"))
+        }
+    }
+
+    private fun getImagenName(newFileImage: File): String {
+        val name = newFileImage.name
+        val extension = name.substring(name.lastIndexOf(".") + 1)
+        return "${Instant.now().toEpochMilli()}.$extension"
+    }
+
+    override fun deleteAllImages(): Result<Long, PlantillaError> {
+        return try {
+            Ok(
+                Files.walk(Paths.get(config.imagesDirectory)).filter {
+                    Files.isRegularFile(it)
+                }.map { Files.deleteIfExists(it) }
+                    .count())
+        } catch (e: Exception) {
+            Err(PlantillaError.PlantillaStorageError("No se ha podido eliminar la imagen: ${e.message}"))
+        }
+    }
+
+    override fun loadDataJson(file: File): Result<List<Plantilla>, PlantillaError> {
+        val json = Json {
+            prettyPrint = true
+            ignoreUnknownKeys = true
+        }
+        return try {
+            val jsonString = file.readText()
+            val data = json.decodeFromString<List<PlantillaDto>>(jsonString)
+            Ok(data.toModel())
+        } catch (e: Exception) {
+            Err(PlantillaError.PlantillaStorageError("Error a la hora de cargar los datos del Json"))
+        }
+    }
+
+    override fun loadImage(imgName: String): Result<File, PlantillaError> {
+        val file = File(config.imagesDirectory + imgName)
+        return if (file.exists()) {
+            Ok(file)
+        } else {
+            Err(PlantillaError.PlantillaStorageError("La imagen no existe: ${file.name}"))
+        }
+    }
+
+    override fun saveImage(fileName: File): Result<File, PlantillaError> {
+        return try {
+            val newImage = File(config.imagesDirectory + getImagenName(fileName))
+            Files.copy(fileName.toPath(), newImage.toPath(), StandardCopyOption.REPLACE_EXISTING)
+            Ok(newImage)
+        } catch (e: Exception) {
+            Err(PlantillaError.PlantillaStorageError("La imagen no se puede guardar: ${fileName.name}"))
+        }
+    }
+
+    override fun deleteImage(fileName: File): Result<Unit, PlantillaError> {
+        Files.deleteIfExists(fileName.toPath())
+        return Ok(Unit)
+    }
+
+    override fun exportToZip(zipFile: File, data: List<Plantilla>): Result<File, PlantillaError> {
+        logger.debug { "Exportando a ZIP $zipFile" }
+        val tempDir = Files.createTempDirectory(tempDir)
+        return try {
+
+            data.forEach {
+                val file = File(config.imagesDirectory + it.rutaImagen)
+                if (file.exists()) {
+                    Files.copy(
+                        file.toPath(),
+                        Paths.get(tempDir.toString(), file.name),
+                        StandardCopyOption.REPLACE_EXISTING
+                    )
+                }
+            }
+            storageDataJson(File("$tempDir/data.json"), data)
+            Files.walk(tempDir).forEach { logger.debug { it } }
+            val archivos = Files.walk(tempDir)
+                .filter { Files.isRegularFile(it) }
+                .toList()
+            ZipOutputStream(Files.newOutputStream(zipFile.toPath())).use { zip ->
+                archivos.forEach { archivo ->
+                    val entradaZip = ZipEntry(tempDir.relativize(archivo).toString())
+                    zip.putNextEntry(entradaZip)
+                    Files.copy(archivo, zip)
+                    zip.closeEntry()
+                }
+            }
+            tempDir.toFile().deleteRecursively()
+            Ok(zipFile)
+        } catch (e: Exception) {
+            logger.error { "Error al exportar a ZIP: ${e.message}" }
+            Err(PlantillaError.PlantillaStorageError("Error al exportar a ZIP: ${e.message}"))
+        }
+    }
+
+    override fun loadFromZip(unzipFile: File): Result<List<Plantilla>, PlantillaError> {
+        logger.debug { "Importando desde ZIP $unzipFile" }
+        val tempDir = Files.createTempDirectory(tempDir)
+        return try {
+            ZipFile(unzipFile).use { zip ->
+                zip.entries().asSequence().forEach { entrada ->
+                    zip.getInputStream(entrada).use { input ->
+                        Files.copy(
+                            input,
+                            Paths.get(tempDir.toString(), entrada.name),
+                            StandardCopyOption.REPLACE_EXISTING
+                        )
+                    }
+                }
+            }
+            Files.walk(tempDir).forEach {
+                // copiamos todas las imagenes, es decir, todo lo que no es .json al directorio de imagenes
+                if (!it.toString().endsWith(".json") && Files.isRegularFile(it)) {
+                    Files.copy(
+                        it,
+                        Paths.get(config.imagesDirectory, it.name),
+                        StandardCopyOption.REPLACE_EXISTING
+                    )
+                }
+            }
+            val data = loadDataJson(File("$tempDir/data.json"))
+            tempDir.toFile().deleteRecursively()
+            return data
+        } catch (e: Exception) {
+            logger.error { "Error al importar desde ZIP: ${e.message}" }
+            Err(PlantillaError.PlantillaStorageError("Error al importar desde ZIP: ${e.message}"))
+        }
+    }
+
+    override fun updateImage(imgName: String, newFileImg: File): Result<File, PlantillaError> {
+        return try {
+            val newImage = File(config.imagesDirectory + imgName)
+            Files.copy(newFileImg.toPath(), newImage.toPath(), StandardCopyOption.REPLACE_EXISTING)
+            Ok(newImage)
+        } catch (e: Exception) {
+            Err(PlantillaError.PlantillaStorageError("La imagen no se puede actualizar: ${newFileImg.name}"))
+        }
+    }
 }
+
+
 

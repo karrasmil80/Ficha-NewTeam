@@ -12,6 +12,7 @@ class JdbiManager (
     private val databaseUrl: String,
     private val databaseInitTables: Boolean
 ){
+
     val logger = logging()
     val jdbi by lazy { Jdbi.create(databaseUrl) }
 
