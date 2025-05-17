@@ -106,9 +106,4 @@ dependencies {
 test {
     useJUnitPlatform()
     modularity.inferModulePath = false
-/* jvmArgs(
-         "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-         "--add-opens", "java.base/java.util=ALL-UNNAMED",
-         "--add-reads", "org.junit.jupiter.api=kotlin.stdlib"
- )*/
 }

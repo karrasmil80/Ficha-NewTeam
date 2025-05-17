@@ -79,7 +79,7 @@ fun Jugador.toEntity(): JugadorEntity {
 //Función que convierte una entidad a modelo
 fun JugadorEntity.toModel(): Jugador {
     return Jugador(
-        id = this.id,
+        id = this.id!!,
         nombre = this.nombre,
         apellidos = this.apellidos,
         fechaNacimiento = this.fechaNacimiento,

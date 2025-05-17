@@ -30,13 +30,13 @@ class PlantillaServiceImpl (
 
     //Función que busca a un miembro de la plantilla por id
     override fun findById(id: Long): Result<Plantilla, PlantillaError> {
-        logger.debug { "Obteniendo por identificador : $id" }
-        repository.findById(id)?.let {
-            cache.put(id, it)
+        return cache.getIfPresent(id)?.let {
             Ok(it)
-        } ?: Err(PlantillaError.PlantillaIdNotFound("Id no encontradaa : $id"))
-
-        return Ok(repository.findById(id)!!)
+        } ?: repository.findById(id)?.also {
+            cache.put(id, it)
+        } ?.let {
+            Ok(it)
+        } ?: Err(PlantillaError.PlantillaIdNotFound("Plantilla $id no econtrada"))
     }
 
     //Funcion que guarda una entidad

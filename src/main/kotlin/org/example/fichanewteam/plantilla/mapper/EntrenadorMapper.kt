@@ -64,7 +64,7 @@ fun Entrenador.toEntity(): EntrenadorEntity {
 //Función que convierte una entidad a modelo
 fun EntrenadorEntity.toModel(): Entrenador {
     return Entrenador(
-        id = this.id,
+        id = this.id!!,
         nombre = this.nombre,
         apellidos = this.apellidos,
         fechaNacimiento = this.fechaNacimiento,

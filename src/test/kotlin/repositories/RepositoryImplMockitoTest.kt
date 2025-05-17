@@ -1,4 +1,4 @@
-package org.example.fichanewteam
+package org.example.fichanewteam.repositories
 
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.fichanewteam.plantilla.dao.PlantillaDao

@@ -3,11 +3,15 @@ package org.example.fichanewteam.plantilla.validator
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import org.example.fichanewteam.database.initDatabase
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
 
 class PlantillaValidator : Validator<Plantilla, PlantillaError> {
     override fun validate(t: Plantilla): Result<Plantilla, PlantillaError> {
+        if (t.id == 0L) {
+            Err(PlantillaError.PlantillaInvalidId("El id no puede ser 0"))
+        }
         if (t.nombre.isBlank()) {
             Err(PlantillaError.PlantillaValidatorError("El nombre no puede estar en blanco"))
         }

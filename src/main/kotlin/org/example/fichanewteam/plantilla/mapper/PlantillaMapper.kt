@@ -149,18 +149,17 @@ fun PlantillaEntity.toJugador(): Jugador {
 
 // Función que convierte PlantillaEntity a un modelo (Entrenador)
 fun PlantillaEntity.toEntrenador(): Entrenador {
-    val entrenador = this as EntrenadorEntity
     return Entrenador(
-        id = entrenador.id,
-        nombre = entrenador.nombre,
-        apellidos = entrenador.apellidos,
-        fechaNacimiento = entrenador.fechaNacimiento,
-        fechaIncorporacion = entrenador.fechaIncorporacion,
-        salario = entrenador.salario,
-        pais = entrenador.pais,
-        rol = entrenador.rol,
-        especialidad = Entrenador.Especializacion.valueOf(entrenador.especialidad!!.toString()).toString(),
-        rutaImagen = entrenador.rutaImagen
+        id = id,
+        nombre = nombre,
+        apellidos = apellidos,
+        fechaNacimiento = fechaNacimiento,
+        fechaIncorporacion = fechaIncorporacion,
+        salario = salario,
+        pais = pais,
+        rol = rol,
+        especialidad = Entrenador.Especializacion.ENTRENADOR_PORTEROS.toString(),
+        rutaImagen = rutaImagen
     )
 }
 

@@ -25,7 +25,7 @@ interface PlantillaDao {
 
     //Cosulta que elimina a un miembro de la plantilla por id
     @SqlUpdate("DELETE FROM plantilla WHERE id = :id")
-    fun delete(@Bind("id") id: Long) : Long
+    fun delete(@Bind("id") id: Long) : Long?
 
     //Consulta que elimina toda la informacion de miembros de la plantilla por id
     @SqlUpdate("DELETE FROM plantilla")

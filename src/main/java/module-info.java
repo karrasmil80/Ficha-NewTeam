@@ -37,14 +37,6 @@ module org.example.fichanewteam {
     requires koin.core.jvm;
     requires jbcrypt;
 
-
-    //Test
-
-    //requires org.junit.jupiter.api;
-    //requires org.mockito;
-    //requires org.mockito.junit.jupiter;
-
-
     //APP
     opens org.example.fichanewteam to javafx.graphics;
     exports org.example.fichanewteam to javafx.graphics;
