@@ -7,7 +7,7 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
 import java.util.concurrent.TimeUnit
 
-fun providePersonalCache(config : Config): Cache<Int, Plantilla> {
+fun providePersonalCache(config : Config): Cache<Long, Plantilla> {
     val logger = logging()
     logger.debug { "Iniciando Cache Caffeine con capacidad ${config.cacheCapacity} y una duracion de ${config.cacheExpiration}" }
     return Caffeine.newBuilder()
