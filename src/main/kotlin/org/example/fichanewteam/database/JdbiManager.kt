@@ -10,7 +10,6 @@ import org.lighthousegames.logging.logging
 
 class JdbiManager (
     private val databaseUrl: String,
-    private val databaseInitData: Boolean,
     private val databaseInitTables: Boolean
 ){
     val logger = logging()
@@ -19,16 +18,13 @@ class JdbiManager (
     init {
         jdbi.installPlugin(KotlinPlugin())
         jdbi.installPlugin(SqlObjectPlugin())
+        initDatabase(jdbi)
 
         if (databaseInitTables) {
             logger.debug { "Cargando Jdbi, creando tablas" }
-            executeSqlScriptFromResources("resources/tables.sql")
+            executeSqlScriptFromResources("/tables.sql")
         }
 
-        if (databaseInitData) {
-            logger.debug { "Cargando Jdbi, cargando datos" }
-            executeSqlScriptFromResources("resources/data.sql")
-        }
     }
 
 
@@ -44,7 +40,34 @@ class JdbiManager (
     fun provideDatabaseManager(config: Config): Jdbi{
         return JdbiManager(
             config.databaseUrl,
-            config.dataBaseInitData,
             config.databaseInitTables,
         ).jdbi
     }
+
+fun initDatabase(jdbi: Jdbi) {
+    val table = """
+        CREATE TABLE IF NOT EXISTS plantilla (
+            id IDENTITY NOT NULL PRIMARY KEY,
+            nombre VARCHAR(100) NOT NULL,
+            apellidos VARCHAR(100) NOT NULL,
+            fechaNacimiento DATE NOT NULL,
+            fechaIncorporacion DATE NOT NULL,
+            salario NUMERIC NOT NULL,
+            pais VARCHAR(50) NOT NULL,
+            rol VARCHAR(50) NOT NULL,
+            tipo VARCHAR(20) NOT NULL,
+            posicion VARCHAR(50),
+            dorsal INTEGER,
+            altura DOUBLE,
+            peso DOUBLE,
+            goles INTEGER,
+            partidosJugados INTEGER,
+            especialidad VARCHAR(100),
+            ruta_imagen VARCHAR(255) DEFAULT 'images/default_profile.png'
+        );
+    """.trimIndent()
+
+    jdbi.useHandle<Exception> { handle ->
+        handle.execute(table)
+    }
+}

@@ -10,7 +10,6 @@ import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.example.fichanewteam.plantilla.storage.FileFormat
 import org.example.fichanewteam.plantilla.storage.PlantillaStorage
-//import org.example.fichanewteam.plantilla.storage.PlantillaStorageCsv
 import org.example.fichanewteam.plantilla.storage.PlantillaStorageJsonImpl
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.lighthousegames.logging.logging
@@ -19,7 +18,6 @@ import java.io.File
 class PlantillaServiceImpl (
     val repository: PlantillaRepositoryImpl,
     val storage : PlantillaStorage,
-    //val storageCsv: PlantillaStorageCsv,
     val storageJson: PlantillaStorageJsonImpl,
     private val cache : Cache<Long, Plantilla>
 ) : PlantillaService {
@@ -50,19 +48,6 @@ class PlantillaServiceImpl (
         }
         return Ok(repository.save(item))
     }
-
-    /*
-    //Funcion que actualiza el id de un miembro de la plantilla
-    override fun update(id: Long, item: Plantilla): Result<Plantilla, PlantillaError> {
-        logger.debug { "Actualizando miembro de la plantilla : $id" }
-        repository.update(id, item)?.id?.let {
-            cache.put(id, item)
-            Ok(it)
-        }
-        return Ok(repository.update(id, item)!!)
-    }
-
-     */
 
     //Función que borra el identificador de un miembro de la plantilla
     override fun deleteById(id: Long): Result<Unit, PlantillaError> {

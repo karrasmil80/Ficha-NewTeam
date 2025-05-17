@@ -1,32 +1,33 @@
 package org.example.fichanewteam.controllers
 
-import javafx.application.Platform
-import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.*
-import javafx.scene.control.cell.PropertyValueFactory
-import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCodeCombination
 import javafx.scene.input.KeyCombination
-import org.example.fichanewteam.plantilla.models.Entrenador
-import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.routes.RoutesManager
 import org.lighthousegames.logging.logging
 import javafx.scene.input.KeyCode
+import org.example.fichanewteam.config.Config
+import org.example.fichanewteam.plantilla.cache.providePersonalCache
+import org.example.fichanewteam.plantilla.dao.PlantillaDao
+import org.example.fichanewteam.plantilla.dao.PlantillaEntity
+import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
+import org.example.fichanewteam.plantilla.service.PlantillaServiceImpl
+import org.example.fichanewteam.plantilla.storage.*
+import org.example.fichanewteam.plantilla.validator.PlantillaValidator
 import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-
-import java.sql.DriverManager
-import java.sql.PreparedStatement
 
 
 private val logger = logging()
 class HelloController : KoinComponent {
 
-    val viewModel: PlantillaViewModel by inject()
+
+    private val viewModel: PlantillaViewModel by inject()
+
 
     // Elementos de la interfaz para vincular con fx:id en el FXML
     @FXML

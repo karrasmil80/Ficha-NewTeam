@@ -11,10 +11,12 @@ import javafx.scene.layout.Pane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.WindowEvent
+import org.koin.java.KoinJavaComponent.getKoin
 import org.lighthousegames.logging.logging
 import java.io.InputStream
 import java.net.URL
 import java.util.Locale
+import javax.security.auth.callback.Callback
 
 private val logger = logging()
 
@@ -39,7 +41,6 @@ object RoutesManager {
         HELP("views/acerca-de-view.fxml"),
         SPLASH("views/splash.fxml"),
         LOGIN("views/login-view.fxml"),
-        ELECCION("views/eleccion-view.fxml");
     }
 
     /**
@@ -103,6 +104,9 @@ object RoutesManager {
     fun initHelpStage() {
             logger.debug { "Cargando vista HELP" }
             val fxmlLoader = FXMLLoader(getResource(View.HELP.fxml))
+        fxmlLoader.controllerFactory = javafx.util.Callback { clazz ->
+            getKoin().get(clazz.kotlin)
+        }
             val root = fxmlLoader.load<Pane>()
             val newScene = Scene(root, 600.0, 400.0)
             Stage().apply {
@@ -136,6 +140,9 @@ object RoutesManager {
 
     fun initPlantillaStage() {
         val fxmlLoader = FXMLLoader(getResource(View.PLANTILLA.fxml))
+        fxmlLoader.controllerFactory = javafx.util.Callback { clazz ->
+            getKoin().get(clazz.kotlin)
+        }
         val root = fxmlLoader.load<Pane>()
         val newScene = Scene(root, 1160.0, 720.0)
         Stage().apply {

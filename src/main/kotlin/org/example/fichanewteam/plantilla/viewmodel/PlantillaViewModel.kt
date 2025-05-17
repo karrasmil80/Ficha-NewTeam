@@ -11,6 +11,8 @@ import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
+import org.example.fichanewteam.plantilla.service.PlantillaServiceImpl
+import org.example.fichanewteam.plantilla.storage.PlantillaStorageImpl
 import org.example.fichanewteam.plantilla.storage.PlantillaZipStorage
 import org.lighthousegames.logging.logging
 import java.io.File
@@ -21,9 +23,8 @@ import kotlin.collections.toMutableList
 private val logger = logging()
 
 class PlantillaViewModel(
-    private val servicio: PlantillaService,
-    private val storage: PlantillaStorage,
-    private val storageZip: PlantillaZipStorage
+    private val servicio: PlantillaServiceImpl,
+    private val storage: PlantillaStorageImpl
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
@@ -205,7 +206,7 @@ class PlantillaViewModel(
 
     fun exportToZip(fileToZip: File): Result<Unit, PlantillaError> {
         servicio.findAll().andThen {
-            storageZip.exportToZip(fileToZip, it)
+            storage.exportToZip(fileToZip, it)
         }.onFailure {
             return Err(it)
         }
@@ -213,7 +214,7 @@ class PlantillaViewModel(
     }
 
     fun loadPlantillaFromZip(fileToUnzip: File): Result<List<Plantilla>, PlantillaError> {
-        return storageZip.loadFromZip(fileToUnzip).onSuccess {lista ->
+        return storage.loadFromZip(fileToUnzip).onSuccess {lista ->
             servicio.deleteAll().andThen {
                 servicio.saveAll(lista.map{ a -> a.copy(id = Plantilla.NEW_ID) })
             }.onFailure {
@@ -228,7 +229,7 @@ class PlantillaViewModel(
                 plantilla = state.value.plantilla.map { it.copy() },
                 tipoOperacion = newValue
             )
-        }else{
+        } else {
             state.value = state.value.copy(
                 plantilla = emptyList(),
                 tipoOperacion = newValue,

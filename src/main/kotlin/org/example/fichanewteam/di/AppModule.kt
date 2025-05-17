@@ -1,6 +1,7 @@
 package org.example.fichanewteam.di
 
 import com.github.benmanes.caffeine.cache.Cache
+import com.github.michaelbull.result.Result
 import org.koin.dsl.module
 import org.koin.core.module.dsl.singleOf
 import org.example.fichanewteam.config.Config
@@ -22,10 +23,15 @@ import org.example.fichanewteam.plantilla.storage.PlantillaZipStorage
 import org.example.fichanewteam.plantilla.storage.PlantillaZipStorageImpl
 import org.example.fichanewteam.plantilla.storage.PlantillaImageStorage
 import org.example.fichanewteam.plantilla.storage.PlantillaImgStorageImpl
+import org.example.fichanewteam.controllers.HelloController
+import org.example.fichanewteam.plantilla.models.Jugador
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.validator.PlantillaValidator
 import org.jdbi.v3.core.Jdbi
 import org.koin.core.module.dsl.bind
+import org.lighthousegames.logging.logging
 
-
+private val logger = logging()
     val appModule = module {
 
         //SINGLETON DE CONFIG
@@ -33,11 +39,9 @@ import org.koin.core.module.dsl.bind
 
         //SINGLETON DE JDBI MANAGER
         singleOf(::providePersonalCache) {
-            bind<Cache<Int, Plantilla>>()
+            bind<Cache<Long, Plantilla>>()
         }
 
-        // SINGLETON VIEW MODEL
-        singleOf(::PlantillaViewModel)
 
         //SINGLETON SERVICE - VIEW MODEL
         singleOf(::PlantillaServiceImpl) {
@@ -76,4 +80,9 @@ import org.koin.core.module.dsl.bind
         singleOf(::PlantillaImgStorageImpl) {
             bind<PlantillaImageStorage>()
         }
-}
+
+        singleOf(::HelloController)
+
+        singleOf(::PlantillaViewModel)
+
+    }
