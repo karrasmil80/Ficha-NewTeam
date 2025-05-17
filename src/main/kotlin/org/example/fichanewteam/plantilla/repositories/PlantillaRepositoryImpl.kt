@@ -27,9 +27,9 @@ class PlantillaRepositoryImpl (
         logger.debug { "Obteniendo toda la plantilla" }
         return dao.findAll().mapNotNull {
             when (it) {
-                is EntrenadorEntity -> it.toModel() as? Entrenador
-                is JugadorEntity -> it.toModel() as? Jugador
-                else -> null // Maneja otros tipos o entidades inesperadas
+                is EntrenadorEntity -> it.toModel()
+                is JugadorEntity -> it.toModel()
+                else -> null
             }
         }
     }
@@ -37,7 +37,7 @@ class PlantillaRepositoryImpl (
     //Función que busca a un miembro de la plantilla por id
     override fun findById(id: Long): Plantilla? {
         logger.debug { "Buscando un miembro de la plantilla por id : $id" }
-        return dao.findById(id).toModel()
+        return dao.findById(id)?.toModel()
     }
 
     //Funcion que guarda una entidad
@@ -47,30 +47,15 @@ class PlantillaRepositoryImpl (
             id = item.id,
         )
         val dao = dao.save(save.toEntity())
-
         return item
     }
-
-    /*
-    //Funcion que actualiza el id de un miembro de la plantilla
-    override fun update(id: Long, item: Plantilla): Plantilla? {
-        val plantilla = findById(id)
-        if (item != null) {
-            val updated = item.copy(
-                id = item.id,
-            )
-            dao.save(updated.toEntity())
-        }
-        return plantilla
-    }
-     */
 
     //Función que borra el identificador de un miembro de la plantilla
     override fun deleteById(id : Long) {
         logger.debug { "Eliminando miembro de la plantilla : $id" }
-        val plantilla : Plantilla? = dao.findById(1L).toModel()
+        val plantilla : Plantilla? = dao.findById(1L)?.toModel()
         if (plantilla != null) {
-            val res = dao.delete(1L)
+            val res = dao?.delete(1L)
             if (res == 0L) {
                 logger.error { "Fallo al remover el miembro de la plantilla" }
             }
