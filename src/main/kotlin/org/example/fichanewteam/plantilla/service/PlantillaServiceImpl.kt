@@ -15,8 +15,8 @@ import org.example.fichanewteam.plantilla.mapper.toJugador
 import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.plantilla.models.Entrenador
 import org.example.fichanewteam.plantilla.models.Jugador
-import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
 import org.example.fichanewteam.plantilla.models.Plantilla
+import org.example.fichanewteam.plantilla.repositories.PlantillaRepository
 import org.lighthousegames.logging.logging
 import java.io.File
 import java.nio.file.Files
@@ -29,7 +29,7 @@ import java.util.zip.ZipOutputStream
 import kotlin.io.path.name
 
 class PlantillaServiceImpl (
-    private val repository: PlantillaRepositoryImpl,
+    private val repository: PlantillaRepository,
     private val config : Config,
     private val cache : Cache<Long, Plantilla>
 ) : PlantillaService {

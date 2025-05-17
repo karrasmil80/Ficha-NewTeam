@@ -10,6 +10,7 @@ import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
 import org.example.fichanewteam.config.Config
+import org.example.fichanewteam.plantilla.service.PlantillaService
 import org.example.fichanewteam.plantilla.service.PlantillaServiceImpl
 
 import org.lighthousegames.logging.logging
@@ -21,7 +22,7 @@ import kotlin.collections.toMutableList
 private val logger = logging()
 
 class PlantillaViewModel(
-    private val servicio: PlantillaServiceImpl,
+    private val servicio: PlantillaService,
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
@@ -42,38 +43,38 @@ class PlantillaViewModel(
     }
 
     private fun updateActualState() {
-        //Consultas jugadores
-        val golesPromedioConsulta = state.value.jugador.map{ it.goles }.average()
+        // Consultas jugadores
+        val golesPromedioConsulta = state.value.jugador.map { it.goles }.average()
         val salarioMaximoConsulta = state.value.jugador.mapNotNull { it.salario }.maxOrNull() ?: 0.0
-        val alturaMinimaConsulta = state.value.jugador.mapNotNull{ it.altura }.minOrNull() ?: 0.0
-        val totalPartidosConsulta = state.value.jugador.sumOf{ it.partidosJugados }
-        val minutospromedioConsulta = state.value.jugador.mapNotNull { it.minutosJugados }.average()
+        val alturaMinimaConsulta = state.value.jugador.mapNotNull { it.altura }.minOrNull() ?: 0.0
+        val totalPartidosConsulta = state.value.jugador.sumOf { it.partidosJugados }
+        val minutosPromedioConsulta = state.value.jugador.mapNotNull { it.minutosJugados }.average()
 
-        //Consultas Entrenadores
+        // Consultas entrenadores
         val salarioPromedioConsulta = state.value.entrenador.mapNotNull { it.salario }.average()
-        val incorporacionAntiguaConsulta = state.value.entrenador.minBy { it.fechaIncorporacion }.toString()
-        val nacimientoActualConsulta =  state.value.entrenador.maxBy { it.fechaNacimiento }.toString()
-        val entrenadoresAsistentesConsulta = state.value.entrenador.map { it.especialidad == "ASISTENTE" }.count()
-        val entrenadoresEspañolesConsulta = state.value.entrenador.map { it.pais == "España" }.count()
 
+        val incorporacionAntiguaConsulta = state.value.entrenador.minByOrNull { it.fechaIncorporacion }?.fechaIncorporacion ?: ""
+        val nacimientoActualConsulta = state.value.entrenador.maxByOrNull { it.fechaNacimiento }?.fechaNacimiento ?: ""
+
+        val entrenadoresAsistentesConsulta = state.value.entrenador.count { it.especialidad == "ASISTENTE" }
+        val entrenadoresEspañolesConsulta = state.value.entrenador.count { it.pais == "España" }
 
         state.value = state.value.copy(
-
-            //State de jugadores
+            // State de jugadores
             golesPromedio = golesPromedioConsulta,
             salarioMaximo = salarioMaximoConsulta,
             alturaMinima = alturaMinimaConsulta,
             totalPartidos = totalPartidosConsulta,
-            minutosPromedio = minutospromedioConsulta,
+            minutosPromedio = minutosPromedioConsulta,
 
-            //State de entrenadores
+            // State de entrenadores
             salarioPromedio = salarioPromedioConsulta,
             incorporacionAntigua = incorporacionAntiguaConsulta,
-            entrenadoresAsistentes = entrenadoresAsistentesConsulta,
             nacimientoActual = nacimientoActualConsulta,
-            entrenadoresEspanoles =entrenadoresEspañolesConsulta ,
+            entrenadoresAsistentes = entrenadoresAsistentesConsulta,
+            entrenadoresEspanoles = entrenadoresEspañolesConsulta,
 
-            //Aqui se guarda el state de los miembros de la plantilla
+            // Aqui se guarda el state de los miembros de la plantilla
             miembro = PlantillaState()
         )
     }
@@ -165,7 +166,7 @@ class PlantillaViewModel(
 
         jugador.fileImage.let { file ->
             if (file?.name != TipoImagen.SIN_IMAGEN.value) {
-                servicio.deleteImage(file.toString())
+                servicio.deleteImage(file!!)
             }
         }
 
@@ -182,7 +183,7 @@ class PlantillaViewModel(
 
         entrenador.fileImage.let { file ->
             if (file?.name != TipoImagen.SIN_IMAGEN.value) {
-                servicio.deleteImage(file.toString())
+                servicio.deleteImage(file!!)
             }
         }
 
