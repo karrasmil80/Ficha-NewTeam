@@ -16,7 +16,6 @@ class HelpController {
     @FXML
     private lateinit var link3 : javafx.scene.control.Hyperlink
 
-
     @FXML
     fun initialize() {
         logger.debug { "Inicializando HelpController" }
@@ -38,5 +37,4 @@ class HelpController {
             Open.open(url3)
         }
     }
-
 }

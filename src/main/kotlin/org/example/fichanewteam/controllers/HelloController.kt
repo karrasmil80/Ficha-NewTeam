@@ -1,16 +1,11 @@
 package org.example.fichanewteam.controllers
 
-import javafx.application.Platform
-import javafx.collections.FXCollections
+
 import javafx.fxml.FXML
 import javafx.scene.control.*
-import javafx.scene.control.cell.PropertyValueFactory
-import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCodeCombination
 import javafx.scene.input.KeyCombination
-import org.example.fichanewteam.plantilla.models.Entrenador
-import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.routes.RoutesManager
 import org.lighthousegames.logging.logging
@@ -18,9 +13,6 @@ import javafx.scene.input.KeyCode
 import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-
-import java.sql.DriverManager
-import java.sql.PreparedStatement
 
 
 private val logger = logging()
@@ -200,8 +192,6 @@ class HelloController : KoinComponent {
     @FXML
     lateinit var sliderTable: Slider
 
-
-
     @FXML
     fun initialize() {
 
@@ -352,13 +342,7 @@ class HelloController : KoinComponent {
         //textAlumnoNumero.text = viewModel.state.value.alumno.numero
 
         golePromedioField.text = viewModel.state.value.golesPromedio.toString()
-
-
-
-
     }
-
-
 }
 
 

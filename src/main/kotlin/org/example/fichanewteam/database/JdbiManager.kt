@@ -31,7 +31,6 @@ class JdbiManager (
         }
     }
 
-
     private fun executeSqlScriptFromResources(resourcePath: String) {
         val inputStream = ClassLoader.getSystemResourceAsStream(resourcePath)?.bufferedReader()!!
         val script = inputStream.readText()
