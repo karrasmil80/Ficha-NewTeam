@@ -8,7 +8,7 @@ import java.util.Locale
 import java.util.Properties
 import java.util.*
 
-private const val CONFIG_FILE_NAME = "application.properties"
+private const val CONFIG_FILE_NAME = "config.properties"
 
 class Config {
     val APP_PATH = System.getProperty("user.dir")

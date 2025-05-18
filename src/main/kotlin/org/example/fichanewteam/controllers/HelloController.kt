@@ -1,7 +1,10 @@
 package org.example.fichanewteam.controllers
 
+import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
 import javafx.fxml.FXML
 import javafx.scene.control.*
+import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
 import javafx.scene.input.KeyCodeCombination
 import javafx.scene.input.KeyCombination
@@ -9,14 +12,6 @@ import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.routes.RoutesManager
 import org.lighthousegames.logging.logging
 import javafx.scene.input.KeyCode
-import org.example.fichanewteam.config.Config
-import org.example.fichanewteam.plantilla.cache.providePersonalCache
-import org.example.fichanewteam.plantilla.dao.PlantillaDao
-import org.example.fichanewteam.plantilla.dao.PlantillaEntity
-import org.example.fichanewteam.plantilla.repositories.PlantillaRepositoryImpl
-import org.example.fichanewteam.plantilla.service.PlantillaServiceImpl
-import org.example.fichanewteam.plantilla.storage.*
-import org.example.fichanewteam.plantilla.validator.PlantillaValidator
 import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -213,7 +208,7 @@ class HelloController : KoinComponent {
         onComboBoxAction()
         onAddMemberAction()
         onEditMemberAction()
-        loadQuery()
+        println("Cargando datos: ${viewModel.state.value.plantilla}")
     }
 
     fun initEvents() {
@@ -230,6 +225,15 @@ class HelloController : KoinComponent {
 
     fun initDefaultValues() {
         logger.info { "Iniciando valores por defecto" }
+
+        viewModel.state.addListener { _, _, newState ->
+            plantillaTable.items = FXCollections.observableArrayList(newState.plantilla)
+        }
+
+        idColumn.cellValueFactory = PropertyValueFactory("id")
+        nombreColumn.cellValueFactory = PropertyValueFactory("nombre")
+        apellidosColumn.cellValueFactory = PropertyValueFactory("apellidos")
+        rolColumn.cellValueFactory = PropertyValueFactory("rol")
 
         //Atajos del teclado
         menuCopiar.accelerator = KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN)
@@ -265,6 +269,11 @@ class HelloController : KoinComponent {
         entrenadoresAsistentesField.isDisable = true
         entrenadoresEspañolesField.isDisable = true
 
+        golePromedioField.textProperty().bind(viewModel.state.map { it.golesPromedio.toString() })
+
+        if (viewModel.state.value.jugador.isEmpty()) {
+            println("No hay jugadores")
+        }
 
         //Opciones de la comboBox
         val boxItemsRol = listOf("Jugador", "Entrenador")
@@ -348,16 +357,6 @@ class HelloController : KoinComponent {
 
     }
 
-    fun loadQuery() {
-
-        //textAlumnoNumero.text = viewModel.state.value.alumno.numero
-
-        golePromedioField.text = viewModel.state.value.golesPromedio.toString()
-
-
-
-
-    }
 
 
 }

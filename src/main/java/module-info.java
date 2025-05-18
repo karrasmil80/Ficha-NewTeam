@@ -37,6 +37,7 @@ module org.example.fichanewteam {
     requires koin.core.jvm;
     requires jbcrypt;
 
+
     //APP
     opens org.example.fichanewteam to javafx.graphics;
     exports org.example.fichanewteam to javafx.graphics;

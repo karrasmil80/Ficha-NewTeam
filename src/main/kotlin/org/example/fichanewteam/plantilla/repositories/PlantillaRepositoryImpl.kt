@@ -40,22 +40,20 @@ class PlantillaRepositoryImpl (
         return dao.findById(id)?.toModel()
     }
 
-    //Funcion que guarda una entidad
+    //Para guardar un miembro
     override fun save(item: Plantilla): Plantilla {
         logger.debug { "Salvando miembro de la plantilla : $item" }
-        val save = item.copy(
-            id = item.id,
-        )
-        val dao = dao.save(save.toEntity())
-        return item
+        val entityToSave = item.toEntity() // Asume que ignora id porque es autogenerado
+        val generatedId = dao.save(entityToSave)
+        return item.copy(id = generatedId)
     }
 
     //Función que borra el identificador de un miembro de la plantilla
     override fun deleteById(id : Long) {
         logger.debug { "Eliminando miembro de la plantilla : $id" }
-        val plantilla : Plantilla? = dao.findById(1L)?.toModel()
+        val plantilla : Plantilla? = dao.findById(id)?.toModel()
         if (plantilla != null) {
-            val res = dao?.delete(1L)
+            val res = dao?.delete(id)
             if (res == 0L) {
                 logger.error { "Fallo al remover el miembro de la plantilla" }
             }

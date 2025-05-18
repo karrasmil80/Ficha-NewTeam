@@ -9,6 +9,7 @@ import org.example.fichanewteam.plantilla.models.Jugador
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
 import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel.ExpedienteState
+import kotlin.jvm.Throws
 
 // Función que convierte PlantillaDto a un modelo (Jugador)
 fun PlantillaDto.toJugador(): Jugador {
@@ -26,9 +27,9 @@ fun PlantillaDto.toJugador(): Jugador {
         altura = this.altura ?: 0.0,
         peso = this.peso ?: 0.0,
         goles = this.goles ?: 0,
-        partidosJugados = this.partidos_jugados ?: 0,
-        minutosJugados = this.minutos_jugados,
-        rutaImagen = this.ruta_imagen ?: ""
+        partidosJugados = this.partidosJugados ?: 0,
+        minutosJugados = this.minutosJugados,
+        rutaImagen = this.rutaImagen ?: ""
     )
 }
 
@@ -44,7 +45,7 @@ fun PlantillaDto.toEntrenador(): Entrenador {
         pais = this.pais,
         rol = this.rol,
         especialidad = Entrenador.Especializacion.valueOf(especialidad!!).toString(),
-        rutaImagen = this.ruta_imagen ?: ""
+        rutaImagen = this.rutaImagen ?: ""
     )
 }
 
@@ -65,9 +66,9 @@ fun PlantillaDto.toModel(): Plantilla {
             altura = altura!!,
             peso = peso!!,
             goles = goles!!,
-            partidosJugados = partidos_jugados!!,
-            minutosJugados = minutos_jugados,
-            rutaImagen = ruta_imagen ?: ""
+            partidosJugados = partidosJugados!!,
+            minutosJugados = minutosJugados,
+            rutaImagen = rutaImagen ?: ""
         )
     } else {
         Entrenador(
@@ -80,7 +81,7 @@ fun PlantillaDto.toModel(): Plantilla {
             pais = pais,
             rol = rol,
             especialidad = Entrenador.Especializacion.valueOf(especialidad!!).toString(),
-            rutaImagen = ruta_imagen ?: ""
+            rutaImagen = rutaImagen ?: ""
         )
     }
 }
@@ -175,12 +176,12 @@ fun PlantillaEntity.toModel(): Plantilla {
 // --- FUNCIONES DE LISTAS ---
 
 
-@JvmName("modelToDtoList")
+@JvmName("dtoToModelList")
 fun List<PlantillaDto>.toModel(): List<Plantilla> {
     return map { it.toModel() }
 }
 
-@JvmName("dtoToModelList")
+@JvmName("modelToDtoList")
 fun List<Plantilla>.toDto(): List<PlantillaDto> {
     return map { it.toDto() }
 }
@@ -189,6 +190,23 @@ fun List<Plantilla>.toDto(): List<PlantillaDto> {
 fun List<PlantillaEntity>.toModel(): List<Plantilla> {
     return map { it.toModel() }
 }
+
+@JvmName("PlantillaListToJugadorList")
+fun List<Plantilla>.toJugadorList(): List<Jugador> {
+    return this.filter { it.rol == "Jugador" }
+        .map { it.toJugador() }
+}
+
+@JvmName("PlantillaListToEntrenadorList")
+fun List<Plantilla>.toEntrenadorList(): List<Entrenador> {
+    return this.filter { it.rol == "Entrenador" }
+        .map { it.toEntrenador() }
+}
+
+
+
+
+
 
 // Extensión para modelo a DTO (faltaba esta parte en tu código)
 fun Plantilla.toDto(): PlantillaDto {
@@ -208,9 +226,9 @@ fun Plantilla.toDto(): PlantillaDto {
             altura = jugador.altura,
             peso = jugador.peso,
             goles = jugador.goles,
-            partidos_jugados = jugador.partidosJugados,
-            minutos_jugados = jugador.minutosJugados,
-            ruta_imagen = jugador.rutaImagen,
+            partidosJugados = jugador.partidosJugados,
+            minutosJugados = jugador.minutosJugados,
+            rutaImagen = jugador.rutaImagen,
             especialidad = null
         )
     } else {
@@ -225,14 +243,52 @@ fun Plantilla.toDto(): PlantillaDto {
             pais = entrenador.pais,
             rol = entrenador.rol,
             especialidad = entrenador.especialidad,
-            ruta_imagen = entrenador.rutaImagen!!,
+            rutaImagen = entrenador.rutaImagen!!,
             posicion = null,
             dorsal = null,
             altura = null,
             peso = null,
             goles = null,
-            partidos_jugados = null,
-            minutos_jugados = null
+            partidosJugados = null,
+            minutosJugados = null
         )
     }
+}
+
+fun Plantilla.toEntrenador(): Entrenador {
+    val entrenador = this as Entrenador
+    return Entrenador(
+        id = entrenador.id,
+        nombre = entrenador.nombre,
+        apellidos = entrenador.apellidos,
+        fechaNacimiento = entrenador.fechaNacimiento,
+        fechaIncorporacion = entrenador.fechaIncorporacion,
+        salario = entrenador.salario,
+        pais = entrenador.pais,
+        rol = entrenador.rol,
+        especialidad = entrenador.especialidad,
+        rutaImagen = entrenador.rutaImagen,
+    )
+}
+
+fun Plantilla.toJugador(): Jugador {
+    val jugador = this as Jugador
+    return Jugador(
+        id = jugador.id,
+        nombre = jugador.nombre,
+        apellidos = jugador.apellidos,
+        fechaNacimiento = jugador.fechaNacimiento,
+        fechaIncorporacion = jugador.fechaIncorporacion,
+        salario = jugador.salario,
+        pais = jugador.pais,
+        rol = jugador.rol,
+        posicion = jugador.posicion,
+        dorsal = jugador.dorsal,
+        altura = jugador.altura,
+        peso = jugador.peso,
+        goles = jugador.goles,
+        partidosJugados = jugador.partidosJugados,
+        minutosJugados = jugador.minutosJugados,
+        rutaImagen = jugador.rutaImagen,
+    )
 }

@@ -27,6 +27,7 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 import kotlin.io.path.name
+import kotlin.math.log
 
 class PlantillaServiceImpl (
     private val repository: PlantillaRepository,
@@ -34,9 +35,14 @@ class PlantillaServiceImpl (
     private val cache : Cache<Long, Plantilla>
 ) : PlantillaService {
 
+    private val logger = logging()
+
+    init {
+        logger.info { "Iniciando servicio" }
+    }
+
     val tempDir = "miembrosPlantilla"
 
-    private val logger = logging()
     //Función que devuelve una lista de los miembros de la plantilla
     override fun findAll(): Result<List<Plantilla>, PlantillaError> {
         return Ok(repository.findAll())
@@ -56,22 +62,19 @@ class PlantillaServiceImpl (
     //Funcion que guarda una entidad
     override fun save(item: Plantilla): Result<Plantilla, PlantillaError> {
         logger.debug { "Salvando miembro de la plantilla" }
-        repository.save(item)?.id?.let {
-            cache.put(it, item)
-            Ok(it)
-        }
-        return Ok(repository.save(item))
+        val savedItem = repository.save(item)
+        cache.put(savedItem.id, savedItem)
+        return Ok(savedItem)
     }
 
     //Función que borra el identificador de un miembro de la plantilla
     override fun deleteById(id: Long): Result<Unit, PlantillaError> {
-        logger.debug { "deleteById" }
-        repository.deleteById(id).also {
-            cache.invalidate(id)
-            return Ok(Unit) // no se si se puede
-
-        }
+        logger.debug { "Borrando miembro de la plantilla por id : $id" }
+        repository.deleteById(id)
+        cache.invalidate(id)
+        return Ok(Unit)
     }
+
 
     //Función que lee un archivo con información de la plantilla y lo convierte en una lista de objetos
     override fun readFile(file: File, format: FileFormat): List<Plantilla> {
@@ -97,7 +100,7 @@ class PlantillaServiceImpl (
 
     //Función que escribe una lista de objetos de plantilla en un archivo en el formato especificado.
     override fun writeFile(file: File, format: FileFormat, personal: List<Plantilla>) {
-        if (!file.parentFile.exists() || !file.parentFile.isDirectory || !file.canWrite()) {
+        if (!file.parentFile.exists() || !file.parentFile.isDirectory) {
             throw IllegalArgumentException("El fichero json no se puede sobreescribir o no existe en su directorio padre")
         } else {
             val json = Json { ignoreUnknownKeys = true; prettyPrint = true }

@@ -51,7 +51,6 @@ val appModule = module {
         PlantillaServiceImpl(repo as PlantillaRepositoryImpl, config, cache)
     }
 
-
     // ViewModel
     single { PlantillaViewModel(servicio = get() as PlantillaServiceImpl) }
 

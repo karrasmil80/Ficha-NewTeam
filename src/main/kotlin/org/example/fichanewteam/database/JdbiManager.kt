@@ -63,7 +63,8 @@ fun initDatabase(jdbi: Jdbi) {
             goles INTEGER,
             partidosJugados INTEGER,
             especialidad VARCHAR(100),
-            ruta_imagen VARCHAR(255) DEFAULT 'images/default_profile.png'
+            rutaImagen VARCHAR(255) DEFAULT 'images/default_profile.png',
+            minutosJugados DOUBLE
         );
     """.trimIndent()
 

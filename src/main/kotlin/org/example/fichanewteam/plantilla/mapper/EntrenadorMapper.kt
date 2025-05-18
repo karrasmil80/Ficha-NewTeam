@@ -4,6 +4,7 @@ import org.example.fichanewteam.plantilla.dto.EntrenadorDto
 import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
 import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
 
 //Funcion que convierte un modelo a dto
@@ -18,14 +19,14 @@ fun Entrenador.toDto(): PlantillaDto {
         pais = pais,
         especialidad = especialidad.toString(),
         rol = "Entrenador",
-        posicion = "", // No aplica para entrenadores
-        dorsal = null, // No aplica para entrenadores
-        altura = null, // No aplica para entrenadores
-        peso = null, // No aplica para entrenadores
-        goles = null, // No aplica para entrenadores
-        partidos_jugados = null,
-        ruta_imagen = this.rutaImagen,
-        minutos_jugados = null // No aplica para entrenadores
+        posicion = "",
+        dorsal = null,
+        altura = null,
+        peso = null,
+        goles = null,
+        partidosJugados = null,
+        rutaImagen = this.rutaImagen,
+        minutosJugados = null
     )
 }
 

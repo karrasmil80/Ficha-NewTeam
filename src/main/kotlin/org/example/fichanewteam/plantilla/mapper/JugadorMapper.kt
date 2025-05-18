@@ -24,11 +24,11 @@ fun Jugador.toDto(): PlantillaDto {
         altura = altura,
         peso = peso,
         goles = goles,
-        partidos_jugados = partidosJugados,
+        partidosJugados = partidosJugados,
         rol = rol,
         especialidad = "", // No se aplica a jugadores
-        ruta_imagen = rutaImagen,
-        minutos_jugados = minutosJugados
+        rutaImagen = rutaImagen,
+        minutosJugados = minutosJugados
     )
 }
 

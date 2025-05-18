@@ -9,9 +9,9 @@ import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
-import org.example.fichanewteam.config.Config
+import org.example.fichanewteam.plantilla.mapper.toEntrenador
+import org.example.fichanewteam.plantilla.mapper.toJugador
 import org.example.fichanewteam.plantilla.service.PlantillaService
-import org.example.fichanewteam.plantilla.service.PlantillaServiceImpl
 
 import org.lighthousegames.logging.logging
 import java.io.File
@@ -27,7 +27,8 @@ class PlantillaViewModel(
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
     init {
-        loadPlantilla()
+        println("PlantillaViewModel init called")
+        loadPlantillaJson(File("data/personal.json"))
         loadTypes()
     }
 
@@ -36,13 +37,21 @@ class PlantillaViewModel(
     }
 
     private fun loadPlantilla() {
-        servicio.findAll().onSuccess {
-            state.value = state.value.copy(plantilla = it)
+        servicio.findAll().onSuccess { plantillaCompleta ->
+            val jugadores = plantillaCompleta.filter { it.rol == "Jugador" }.map { it.toJugador() }
+            val entrenadores = plantillaCompleta.filter { it.rol == "Entrenador" }.map { it.toEntrenador() }
+
+            state.value = state.value.copy(
+                plantilla = plantillaCompleta,
+                jugador = jugadores,
+                entrenador = entrenadores
+            )
             updateActualState()
         }
     }
 
     private fun updateActualState() {
+
         // Consultas jugadores
         val golesPromedioConsulta = state.value.jugador.map { it.goles }.average()
         val salarioMaximoConsulta = state.value.jugador.mapNotNull { it.salario }.maxOrNull() ?: 0.0
@@ -101,18 +110,22 @@ class PlantillaViewModel(
 
     fun loadPlantillaJson(file: File, withImages: Boolean = false): Result<List<Plantilla>, PlantillaError> {
         return servicio.deleteAllImages().andThen {
-            servicio.loadDataJson(file).onSuccess {
-                servicio.deleteAll()
-                servicio.saveAll(
-                    if (withImages)
-                        it
-                    else
-                        it.map{ a -> a.copy(id = Plantilla.NEW_ID, rutaImagen = TipoImagen.SIN_IMAGEN.value) }
-                )
-                loadPlantilla()
+            servicio.loadDataJson(file).andThen { listaPlantilla ->
+                servicio.deleteAll().andThen {
+                    servicio.saveAll(
+                        if (withImages)
+                            listaPlantilla
+                        else
+                            listaPlantilla.map { a -> a.copy(id = Plantilla.NEW_ID, rutaImagen = TipoImagen.SIN_IMAGEN.value) }
+                    )
+                }.onSuccess {
+                    loadPlantilla()
+                    Ok(listaPlantilla)
+                }
             }
         }
     }
+
 
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
