@@ -1,51 +1,92 @@
 package org.example.fichanewteam.controllers
 
-import javafx.application.Platform
-import javafx.event.ActionEvent
+import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
-import javafx.geometry.Insets
-import javafx.scene.Node
-import javafx.scene.Parent
-import javafx.scene.Scene
-import javafx.scene.control.Alert
-import javafx.scene.control.ButtonType
-import javafx.scene.control.ComboBox
-import javafx.scene.control.DatePicker
-import javafx.scene.control.Dialog
-import javafx.scene.control.Label
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.TextField
+import javafx.scene.control.*
+import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.image.ImageView
-import javafx.scene.layout.GridPane
-import javafx.stage.Modality
-import javafx.stage.Stage
-import org.example.models.Entrenador
-import org.example.fichanewteam.models.Jugador
-import java.sql.Date
-import java.sql.DriverManager
-import java.sql.Statement
+import javafx.scene.input.KeyCodeCombination
+import javafx.scene.input.KeyCombination
+import org.example.fichanewteam.plantilla.models.Plantilla
+import org.example.fichanewteam.routes.RoutesManager
+import org.lighthousegames.logging.logging
+import javafx.scene.input.KeyCode
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class HelloController {
+
+private val logger = logging()
+class HelloController : KoinComponent {
+
+
+    private val viewModel: PlantillaViewModel by inject()
+
+
     // Elementos de la interfaz para vincular con fx:id en el FXML
+    @FXML
+    private lateinit var modoEdicionToggle: ToggleButton
+
+    @FXML
+    private lateinit var menuHelp: MenuItem
+
+    @FXML
+    private lateinit var menuExportar: MenuItem
+
+    @FXML
+    private lateinit var menuImportar: MenuItem
+
+    @FXML
+    private lateinit var menuPegar: MenuItem
+
+    @FXML
+    private lateinit var menuCopiar: MenuItem
+
+    @FXML
+    private lateinit var menuSalir: MenuItem
+
+    @FXML
+    private lateinit var menuGuardar: MenuItem
+
+    @FXML
+    private lateinit var menuAbrir: MenuItem
+
+    @FXML
+    private lateinit var menuItem: MenuItem
+
+    @FXML
+    private lateinit var nuevoButton: Button
+
+    @FXML
+    private lateinit var editarButton: Button
+
+    @FXML
+    private lateinit var eliminarButton: Button
+
+    @FXML
+    private lateinit var exportarButton: Button
+
+    @FXML
+    private lateinit var importarButton: Button
+
     @FXML
     private lateinit var welcomeText: Label
 
     @FXML
-    private lateinit var plantillaTable: TableView<Any>
+    private lateinit var plantillaTable: TableView<Plantilla>
 
     @FXML
-    private lateinit var idColumn: TableColumn<Any, Any>
+    private lateinit var idColumn: TableColumn<Plantilla, Long>
 
     @FXML
-    private lateinit var nombreColumn: TableColumn<Any, String>
+    private lateinit var nombreColumn: TableColumn<Plantilla, String>
 
     @FXML
-    private lateinit var apellidosColumn: TableColumn<Any, String>
+    private lateinit var apellidosColumn: TableColumn<Plantilla, String>
 
     @FXML
-    private lateinit var rolColumn: TableColumn<Any, String>
+    private lateinit var rolColumn: TableColumn<Plantilla, String>
 
     @FXML
     private lateinit var nombreField: TextField
@@ -95,282 +136,229 @@ class HelloController {
     @FXML
     private lateinit var photoImageView: ImageView
 
+    @FXML
+    private lateinit var nombreCompletoLabel: Label
 
     @FXML
-    private fun initialize() {
-        // Código de inicialización
-        welcomeText.text = "Bienvenido a New Team App"
+    private lateinit var rolPosicionLabel: Label
+
+    @FXML
+    private lateinit var paisLabel: Label
+
+    @FXML
+    private lateinit var incorporacionLabel: Label
+
+    @FXML
+    private lateinit var edadLabel: Label
+
+    @FXML
+    private lateinit var añadirButton: Button
+
+    @FXML
+    private lateinit var buttonCancelar: Button
+
+    @FXML
+    private lateinit var buttonGuardar: Button
+
+    @FXML
+    private lateinit var entrenadoresEspañolesField: TextField
+
+    @FXML
+    private lateinit var entrenadoresAsistentesField: TextField
+
+    @FXML
+    private lateinit var fechaActualField: TextField
+
+    @FXML
+    private lateinit var fechaAntiguaField: TextField
+
+    @FXML
+    private lateinit var salarioPromedioField: TextField
+
+    @FXML
+    private lateinit var NumJugadoresField: TextField
+
+    @FXML
+    private lateinit var PartidosTotalField: TextField
+
+    @FXML
+    private lateinit var AlturaMinimaField: TextField
+
+    @FXML
+    private lateinit var salarioMaximoField: TextField
+
+    @FXML
+    private lateinit var golePromedioField: TextField
+
+    @FXML
+    private lateinit var filterComboBox: ComboBox<String>
+
+    @FXML
+    lateinit var sliderTable: Slider
+
+
+
+    @FXML
+    fun initialize() {
+
+        initEvents()
+        initDefaultValues()
+
+        //Las añado aqui por qué si no hay que hacer click dos veces para que se inicialice
+        onComboBoxAction()
+        onAddMemberAction()
+        onEditMemberAction()
+        println("Cargando datos: ${viewModel.state.value.plantilla}")
     }
 
-    // AcercaDe
-    @FXML
-    private fun handleAbout(event: ActionEvent) {
-        try {
-            // Cargar el archivo FXML de Acerca De
-            val loader = FXMLLoader(javaClass.getResource("/views/acerca-de-view.fxml"))
-            val root = loader.load<Parent>()
+    fun initEvents() {
+        logger.debug { "Iniciando eventos" }
+        menuHelp.setOnAction { onHelpAction() }
+        menuSalir.setOnAction { RoutesManager.onAppExit() }
+        añadirButton.setOnAction { onAddMemberAction()}
+    }
 
-            // Crear una nueva escena
-            val scene = Scene(root)
+    fun onHelpAction() {
+        logger.debug { "onHelpAction" }
+        RoutesManager.initHelpStage()
+    }
 
-            // Crear un nuevo stage (ventana)
-            val aboutStage = Stage()
-            aboutStage.title = "Acerca De"
-            aboutStage.scene = scene
+    fun initDefaultValues() {
+        logger.info { "Iniciando valores por defecto" }
 
-            // Obtener la ventana principal (stage actual)
-            val mainStage = (event.source as Node).scene.window as Stage
+        viewModel.state.addListener { _, _, newState ->
+            plantillaTable.items = FXCollections.observableArrayList(newState.plantilla)
+        }
 
-            // Configurar la modalidad para bloquear la ventana principal
-            aboutStage.initOwner(mainStage)
-            aboutStage.initModality(Modality.WINDOW_MODAL)
+        idColumn.cellValueFactory = PropertyValueFactory("id")
+        nombreColumn.cellValueFactory = PropertyValueFactory("nombre")
+        apellidosColumn.cellValueFactory = PropertyValueFactory("apellidos")
+        rolColumn.cellValueFactory = PropertyValueFactory("rol")
 
-            // Mostrar la ventana y esperar hasta que se cierre
-            aboutStage.showAndWait()
+        //Atajos del teclado
+        menuCopiar.accelerator = KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN)
+        menuGuardar.accelerator = KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN)
+        menuPegar.accelerator = KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN)
+        menuImportar.accelerator = KeyCodeCombination(KeyCode.M, KeyCombination.CONTROL_DOWN)
+        menuExportar.accelerator = KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_DOWN)
+        menuHelp.accelerator = KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN)
 
-        } catch (e: Exception) {
-            e.printStackTrace()
+        //Variables desactivadas al inicio de la app para imposibilitar el editarlas
+
+        paisField.isDisable = true
+        fechaIncorporacionField.isDisable = true
+        fechaNacimientoField.isDisable = true
+        salarioField.isDisable = true
+        apellidosField.isDisable = true
+        nombreField.isDisable = true
+        golesField.isDisable = true
+        partidosField.isDisable = true
+        dorsalField.isDisable = true
+        alturaField.isDisable = true
+        pesoField.isDisable = true
+        rolComboBox.isDisable = true
+        posicionComboBox.isDisable = true
+        golePromedioField.isDisable = true
+        salarioMaximoField.isDisable = true
+        salarioPromedioField.isDisable = true
+        AlturaMinimaField.isDisable = true
+        PartidosTotalField.isDisable = true
+        NumJugadoresField.isDisable = true
+        fechaAntiguaField.isDisable = true
+        fechaActualField.isDisable = true
+        entrenadoresAsistentesField.isDisable = true
+        entrenadoresEspañolesField.isDisable = true
+
+        golePromedioField.textProperty().bind(viewModel.state.map { it.golesPromedio.toString() })
+
+        if (viewModel.state.value.jugador.isEmpty()) {
+            println("No hay jugadores")
+        }
+
+        //Opciones de la comboBox
+        val boxItemsRol = listOf("Jugador", "Entrenador")
+        rolComboBox.items.addAll(boxItemsRol)
+
+        val boxItemsPosicion = listOf("Defensa", "Centrocampista", "Delantero", "Portero")
+        posicionComboBox.items.addAll(boxItemsPosicion)
+
+        val boxItemsFilter = listOf("Jugador", "Entrenador", "Todos")
+        filterComboBox.items.addAll(boxItemsFilter)
+
+        //Opciones de la comboBox de entrenador
+        //Por hacer los campos comunes de entrenador (especialidad)
+
+    }
+
+    fun onAddMemberAction() {
+        logger.debug { "onAddMemberAction" }
+        añadirButton.setOnAction {
+            buttonGuardar.isDisable = false
+            buttonCancelar.isDisable = false
+            paisField.isDisable = false
+            fechaIncorporacionField.isDisable = false
+            fechaNacimientoField.isDisable = false
+            salarioField.isDisable = false
+            apellidosField.isDisable = false
+            nombreField.isDisable = false
+            rolComboBox.isDisable = false
         }
     }
 
-    // Manejador para el botón "Salir" del menú
-    @FXML
-    private fun handleSalir() {
-        // Cerrar la aplicación
-        Platform.exit()
+    fun onEditMemberAction() {
+        logger.debug { "onEditMemberAction" }
+        editarButton.setOnAction {
+            buttonGuardar.isDisable = false
+            buttonCancelar.isDisable = false
+            paisField.isDisable = false
+            fechaIncorporacionField.isDisable = false
+            fechaNacimientoField.isDisable = false
+            salarioField.isDisable = false
+            apellidosField.isDisable = false
+            nombreField.isDisable = false
+            rolComboBox.isDisable = false
+        }
     }
 
-    // Otros métodos para manejar eventos de la interfaz
-    @FXML
-    private fun handleAnyadirPersona() {
-        try {
-            //Crear una ventana de diálogo para meter los datos
-            val dialog = Dialog<Boolean>()
-            dialog.title = "Añadir Persona"
-            dialog.headerText = "Ingresa los datos de la nueva persona"
+    //Por implementar
+    fun onDeleteMemberAction() {
+        logger.debug { "onDeleteMemberAction" }
+    }
 
-            // Configurar botones
-            dialog.dialogPane.buttonTypes.addAll(ButtonType.OK, ButtonType.CANCEL)
-
-            // Crear formulario
-            val grid = GridPane()
-            grid.hgap = 10.0
-            grid.vgap = 10.0
-            grid.padding = Insets(20.0, 150.0, 10.0, 10.0)
-
-            nombreField.promptText = "Nombre"
-            apellidosField.promptText = "Apellidos"
-            rolComboBox.items.addAll("Jugador", "Entrenador")
-            rolComboBox.selectionModel.selectFirst()
-
-            grid.add(Label("Nombre:"), 0, 0)
-            grid.add(nombreField, 1, 0)
-            grid.add(Label("Apellidos:"), 0, 1)
-            grid.add(apellidosField, 1, 1)
-            grid.add(Label("Rol:"), 0, 2)
-            grid.add(rolComboBox, 1, 2)
-
-            dialog.dialogPane.content = grid
-
-            // Dar foco al campo nombre
-            Platform.runLater { nombreField.requestFocus() }
-
-            // Convertir el resultado
-            dialog.setResultConverter { buttonType ->
-                if (buttonType == ButtonType.OK) {
-                    // Validar que los campos no estén vacíos
-                    if (nombreField.text.isNotEmpty() && apellidosField.text.isNotEmpty()) {
-                        // Crear la nueva persona según el rol seleccionado
-                        val nuevaPersona = when (rolComboBox.value) {
-                            "Jugador" -> {
-                                // Valores por defecto para campos numéricos
-                                val dorsal = try {
-                                    dorsalField.text.toInt()
-                                } catch (e: Exception) {
-                                    0
-                                }
-                                val altura = try {
-                                    alturaField.text.toDouble()
-                                } catch (e: Exception) {
-                                    0.0
-                                }
-                                val peso = try {
-                                    pesoField.text.toDouble()
-                                } catch (e: Exception) {
-                                    0.0
-                                }
-                                val goles = try {
-                                    golesField.text.toInt()
-                                } catch (e: Exception) {
-                                    0
-                                }
-                                val partidos = try {
-                                    partidosField.text.toInt()
-                                } catch (e: Exception) {
-                                    0
-                                }
-
-                                Jugador(
-                                    id = 0,
-                                    rol = "Jugador",
-                                    nombre = nombreField.text,
-                                    apellidos = apellidosField.text,
-                                    fechaNacimiento = fechaNacimientoField.value.toString(),
-                                    fechaIncorporacion = fechaIncorporacionField.value.toString(),
-                                    salario = try {
-                                        salarioField.text.toDouble()
-                                    } catch (e: Exception) {
-                                        0.0
-                                    },
-                                    pais = paisField.text,
-                                    posicion = posicionComboBox.value,
-                                    dorsal = dorsal,
-                                    altura = altura,
-                                    peso = peso,
-                                    goles = goles,
-                                    partidosJugados = partidos
-                                )
-                            }
-
-                            "Entrenador" -> {
-                                Entrenador(
-                                    id = 0,
-                                    rol = "Entrenador",
-                                    nombre = nombreField.text,
-                                    apellidos = apellidosField.text,
-                                    fechaNacimiento = fechaNacimientoField.value.toString(),
-                                    fechaIncorporacion = fechaIncorporacionField.value.toString(),
-                                    salario = try {
-                                        salarioField.text.toDouble()
-                                    } catch (e: Exception) {
-                                        0.0
-                                    },
-                                    pais = paisField.text,
-                                    especialidad = especialidadComboBox.value
-                                )
-                            }
-
-                            else -> null
-                        }
-
-                        // Guardar la persona en la base de datos
-                        if (nuevaPersona != null) {
-                            try {
-                                // Establecer conexión con la base de datos
-                                val connection = DriverManager.getConnection("jdbc:h2:mem:newteamh2", "root", "")
-
-                                // Primero insertamos en la tabla plantilla
-                                val stmtPlantilla = connection.prepareStatement(
-                                    "INSERT INTO plantilla (nombre, apellidos, fecha_nacimiento, fecha_incorporacion, salario, pais, rol) " +
-                                            "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS
-                                )
-
-                                stmtPlantilla.setString(1, nuevaPersona.nombre)
-                                stmtPlantilla.setString(2, nuevaPersona.apellidos)
-                                stmtPlantilla.setDate(3, Date.valueOf(nuevaPersona.fechaNacimiento))
-                                stmtPlantilla.setDate(4, Date.valueOf(nuevaPersona.fechaIncorporacion))
-                                stmtPlantilla.setDouble(5, nuevaPersona.salario!!.toDouble())
-                                stmtPlantilla.setString(6, nuevaPersona.pais)
-
-                                // Determinar el rol según el tipo de objeto
-                                when (nuevaPersona) {
-                                    is Jugador -> stmtPlantilla.setString(7, "Jugador")
-                                    is Entrenador -> stmtPlantilla.setString(7, "Entrenador")
-                                    else -> throw Exception("Tipo de plantilla no reconocido")
-                                }
-
-                                // Ejecutar la inserción en la tabla plantilla
-                                stmtPlantilla.executeUpdate()
-
-                                // Obtener el ID generado
-                                val rs = stmtPlantilla.generatedKeys
-                                if (rs.next()) {
-                                    val personaId = rs.getLong(1)
-
-                                    // Ahora insertamos en la tabla específica según el tipo
-                                    when (nuevaPersona) {
-                                        is Jugador -> {
-                                            val stmtJugador = connection.prepareStatement(
-                                                "INSERT INTO jugadores (id, posicion, dorsal, altura, peso, goles, partidos_jugados) " +
-                                                        "VALUES (?, ?, ?, ?, ?, ?, ?)"
-                                            )
-                                            stmtJugador.setLong(1, personaId)
-                                            stmtJugador.setString(2, nuevaPersona.posicion ?: "")
-                                            stmtJugador.setInt(3, nuevaPersona.dorsal ?: 0)  // Usa 0 como valor por defecto
-                                            stmtJugador.setDouble(4, nuevaPersona.altura ?: 0.0)  // Usa 0.0 como valor por defecto
-                                            stmtJugador.setDouble(5, nuevaPersona.peso ?: 0.0)  // Usa 0.0 como valor por defecto
-                                            stmtJugador.setInt(6, nuevaPersona.goles ?: 0)
-                                            stmtJugador.setInt(7, nuevaPersona.partidosJugados ?: 0)
-                                            stmtJugador.executeUpdate()
-                                            stmtJugador.close()
-                                        }
-
-                                        is Entrenador -> {
-                                            val stmtEntrenador = connection.prepareStatement(
-                                                "INSERT INTO entrenadores (id, especialidad) VALUES (?, ?)"
-                                            )
-                                            stmtEntrenador.setLong(1, personaId)
-                                            stmtEntrenador.setString(2, nuevaPersona.especialidad)
-                                            stmtEntrenador.executeUpdate()
-                                            stmtEntrenador.close()
-                                        }
-                                    }
-                                }
-
-                                // Cerrar recursos
-                                rs.close()
-                                stmtPlantilla.close()
-                                connection.close()
-
-                                // Añadir la persona a la TableView
-                                plantillaTable.items.add(nuevaPersona)
-
-                                // Mostrar mensaje de éxito
-                                val alert = Alert(Alert.AlertType.INFORMATION)
-                                alert.title = "Persona añadida"
-                                alert.headerText = null
-                                alert.contentText = "La persona ha sido añadida correctamente a la base de datos."
-                                alert.showAndWait()
-
-                                return@setResultConverter true
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-
-                                // Mostrar mensaje de error
-                                val alert = Alert(Alert.AlertType.ERROR)
-                                alert.title = "Error"
-                                alert.headerText = null
-                                alert.contentText = "Error al guardar la persona en la base de datos: ${e.message}"
-                                alert.showAndWait()
-
-                                return@setResultConverter false
-                            }
-                        }
-                    }
-                }
-                null
+    //Aquí irá lo que diferencia entre entrenador y jugador, es decir, cuando se seleccione en la comboBox de Rol la opcion jugador
+    //Automaticamente se activarán los botones de dicho rol para poder salvarlos o editarlos
+    fun onComboBoxAction() {
+        rolComboBox.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
+            if (newValue == "Jugador") {
+                posicionComboBox.isDisable = false
+                dorsalField.isDisable = false
+                alturaField.isDisable = false
+                pesoField.isDisable = false
+                golesField.isDisable = false
+                partidosField.isDisable = false
             }
-            // Mostrar diálogo y esperar al resultado
-            dialog.showAndWait()
-        } catch (e: Exception) {
-            e.printStackTrace()
+            if (newValue == "Entrenador") {
+                //Field de entrenador
+                especialidadComboBox.isDisable = false
 
-            // Mostrar mensaje de error
-            val alert = Alert(Alert.AlertType.ERROR)
-            alert.title = "Error"
-            alert.headerText = null
-            alert.contentText = "Ha ocurrido un error al añadir la persona: ${e.message}"
-            alert.showAndWait()
+                //Field de jugador
+                posicionComboBox.isDisable = true
+                dorsalField.isDisable = true
+                alturaField.isDisable = true
+                pesoField.isDisable = true
+                golesField.isDisable = true
+                partidosField.isDisable = true
+            }
         }
     }
 
-    @FXML
-    fun handleEditarPersona() {
-        // Código para editar una persona seleccionada
+    //POR IMPLEMENTAR
+    fun onSliderAction() {
+
     }
 
-    @FXML
-    fun handleBorrarPersona() {
-        // Código para eliminar una persona seleccionada
-    }
+
+
 }
+
+

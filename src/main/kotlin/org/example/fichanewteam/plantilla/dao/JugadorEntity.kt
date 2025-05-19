@@ -1,6 +1,6 @@
 package org.example.fichanewteam.plantilla.dao
 
-import org.example.fichanewteam.models.Jugador.Posicion
+import org.example.fichanewteam.plantilla.models.Jugador.Posicion
 
 /**
  * Clase que representa a un jugador del equipo.
@@ -20,7 +20,6 @@ import org.example.fichanewteam.models.Jugador.Posicion
  * @param goles Número de goles anotados por el jugador.
  * @param partidosJugados Número de partidos jugados por el jugador.
  */
-
 class JugadorEntity(
     id: Long,
     nombre: String,
@@ -35,5 +34,7 @@ class JugadorEntity(
     var altura: Double?,
     var peso: Double?,
     var goles: Int,
-    var partidosJugados: Int
-) : PersonalEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol,)
+    var partidosJugados: Int,
+    var minutosJugados: Double,
+    rutaImagen: String
+) : PlantillaEntity(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen)

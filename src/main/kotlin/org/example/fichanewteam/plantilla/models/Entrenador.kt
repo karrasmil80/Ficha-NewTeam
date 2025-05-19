@@ -1,9 +1,8 @@
 
-package org.example.models
+package org.example.fichanewteam.plantilla.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
 
 /**
  * Clase que representa a un entrenador del equipo.
@@ -27,9 +26,9 @@ class Entrenador(
     salario: Double?,
     pais: String,
     rol: String = "Entrenador",
-    var especialidad: String
-
-) : Personal(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol){ //tipo){
+    var especialidad: String,
+    rutaImagen: String
+) : Plantilla(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, rutaImagen){ //tipo){
 
     /**
      * Sobreescribe la cadena que se muestra al imprimir el modelo.
@@ -62,8 +61,9 @@ class Entrenador(
         salario: Double,
         pais: String,
         rol: String,
-    ): Personal {
-        return Entrenador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, especialidad)
+        rutaImagen: String,
+    ): Plantilla {
+        return Entrenador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, this.especialidad, rutaImagen)
     }
 
     /**

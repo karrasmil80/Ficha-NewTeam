@@ -1,5 +1,5 @@
 package org.example.fichanewteam.database
-/*
+
 import org.example.fichanewteam.config.Config
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.core.kotlin.KotlinPlugin
@@ -9,26 +9,23 @@ import org.lighthousegames.logging.logging
 
 
 class JdbiManager (
-    private val dbUrl: String,
-    private val dbInitData: Boolean,
-    private val dbInitTables: Boolean
+    private val databaseUrl: String,
+    private val databaseInitTables: Boolean
 ){
+
     val logger = logging()
-    val jdbi by lazy { Jdbi.create(dbUrl) }
+    val jdbi by lazy { Jdbi.create(databaseUrl) }
 
     init {
         jdbi.installPlugin(KotlinPlugin())
         jdbi.installPlugin(SqlObjectPlugin())
+        initDatabase(jdbi)
 
-        if (dbInitTables) {
+        if (databaseInitTables) {
             logger.debug { "Cargando Jdbi, creando tablas" }
-            executeSqlScriptFromResources("tables.sql")
+            executeSqlScriptFromResources("/tables.sql")
         }
 
-        if (dbInitData) {
-            logger.debug { "Cargando Jdbi, cargando datos" }
-            executeSqlScriptFromResources("data.sql")
-        }
     }
 
     private fun executeSqlScriptFromResources(resourcePath: String) {
@@ -38,14 +35,40 @@ class JdbiManager (
             handle.createScript(script).execute()
         }
     }
+}
 
-
-    fun provideDbManager(config: Config): Jdbi{
+    fun provideDatabaseManager(config: Config): Jdbi{
         return JdbiManager(
-            config.dbUrl,
-            config.dbInitData,
-            config.dbInitTables
+            config.databaseUrl,
+            config.databaseInitTables,
         ).jdbi
     }
+
+fun initDatabase(jdbi: Jdbi) {
+    val table = """
+        CREATE TABLE IF NOT EXISTS plantilla (
+            id IDENTITY NOT NULL PRIMARY KEY,
+            nombre VARCHAR(100) NOT NULL,
+            apellidos VARCHAR(100) NOT NULL,
+            fechaNacimiento DATE NOT NULL,
+            fechaIncorporacion DATE NOT NULL,
+            salario NUMERIC NOT NULL,
+            pais VARCHAR(50) NOT NULL,
+            rol VARCHAR(50) NOT NULL,
+            tipo VARCHAR(20) NOT NULL,
+            posicion VARCHAR(50),
+            dorsal INTEGER,
+            altura DOUBLE,
+            peso DOUBLE,
+            goles INTEGER,
+            partidosJugados INTEGER,
+            especialidad VARCHAR(100),
+            rutaImagen VARCHAR(255) DEFAULT 'images/default_profile.png',
+            minutosJugados DOUBLE
+        );
+    """.trimIndent()
+
+    jdbi.useHandle<Exception> { handle ->
+        handle.execute(table)
+    }
 }
- */

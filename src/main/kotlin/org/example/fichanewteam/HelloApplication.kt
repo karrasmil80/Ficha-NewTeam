@@ -1,32 +1,37 @@
 package org.example.fichanewteam
 
 import javafx.application.Application
-import javafx.fxml.FXMLLoader
-import javafx.scene.Scene
 import javafx.stage.Stage
+import org.example.fichanewteam.config.Config
+import org.example.fichanewteam.di.appModule
+import org.example.fichanewteam.routes.RoutesManager
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.koin.core.context.startKoin
+import org.lighthousegames.logging.logging
 
-class HelloApplication : Application() {
+private val logger = logging()
+
+class HelloApplication : Application(), KoinComponent {
+
+    init {
+        startKoin {
+            printLogger()
+            modules(appModule)
+        }
+    }
+
     override fun start(stage: Stage) {
-        try {
-            val fxmlLoader = FXMLLoader(HelloApplication::class.java.getResource("/hello-view.fxml"))
-            val scene = Scene(fxmlLoader.load(), 1100.0, 750.0)
+        logger.debug { "Iniciando New-Team APP" }
 
-            // Intentamos cargar el CSS
-            val cssUrl = HelloApplication::class.java.getResource("/styles/main.css")
-            if (cssUrl != null) {
-                scene.stylesheets.add(cssUrl.toExternalForm())
-            } else {
-                println("No se pudo encontrar el archivo CSS")
-            }
+        // Forzamos la carga de Config aquí para validar que la configuración se carga bien
+        val config: Config by inject()
+        logger.debug { "Config cargada" }
 
-            stage.title = "New Team App"
-            stage.scene = scene
-            stage.isResizable = true
-            stage.minWidth = 1000.0
-            stage.minHeight = 700.0
-            stage.show()
-        } catch (e: Exception) {
-            e.printStackTrace()
+        RoutesManager.apply {
+            app = this@HelloApplication
+        }.run {
+            initSplashScreen(stage)
         }
     }
 }
@@ -34,3 +39,4 @@ class HelloApplication : Application() {
 fun main() {
     Application.launch(HelloApplication::class.java)
 }
+

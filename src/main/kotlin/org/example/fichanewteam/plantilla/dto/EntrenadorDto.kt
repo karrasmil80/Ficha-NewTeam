@@ -3,7 +3,7 @@ package org.example.fichanewteam.plantilla.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.example.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Entrenador
 
 /**
  * Clase que representa la transferencia de datos (DTO) de un entrenador.
@@ -19,6 +19,8 @@ import org.example.models.Entrenador
  * @param rol Rol del entrenador en el equipo (en este caso, siempre será "entrenador").
  * @param especialidad Especialización del entrenador (principal, asistente, o entrenador de porteros).
  */
+
+
 @Serializable
 class EntrenadorDto(
     val id: Long,
@@ -31,4 +33,5 @@ class EntrenadorDto(
     val rol: String,
     @SerialName("especialidad")
     val especialidad: Entrenador.Especializacion,
+    var rutaImagen: String
 ) : java.io.Serializable

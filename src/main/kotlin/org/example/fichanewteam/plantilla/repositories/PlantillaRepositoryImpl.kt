@@ -1,65 +1,74 @@
 package org.example.fichanewteam.plantilla.repositories
 
+import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
+import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.dao.PlantillaDao
 import org.example.fichanewteam.plantilla.mapper.toEntity
 import org.example.fichanewteam.plantilla.mapper.toModel
-import org.example.models.Personal
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Jugador
+import org.example.fichanewteam.plantilla.models.Plantilla
+
 import org.lighthousegames.logging.logging
 
 class PlantillaRepositoryImpl (
     val dao : PlantillaDao
-) : PlantillaRepository<Personal> {
+) : PlantillaRepository {
 
-    private val personal = mutableMapOf<Long, Personal>()
+    private val plantilla = mutableMapOf<Long, Plantilla>()
     private val logger = logging()
 
     init {
         logger.debug { "Iniciando repositorio" }
     }
-    override fun findAll(): List<Personal> {
+
+    //Función que devuelve una lista de los miembros de la plantilla
+    override fun findAll(): List<Plantilla> {
         logger.debug { "Obteniendo toda la plantilla" }
-        return dao.findAll().map { it.toModel() }
-    }
-
-    override fun findById(id: Long): Personal? {
-        logger.debug { "Buscando un miembro de la plantilla por id : $id" }
-        return dao.findById(id).toModel()
-    }
-
-    override fun save(item: Personal): Personal {
-        logger.debug { "Salvando miembro de la plantilla : $item" }
-        val save = item.copy(
-            id = item.id,
-        )
-        val dao = dao.save(save.toEntity())
-
-        return item
-    }
-
-    override fun update(id: Long, item: Personal): Personal? {
-        val plantilla = findById(id)
-        if (item != null) {
-            val updated = item.copy(
-                id = item.id,
-            )
-            dao.save(updated.toEntity())
+        return dao.findAll().mapNotNull {
+            when (it) {
+                is EntrenadorEntity -> it.toModel()
+                is JugadorEntity -> it.toModel()
+                else -> null
+            }
         }
-        return plantilla
     }
 
-    override fun delete(item: Personal): Personal? {
-        logger.debug { "Eliminando miembro de la plantilla : $item" }
-        val plantilla = dao.findById(1L)
+    //Función que busca a un miembro de la plantilla por id
+    override fun findById(id: Long): Plantilla? {
+        logger.debug { "Buscando un miembro de la plantilla por id : $id" }
+        return dao.findById(id)?.toModel()
+    }
+
+    //Para guardar un miembro
+    override fun save(item: Plantilla): Plantilla {
+        logger.debug { "Salvando miembro de la plantilla : $item" }
+        val entityToSave = item.toEntity() // Asume que ignora id porque es autogenerado
+        val generatedId = dao.save(entityToSave)
+        return item.copy(id = generatedId)
+    }
+
+    //Función que borra el identificador de un miembro de la plantilla
+    override fun deleteById(id : Long) {
+        logger.debug { "Eliminando miembro de la plantilla : $id" }
+        val plantilla : Plantilla? = dao.findById(id)?.toModel()
         if (plantilla != null) {
-            val res = dao.delete(1L)
+            val res = dao?.delete(id)
             if (res == 0L) {
                 logger.error { "Fallo al remover el miembro de la plantilla" }
             }
         }
-        return item
     }
 
-    // --> save all
+    //Función que guarda todos los items en una lista
+    override fun saveAll(t: List<Plantilla>): List<Plantilla> {
+        return t.map { save(it) }
+    }
 
-    // --> delete all / logical
+    //Función que elimina toda la informacion sobre un miembro de la plantilla
+    override fun deleteAll() {
+        logger.debug { "Eliminando datos de un miembro de la plantilla" }
+        return dao.deleteAll()
+    }
+
 }

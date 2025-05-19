@@ -1,12 +1,15 @@
 package org.example.fichanewteam.plantilla.mapper
 
 import org.example.fichanewteam.plantilla.dto.EntrenadorDto
-import org.example.fichanewteam.plantilla.dto.PersonalDto
+import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.EntrenadorEntity
-import org.example.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Entrenador
+import org.example.fichanewteam.plantilla.models.Plantilla
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
 
-fun Entrenador.toDto(): PersonalDto {
-    return PersonalDto(
+//Funcion que convierte un modelo a dto
+fun Entrenador.toDto(): PlantillaDto {
+    return PlantillaDto(
         id = id,
         nombre = nombre,
         apellidos = apellidos,
@@ -16,15 +19,18 @@ fun Entrenador.toDto(): PersonalDto {
         pais = pais,
         especialidad = especialidad.toString(),
         rol = "Entrenador",
-        posicion = "", // No aplica para entrenadores
-        dorsal = null, // No aplica para entrenadores
-        altura = null, // No aplica para entrenadores
-        peso = null, // No aplica para entrenadores
-        goles = null, // No aplica para entrenadores
-        partidos_jugados = null // No aplica para entrenadores
+        posicion = "",
+        dorsal = null,
+        altura = null,
+        peso = null,
+        goles = null,
+        partidosJugados = null,
+        rutaImagen = this.rutaImagen,
+        minutosJugados = null
     )
 }
 
+//Funcion que convierte un dto a modelo
 fun EntrenadorDto.toModel(): Entrenador {
     return Entrenador(
         id = this.id,
@@ -35,10 +41,12 @@ fun EntrenadorDto.toModel(): Entrenador {
         salario = this.salario,
         pais = this.pais,
         especialidad = especialidad.toString(),
-        rol = this.rol
+        rol = this.rol,
+        rutaImagen = this.rutaImagen
     )
 }
 
+//Función que convierte un modelo a entidad (Para el dao)
 fun Entrenador.toEntity(): EntrenadorEntity {
     return EntrenadorEntity(
         id = this.id,
@@ -49,13 +57,15 @@ fun Entrenador.toEntity(): EntrenadorEntity {
         salario = this.salario,
         pais = this.pais,
         especialidad = Entrenador.Especializacion.valueOf(this.especialidad),
-        rol = this.rol
+        rol = this.rol,
+        rutaImagen = this.rutaImagen
     )
 }
 
+//Función que convierte una entidad a modelo
 fun EntrenadorEntity.toModel(): Entrenador {
     return Entrenador(
-        id = this.id,
+        id = this.id!!,
         nombre = this.nombre,
         apellidos = this.apellidos,
         fechaNacimiento = this.fechaNacimiento,
@@ -63,10 +73,12 @@ fun EntrenadorEntity.toModel(): Entrenador {
         salario = this.salario,
         pais = this.pais,
         especialidad = this.especialidad.toString(),
-        rol = this.rol
+        rol = this.rol,
+        rutaImagen = this.rutaImagen
     )
 }
 
+//Función que convierte un dto a modelo
 fun EntrenadorDto.toEntity(): EntrenadorEntity {
     return EntrenadorEntity(
         id = this.id,
@@ -77,6 +89,22 @@ fun EntrenadorDto.toEntity(): EntrenadorEntity {
         salario = this.salario,
         pais = this.pais,
         especialidad = this.especialidad,
-        rol = this.rol
+        rol = this.rol,
+        rutaImagen = this.rutaImagen
+    )
+}
+
+fun PlantillaViewModel.EntrenadorState.toModel() : Entrenador {
+    return Entrenador(
+        id = this.id,
+        nombre = this.nombre,
+        apellidos = this.apellidos,
+        fechaNacimiento = this.fechaNacimiento,
+        fechaIncorporacion = this.fechaIncorporacion,
+        salario = this.salario,
+        pais = this.pais,
+        especialidad = this.especialidad,
+        rol = this.rol,
+        rutaImagen = this.rutaImagen.toString()
     )
 }

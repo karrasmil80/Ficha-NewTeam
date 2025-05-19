@@ -1,34 +1,43 @@
 package org.example.fichanewteam.plantilla.dao
 
+import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.sqlobject.customizer.Bind
 import org.jdbi.v3.sqlobject.customizer.BindBean
 import org.jdbi.v3.sqlobject.kotlin.RegisterKotlinMapper
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys
 import org.jdbi.v3.sqlobject.statement.SqlQuery
+import org.jdbi.v3.sqlobject.statement.SqlUpdate
+import org.lighthousegames.logging.logging
 
-@RegisterKotlinMapper(PersonalEntity::class)
+@RegisterKotlinMapper(PlantillaEntity::class)
 interface PlantillaDao {
-    @SqlQuery("SELECT * FROM Plantilla")
-    fun findAll(): List<PersonalEntity>
 
-    @SqlQuery("SELECT * FROM PLANTILLA WHERE id = :id")
-    fun findById(@Bind("id") id: Long): PersonalEntity
+    //Consulta que selecciona a todos los miembros de la plantilla
+    @SqlQuery("SELECT * FROM plantilla")
+    fun findAll(): List<PlantillaEntity>
 
-    @SqlQuery("INSERT INTO PLANTILLA(id, nombre, apellidos, fecha_nacimiento, fecha_incorporacion, salario, pais, rol)")
-    fun save(@BindBean personalentity: PersonalEntity) : Long
+    //Consulta que selecciona miembros de la plantilla por su id
+    @SqlQuery("SELECT * FROM plantilla WHERE id = :id")
+    fun findById(@Bind("id") id: Long): PlantillaEntity
 
-    @SqlQuery("UPDATE PLANTILLA SET id=:id, nombre=:nombre, apellidos=:apellidos, fecha_nacimiento=:fecha_nacimiento, salario=:salario, pais=:pais, rol=:rol")
-    fun update(@BindBean personalentity: PersonalEntity) : Long
+    //Consulta que añade miembros a la tabla plantilla
+    @SqlUpdate("INSERT INTO plantilla (nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, posicion, dorsal, altura, peso, goles, partidosJugados, especialidad, rutaImagen, minutosJugados) VALUES (:nombre, :apellidos, :fechaNacimiento, :fechaIncorporacion, :salario, :pais, :rol, :posicion, :dorsal, :altura, :peso, :goles, :partidosJugados, :especialidad, :rutaImagen, :minutosJugados)")
+    @GetGeneratedKeys
+    fun save(@BindBean personalEntity: PlantillaEntity): Long
 
-    @SqlQuery("DELETE FROM PLANTILLA")
-    fun delete(@Bind("id") id: Long) : Long
 
-    /* --> save all
-    @SqlQuery
-     */
+    //Cosulta que elimina a un miembro de la plantilla por id
+    @SqlUpdate("DELETE FROM plantilla WHERE id = :id")
+    fun delete(@Bind("id") id: Long) : Long?
 
-    /* --> delete all
-    @SqlQuery
-     */
-
+    //Consulta que elimina toda la informacion de miembros de la plantilla por id
+    @SqlUpdate("DELETE FROM plantilla")
+    fun deleteAll()
 
 }
+
+    fun providePlantillaDao(jdbi: Jdbi): PlantillaDao {
+        val logger = logging()
+        logger.debug { "Inicializando AlumnosDao" }
+        return jdbi.onDemand(PlantillaDao::class.java)
+    }

@@ -11,7 +11,7 @@ package org.example.fichanewteam.plantilla.dao
  * @param rol Rol de la persona en el equipo (jugador o entrenador).
  */
 
-open class PersonalEntity(
+open class PlantillaEntity(
     val id: Long,
     var nombre: String,
     var apellidos: String,
@@ -20,4 +20,5 @@ open class PersonalEntity(
     var salario: Double?,
     var pais: String,
     val rol: String,
+    var rutaImagen: String
 )
