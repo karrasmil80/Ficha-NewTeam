@@ -61,9 +61,9 @@ class Entrenador(
         salario: Double,
         pais: String,
         rol: String,
-        rutaImagen: String
+        rutaImagen: String,
     ): Plantilla {
-        return Entrenador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, especialidad, rutaImagen)
+        return Entrenador(id, nombre, apellidos, fechaNacimiento, fechaIncorporacion, salario, pais, rol, this.especialidad, rutaImagen)
     }
 
     /**

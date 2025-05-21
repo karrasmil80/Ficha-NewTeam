@@ -6,6 +6,7 @@ module org.example.fichanewteam {
 
     // Dependencias de KOTLIN
     requires kotlin.stdlib;
+    requires kotlin.reflect;
 
     // Dependencias del Logger
     requires logging.jvm;
@@ -34,13 +35,7 @@ module org.example.fichanewteam {
     // Open Vadin --> PARA ABRIR EN NAVEGADOR
     requires open;
     requires koin.core.jvm;
-
-
-    //Test
-
-    //requires org.junit.jupiter.api;
-    //requires org.mockito;
-    //requires org.mockito.junit.jupiter;
+    requires jbcrypt;
 
 
     //APP
@@ -56,15 +51,22 @@ module org.example.fichanewteam {
     exports org.example.fichanewteam.routes to javafx.fxml;
 
     //Help Controller
-    opens org.example.fichanewteam.helpController to javafx.fxml;
-    exports org.example.fichanewteam.helpController to javafx.fxml;
+    opens org.example.fichanewteam.controllers.helpController to javafx.fxml;
+    exports org.example.fichanewteam.controllers.helpController to javafx.fxml;
 
     //Splash Controller
-    opens org.example.fichanewteam.splashController to javafx.fxml;
-    exports org.example.fichanewteam.splashController to javafx.fxml;
+    opens org.example.fichanewteam.controllers.splashController to javafx.fxml;
+    exports org.example.fichanewteam.controllers.splashController to javafx.fxml;
 
     //Login Controller
     opens org.example.fichanewteam.controllers.loginController to javafx.fxml;
     exports org.example.fichanewteam.controllers.loginController to javafx.fxml;
 
+    //Mappers
+    opens org.example.fichanewteam.plantilla.mapper to javafx.fxml;
+    exports org.example.fichanewteam.plantilla.mapper to javafx.fxml;
+
+    //View Model
+    opens org.example.fichanewteam.plantilla.viewmodel to javafx.fxml;
+    exports org.example.fichanewteam.plantilla.viewmodel to javafx.fxml;
 }

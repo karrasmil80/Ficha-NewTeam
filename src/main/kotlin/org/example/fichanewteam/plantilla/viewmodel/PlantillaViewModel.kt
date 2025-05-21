@@ -1,8 +1,6 @@
 package org.example.fichanewteam.plantilla.viewmodel
 
 import com.github.michaelbull.result.*
-import org.example.fichanewteam.plantilla.service.PlantillaService
-import org.example.fichanewteam.plantilla.storage.PlantillaStorage
 import org.example.fichanewteam.plantilla.error.PlantillaError
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.plantilla.models.Entrenador
@@ -11,18 +9,26 @@ import org.example.fichanewteam.plantilla.mapper.toModel
 import org.example.fichanewteam.routes.RoutesManager
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.image.Image
+import org.example.fichanewteam.plantilla.mapper.toEntrenador
+import org.example.fichanewteam.plantilla.mapper.toJugador
+import org.example.fichanewteam.plantilla.service.PlantillaService
+
+import org.lighthousegames.logging.logging
 import java.io.File
 import kotlin.String
+import kotlin.collections.toMutableList
 
+
+private val logger = logging()
 
 class PlantillaViewModel(
     private val servicio: PlantillaService,
-    private val storage: PlantillaStorage
 ) {
     val state: SimpleObjectProperty<ExpedienteState> = SimpleObjectProperty(ExpedienteState())
 
     init {
-        loadPlantilla()
+        println("PlantillaViewModel init called")
+        loadPlantillaJson(File("data/personal.json"))
         loadTypes()
     }
 
@@ -31,45 +37,53 @@ class PlantillaViewModel(
     }
 
     private fun loadPlantilla() {
-        servicio.findAll().onSuccess {
-            state.value = state.value.copy(plantilla = it)
+        servicio.findAll().onSuccess { plantillaCompleta ->
+            val jugadores = plantillaCompleta.filter { it.rol == "Jugador" }.map { it.toJugador() }
+            val entrenadores = plantillaCompleta.filter { it.rol == "Entrenador" }.map { it.toEntrenador() }
+
+            state.value = state.value.copy(
+                plantilla = plantillaCompleta,
+                jugador = jugadores,
+                entrenador = entrenadores
+            )
             updateActualState()
         }
     }
 
     private fun updateActualState() {
-        //Consultas jugadores
-        val golesPromedioConsulta = state.value.jugador.map{ it.goles }.average()
+
+        // Consultas jugadores
+        val golesPromedioConsulta = state.value.jugador.map { it.goles }.average()
         val salarioMaximoConsulta = state.value.jugador.mapNotNull { it.salario }.maxOrNull() ?: 0.0
-        val alturaMinimaConsulta = state.value.jugador.mapNotNull{ it.altura }.minOrNull() ?: 0.0
-        val totalPartidosConsulta = state.value.jugador.sumOf{ it.partidosJugados }
-        val minutospromedioConsulta = state.value.jugador.mapNotNull { it.minutosJugados }.average()
+        val alturaMinimaConsulta = state.value.jugador.mapNotNull { it.altura }.minOrNull() ?: 0.0
+        val totalPartidosConsulta = state.value.jugador.sumOf { it.partidosJugados }
+        val minutosPromedioConsulta = state.value.jugador.mapNotNull { it.minutosJugados }.average()
 
-        //Consultas Entrenadores
+        // Consultas entrenadores
         val salarioPromedioConsulta = state.value.entrenador.mapNotNull { it.salario }.average()
-        val incorporacionAntiguaConsulta = state.value.entrenador.minBy { it.fechaIncorporacion }.toString()
-        val nacimientoActualConsulta =  state.value.entrenador.maxBy { it.fechaNacimiento }.toString()
-        val entrenadoresAsistentesConsulta = state.value.entrenador.map { it.especialidad == "ASISTENTE" }.count()
-        val entrenadoresEspañolesConsulta = state.value.entrenador.map { it.pais == "España" }.count()
 
+        val incorporacionAntiguaConsulta = state.value.entrenador.minByOrNull { it.fechaIncorporacion }?.fechaIncorporacion ?: ""
+        val nacimientoActualConsulta = state.value.entrenador.maxByOrNull { it.fechaNacimiento }?.fechaNacimiento ?: ""
+
+        val entrenadoresAsistentesConsulta = state.value.entrenador.count { it.especialidad == "ASISTENTE" }
+        val entrenadoresEspañolesConsulta = state.value.entrenador.count { it.pais == "España" }
 
         state.value = state.value.copy(
-
-            //State de jugadores
+            // State de jugadores
             golesPromedio = golesPromedioConsulta,
             salarioMaximo = salarioMaximoConsulta,
             alturaMinima = alturaMinimaConsulta,
             totalPartidos = totalPartidosConsulta,
-            minutosPromedio = minutospromedioConsulta,
+            minutosPromedio = minutosPromedioConsulta,
 
-            //State de entrenadores
+            // State de entrenadores
             salarioPromedio = salarioPromedioConsulta,
             incorporacionAntigua = incorporacionAntiguaConsulta,
-            entrenadoresAsistentes = entrenadoresAsistentesConsulta,
             nacimientoActual = nacimientoActualConsulta,
-            entrenadoresEspanoles =entrenadoresEspañolesConsulta ,
+            entrenadoresAsistentes = entrenadoresAsistentesConsulta,
+            entrenadoresEspanoles = entrenadoresEspañolesConsulta,
 
-            //Aqui se guarda el state de los miembros de la plantilla
+            // Aqui se guarda el state de los miembros de la plantilla
             miembro = PlantillaState()
         )
     }
@@ -90,37 +104,41 @@ class PlantillaViewModel(
 
      */
 
-    fun savePlantillaToJson(file:File): Result<Long, PlantillaError> {
-        return storage.storageDataJson(file, state.value.plantilla)
+    fun savePlantillaToFile(file:File): Result<Long, PlantillaError> {
+        return servicio.storageDataJson(file, state.value.plantilla)
     }
 
     fun loadPlantillaJson(file: File, withImages: Boolean = false): Result<List<Plantilla>, PlantillaError> {
-        return storage.deleteAllImages().andThen {
-            storage.loadDataJson(file).onSuccess {
-                servicio.deleteAll()
-                servicio.saveAll(
-                    if (withImages)
-                        it
-                    else
-                        it.map{ a -> a.copy(id = Plantilla.NEW_ID, rutaImagen = TipoImagen.SIN_IMAGEN.value) }
-                )
-                loadPlantilla()
+        return servicio.deleteAllImages().andThen {
+            servicio.loadDataJson(file).andThen { listaPlantilla ->
+                servicio.deleteAll().andThen {
+                    servicio.saveAll(
+                        if (withImages)
+                            listaPlantilla
+                        else
+                            listaPlantilla.map { a -> a.copy(id = Plantilla.NEW_ID, rutaImagen = TipoImagen.SIN_IMAGEN.value) }
+                    )
+                }.onSuccess {
+                    loadPlantilla()
+                    Ok(listaPlantilla)
+                }
             }
         }
     }
 
-/*
+
     fun updatePlantillaSelecionado(plantilla: Plantilla, jugador: Jugador, entrenador: Entrenador) {
         var imagen = Image(RoutesManager.getResourceAsStream("images/default_profile.png"))
         var fileImage = File(RoutesManager.getResource("images/default_profile.png").toURI())
 
-        storage.loadImage(plantilla.rutaImagen).onSuccess {
+        servicio.loadImage(plantilla.rutaImagen).onSuccess {
             imagen = Image(it.toString())
             fileImage = it as File
         }
+
         when(plantilla.rol){
             "Jugador" -> state.value = state.value.copy(
-                jugador = JugadorState(
+                jugador = listOf(JugadorState(
                     id = jugador.id,
                     nombre = jugador.nombre,
                     apellidos = jugador.apellidos,
@@ -136,10 +154,11 @@ class PlantillaViewModel(
                     goles = jugador.goles,
                     partidosJugados = jugador.partidosJugados,
                     minutosJugados = jugador.minutosJugados,
-                ).toModel()
+                ).toModel())
+
             )
             "Entrenador" -> state.value = state.value.copy(
-                entrenador = EntrenadorState(
+                entrenador = listOf(EntrenadorState(
                     id = entrenador.id,
                     nombre = entrenador.nombre,
                     apellidos = entrenador.apellidos,
@@ -149,25 +168,18 @@ class PlantillaViewModel(
                     pais = entrenador.pais,
                     rol = entrenador.rol,
                     especialidad = entrenador.especialidad
-                ).toModel()
+                ).toModel())
             )
         }
     }
 
-    fun createJugador(): Result<Plantilla, PlantillaError>{
-        val newJugadorTemp = state.value.jugador.copy()
-        val newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
-
-    }
-
-
-    fun eliminarJugador(): Result<Unit, PlantillaError>{
-        val jugador = state.value.jugador.copy()
+    fun eliminarJugador(): Result<Unit, PlantillaError> {
+        val jugador = (state.value.jugador.find { it.id.toLong() == it.id.toLong() } ) as JugadorState
         val myId = jugador.id.toLong()
 
-        jugador.fileImage?.let {
-            if (it.name != TipoImagen.SIN_IMAGEN.value){
-                storage.deleteImage(it)
+        jugador.fileImage.let { file ->
+            if (file?.name != TipoImagen.SIN_IMAGEN.value) {
+                servicio.deleteImage(file!!)
             }
         }
 
@@ -178,13 +190,13 @@ class PlantillaViewModel(
         return Ok(Unit)
     }
 
-    fun eliminarEntrenador(): Result<Unit, PlantillaError>{
-        val entrenador = state.value.entrenador.copy()
+    fun eliminarEntrenador(): Result<Unit, PlantillaError> {
+        val entrenador = (state.value.entrenador.find { it.id.toLong() == it.id.toLong() } ) as EntrenadorState
         val myId = entrenador.id.toLong()
 
-        entrenador.fileImage?.let {
-            if (it.name != TipoImagen.SIN_IMAGEN.value){
-                storage.deleteImage(it)
+        entrenador.fileImage.let { file ->
+            if (file?.name != TipoImagen.SIN_IMAGEN.value) {
+                servicio.deleteImage(file!!)
             }
         }
 
@@ -194,13 +206,86 @@ class PlantillaViewModel(
         updateActualState()
         return Ok(Unit)
     }
-    */
 
+//    fun crearJugador(): Result<Jugador, PlantillaError> {
+//        val newJugadorTemp = state.value.copy(jugador = state.value.jugador)
+//        val newJugador = newJugadorTemp.toModel().copy(id = Plantilla.NEW_ID)
+//    }
 
+//   fun crearEntrenador(): Result<Entrenador, PlantillaError> {}
+//    fun editarPlantilla(): Result<Plantilla, PlantillaError> {}
+
+    fun exportToZip(fileToZip: File): Result<Unit, PlantillaError> {
+        servicio.findAll().andThen {
+            servicio.exportToZip(fileToZip, it)
+        }.onFailure {
+            return Err(it)
+        }
+        return Ok(Unit)
+    }
+
+    fun loadPlantillaFromZip(fileToUnzip: File): Result<List<Plantilla>, PlantillaError> {
+        return servicio.loadFromZip(fileToUnzip).onSuccess {lista ->
+            servicio.deleteAll().andThen {
+                servicio.saveAll(lista.map{ a -> a.copy(id = Plantilla.NEW_ID) })
+            }.onFailure {
+                loadPlantilla()
+            }
+        }
+    }
+
+    fun changePlantillaOperacion(newValue: TipoOperacion){
+        if (newValue == TipoOperacion.EDITAR){
+            state.value = state.value.copy(
+                plantilla = state.value.plantilla.map { it.copy() },
+                tipoOperacion = newValue
+            )
+        } else {
+            state.value = state.value.copy(
+                plantilla = emptyList(),
+                tipoOperacion = newValue,
+            )
+        }
+    }
+
+    fun updateDataPlantilla(
+        jugador: Jugador,
+        entrenador: Entrenador
+    ) {
+        state.value = state.value.copy(
+            plantilla = state.value.plantilla.map { plantilla ->
+                when (plantilla.rol) {
+                    "Jugador" -> jugador.copy(
+                        id = jugador.id,
+                        nombre = jugador.nombre,
+                        apellidos = jugador.apellidos,
+                        fechaNacimiento = jugador.fechaNacimiento,
+                        fechaIncorporacion = jugador.fechaIncorporacion,
+                        salario = jugador.salario!!,
+                        pais = jugador.pais,
+                        rol = jugador.rol
+                    )
+                    else -> entrenador.copy(
+                        id = entrenador.id,
+                        nombre = entrenador.nombre,
+                        apellidos = entrenador.apellidos,
+                        fechaNacimiento = entrenador.fechaNacimiento,
+                        fechaIncorporacion = entrenador.fechaIncorporacion,
+                        salario = entrenador.salario!!,
+                        pais = entrenador.pais,
+                        rol = entrenador.rol,
+                    )
+                }
+            }
+        )
+    }
+
+    enum class TipoOperacion(val value: String){
+        NUEVO("Nuevo"), EDITAR("Editar")
+    }
 
     enum class TipoImagen(val value: String) {
-        SIN_IMAGEN("images/default_profile.png"),
-        EMPTY("sin-imagen.png") //
+        SIN_IMAGEN("images/default_profile.png"), EMPTY("sin-imagen.png")
     }
 
     enum class TipoFiltro(val value: String) {
@@ -208,7 +293,6 @@ class PlantillaViewModel(
     }
 
     data class ExpedienteState(
-
         //Contenedores
         val typesPlantilla: List<String> = emptyList(),
         val plantilla: List<Plantilla> = emptyList(),
@@ -229,9 +313,10 @@ class PlantillaViewModel(
         val entrenadoresAsistentes: Int = 0,
         val entrenadoresEspanoles: Int = 0,
 
-        //Persona hace referencia al conjunto es decir el individual de plantilla
-        val miembro : PlantillaState = PlantillaState()
+        //Miembro hace referencia al conjunto es decir el individual de plantilla
+        val miembro: PlantillaState = PlantillaState(),
 
+        val tipoOperacion: TipoOperacion = TipoOperacion.NUEVO
     )
 
     data class PlantillaState(

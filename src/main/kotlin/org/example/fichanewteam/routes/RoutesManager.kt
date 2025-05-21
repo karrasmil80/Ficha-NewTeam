@@ -11,10 +11,12 @@ import javafx.scene.layout.Pane
 import javafx.stage.Modality
 import javafx.stage.Stage
 import javafx.stage.WindowEvent
+import org.koin.java.KoinJavaComponent.getKoin
 import org.lighthousegames.logging.logging
 import java.io.InputStream
 import java.net.URL
 import java.util.Locale
+import javax.security.auth.callback.Callback
 
 private val logger = logging()
 
@@ -39,7 +41,6 @@ object RoutesManager {
         HELP("views/acerca-de-view.fxml"),
         SPLASH("views/splash.fxml"),
         LOGIN("views/login-view.fxml"),
-        ELECCION("views/eleccion-view.fxml");
     }
 
     /**

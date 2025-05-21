@@ -57,10 +57,10 @@ data class  PlantillaDto (
     @SerialName("goles")
     var goles: Int?,
     @SerialName("partidos_jugados")
-    var partidos_jugados: Int?,
+    var partidosJugados: Int?,
     @SerialName("minutos-jugados")
-    var minutos_jugados: Double?,
+    var minutosJugados: Double?,
     @SerialName("ruta_imagen")
-    var ruta_imagen: String?
+    var rutaImagen: String?
 ) : java.io.Serializable
 

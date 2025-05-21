@@ -73,10 +73,6 @@ dependencies {
     //Serializable JSON
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-    //Koin
-    implementation(platform("io.insert-koin:koin-bom:3.5.6"))
-    implementation("io.insert-koin:koin-core")
-
     //Result
     implementation("com.michael-bull.kotlin-result:kotlin-result:2.0.1")
 
@@ -97,22 +93,17 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.23")
 
     // Koin
-    implementation(platform("io.insert-koin:koin-bom:3.5.6"))
-    implementation("io.insert-koin:koin-core") // Core
+    implementation("io.insert-koin:koin-core:3.5.3")
+    implementation("io.insert-koin:koin-core-ext:3.0.2")
 
-
-
-
+    //BCrypt
+    implementation("org.mindrot:jbcrypt:0.4")
 }
 
 test {
     useJUnitPlatform()
     modularity.inferModulePath = false
-    // finalizedBy(tasks.jacocoTestReport)
-    // Con abrimos junit para que pueda usar todo, incluso los de Kotlin
-/* jvmArgs(
-         "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-         "--add-opens", "java.base/java.util=ALL-UNNAMED",
-         "--add-reads", "org.junit.jupiter.api=kotlin.stdlib"
- )*/
 }
+
+
+

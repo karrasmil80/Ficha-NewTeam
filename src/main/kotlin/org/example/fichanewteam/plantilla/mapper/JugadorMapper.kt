@@ -6,7 +6,7 @@ import org.example.fichanewteam.plantilla.dto.PlantillaDto
 import org.example.fichanewteam.plantilla.dao.JugadorEntity
 import org.example.fichanewteam.plantilla.models.Plantilla
 import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel
-import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel.PlantillaState
+import org.example.fichanewteam.plantilla.viewmodel.PlantillaViewModel.JugadorState
 import kotlin.toString
 
 //Función que convierte el modelo a dto
@@ -24,11 +24,11 @@ fun Jugador.toDto(): PlantillaDto {
         altura = altura,
         peso = peso,
         goles = goles,
-        partidos_jugados = partidosJugados,
+        partidosJugados = partidosJugados,
         rol = rol,
         especialidad = "", // No se aplica a jugadores
-        ruta_imagen = rutaImagen,
-        minutos_jugados = minutosJugados
+        rutaImagen = rutaImagen,
+        minutosJugados = minutosJugados
     )
 }
 
@@ -79,7 +79,7 @@ fun Jugador.toEntity(): JugadorEntity {
 //Función que convierte una entidad a modelo
 fun JugadorEntity.toModel(): Jugador {
     return Jugador(
-        id = this.id,
+        id = this.id!!,
         nombre = this.nombre,
         apellidos = this.apellidos,
         fechaNacimiento = this.fechaNacimiento,
@@ -94,7 +94,7 @@ fun JugadorEntity.toModel(): Jugador {
         partidosJugados = this.partidosJugados,
         rol = this.rol,
         rutaImagen = this.rutaImagen,
-        minutosJugados = this.minutosJugados!!
+        minutosJugados = this.minutosJugados
     )
 }
 
@@ -118,8 +118,9 @@ fun JugadorDto.toEntity(): JugadorEntity {
         rutaImagen = this.rutaImagen,
         minutosJugados = this.minutosJugados
     )
+}
 
-    fun PlantillaViewModel.JugadorState.toModel(): Jugador {
+    fun JugadorState.toModel(): Jugador {
         return Jugador(
             id = this.id,
             nombre = this.nombre,
@@ -138,4 +139,3 @@ fun JugadorDto.toEntity(): JugadorEntity {
             minutosJugados = this.minutosJugados
         )
     }
-}
